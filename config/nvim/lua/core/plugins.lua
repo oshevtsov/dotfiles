@@ -114,6 +114,33 @@ local plugins_list = {
       require("telescope").load_extension("fzf")
     end,
   },
+
+  -- Syntax highlighting
+  {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+    config = function()
+      require("configs.treesitter").config()
+    end,
+  },
+
+  -- Parenthesis highlighting
+  {
+    "p00f/nvim-ts-rainbow",
+    after = "nvim-treesitter",
+  },
+
+  -- Autoclose tags
+  {
+    "windwp/nvim-ts-autotag",
+    after = "nvim-treesitter",
+  },
+
+  -- Context based commenting
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    after = "nvim-treesitter",
+  },
 }
 
 packer.startup({
