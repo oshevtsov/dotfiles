@@ -141,6 +141,70 @@ local plugins_list = {
     "JoosepAlviste/nvim-ts-context-commentstring",
     after = "nvim-treesitter",
   },
+
+
+  -- Built-in LSP
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require("configs.lsp")
+    end,
+  },
+
+  -- LSP manager
+  {
+    "williamboman/nvim-lsp-installer",
+    requires = {
+      "neovim/nvim-lspconfig",
+    },
+  },
+
+  -- Completion engine
+  {
+    "hrsh7th/nvim-cmp",
+    config = function()
+      require("configs.cmp").config()
+    end,
+  },
+
+  -- LSP completion source
+  {
+    "hrsh7th/cmp-nvim-lsp",
+    after = "nvim-cmp",
+  },
+
+  -- Buffer completion source
+  {
+    "hrsh7th/cmp-buffer",
+    after = "nvim-cmp",
+  },
+
+  -- Path completion source
+  {
+    "hrsh7th/cmp-path",
+    after = "nvim-cmp",
+  },
+
+  -- Snippet completion source
+  {
+    "saadparwaiz1/cmp_luasnip",
+    after = "nvim-cmp",
+  },
+
+  -- Snippet collection
+  {
+    "rafamadriz/friendly-snippets",
+    after = "nvim-cmp",
+  },
+
+  -- Snippet engine
+  {
+    "L3MON4D3/LuaSnip",
+    after = "friendly-snippets",
+    config = function()
+      require("configs.luasnip").config()
+    end,
+  },
 }
 
 packer.startup({
