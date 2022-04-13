@@ -1,0 +1,2 @@
+EXCLUDES="README.md packer_compiled.lua"
+SYMLINK_DIRS="config/nvim"
