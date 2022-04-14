@@ -163,7 +163,7 @@ local plugins_list = {
   {
     "hrsh7th/nvim-cmp",
     config = function()
-      require("configs.cmp").config()
+      require("configs.nvim-cmp").config()
     end,
   },
 
@@ -203,6 +203,17 @@ local plugins_list = {
     after = "friendly-snippets",
     config = function()
       require("configs.luasnip").config()
+    end,
+  },
+
+  -- Formatting and linting
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    requires = {
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require("configs.null-ls").config()
     end,
   },
 }

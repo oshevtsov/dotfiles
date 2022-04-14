@@ -53,7 +53,8 @@ function M.config()
         luasnip.lsp_expand(args.body)
       end,
     },
-    documentation = {
+    window = {
+      documentation = "native",
       border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
     },
     experimental = {
@@ -114,4 +115,3 @@ function M.config()
 end
 
 return M
-
