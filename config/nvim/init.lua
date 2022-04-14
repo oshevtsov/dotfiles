@@ -23,3 +23,11 @@ end
 
 -- Set key mappings
 require("core.mappings")
+
+-- Set autocommands
+vim.cmd [[
+  augroup packer_conf
+    autocmd!
+    autocmd bufwritepost plugins.lua source <afile> | PackerSync
+  augroup end
+]]

@@ -79,4 +79,7 @@ map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
 map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
 
+-- LSP Symbols Outline
+map("n", "<leader>lp", "<cmd>SymbolsOutline<CR>", opts)
+
 return M

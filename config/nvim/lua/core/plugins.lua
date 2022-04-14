@@ -159,6 +159,17 @@ local plugins_list = {
     },
   },
 
+  -- LSP symbols
+  {
+    "simrat39/symbols-outline.nvim",
+    requires = {
+      "neovim/nvim-lspconfig",
+    },
+    setup = function()
+      require("configs.symbols-outline").setup()
+    end,
+  },
+
   -- Completion engine
   {
     "hrsh7th/nvim-cmp",
