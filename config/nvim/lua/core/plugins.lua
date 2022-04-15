@@ -80,6 +80,11 @@ local plugins_list = {
 
   -- Git integration
   {
+    "tpope/vim-fugitive",
+  },
+
+  -- Git signs
+  {
     "lewis6991/gitsigns.nvim",
     config = function()
       require("configs.gitsigns").config()
@@ -225,6 +230,14 @@ local plugins_list = {
     },
     config = function()
       require("configs.null-ls").config()
+    end,
+  },
+
+  -- Dashboard
+  {
+    "glepnir/dashboard-nvim",
+    config = function()
+      require("configs.dashboard-nvim").config()
     end,
   },
 }

@@ -38,7 +38,7 @@ map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit'
 map("n", "<leader>tp", "<cmd>lua require('core.utils').toggle_term_cmd('python')<CR>", opts)
 
 -- Telescope
-map("n", "<leader>fd", "<cmd>lua require('telescope.builtin').find_files({prompt_title='VimRC', cwd='$HOME/.config/nvim'})<CR>", opts)
+map("n", "<leader>fd", "<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>", opts)
 map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", opts)
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", opts)
 map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", opts)
@@ -50,12 +50,11 @@ map("n", "<leader>fm", "<cmd>Telescope marks<CR>", opts)
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
 map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts)
 map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", opts)
-map("n", "<leader>sn", "<cmd>Telescope notify<CR>", opts)
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", opts)
 map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", opts)
 map("n", "<leader>sc", "<cmd>Telescope commands<CR>", opts)
 map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", opts)
-map("n", "<leader>lR", "<cmd>Telescope lsp_references<CR>", opts)
+map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
 map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", opts)
 cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search = <q-args>})<CR>")
 
@@ -73,7 +72,6 @@ map("n", "gk", "<cmd>lua vim.diagnostic.goto_prev({ border = 'rounded' })<cr>", 
 map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-map("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 map("n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
 map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
@@ -81,5 +79,11 @@ map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
 
 -- LSP Symbols Outline
 map("n", "<leader>lp", "<cmd>SymbolsOutline<CR>", opts)
+
+-- Dashboard
+map("n", "<leader>d", "<cmd>Dashboard<CR>", opts)
+map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
+map("n", "<leader>sl", "<cmd>SessionLoad<CR>", opts)
+map("n", "<leader>ss", "<cmd>SessionSave<CR>", opts)
 
 return M

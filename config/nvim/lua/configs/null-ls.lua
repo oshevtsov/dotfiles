@@ -20,10 +20,6 @@ function M.config()
   -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/code_actions
   local code_actions = null_ls.builtins.code_actions
 
-  -- Check supported completions
-  -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/completion
-  local completion = null_ls.builtins.completion
-
   null_ls.setup {
     debug = false,
     sources = {
@@ -43,8 +39,6 @@ function M.config()
       -- Set code actions
       code_actions.gitsigns,
       code_actions.refactoring,
-      -- Set completions
-      completion.luasnip,
     },
     -- NOTE: You can remove this on attach function to disable format on save
     on_attach = function(client)

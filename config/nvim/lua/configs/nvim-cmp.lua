@@ -54,8 +54,9 @@ function M.config()
       end,
     },
     window = {
-      documentation = "native",
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      documentation = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      },
     },
     experimental = {
       ghost_text = false,
