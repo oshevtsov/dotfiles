@@ -33,12 +33,20 @@ map("n", "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<CR>", opts)
 map("n", "<leader>gd", "<cmd>Gitsigns diffthis HEAD<CR>", opts)
 
 -- Toggle Term
-map("n", "<C-\\>", "<cmd>ToggleTerm<CR>", opts)
+map("n", "<C-t>", "<cmd>ToggleTermToggleAll<CR>", opts)
+map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts)
+map("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", opts)
+map("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", opts)
 map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
 map("n", "<leader>tp", "<cmd>lua require('core.utils').toggle_term_cmd('python')<CR>", opts)
 
 -- Telescope
-map("n", "<leader>fd", "<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>", opts)
+map(
+	"n",
+	"<leader>fd",
+	"<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>",
+	opts
+)
 map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", opts)
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", opts)
 map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", opts)
@@ -85,5 +93,21 @@ map("n", "<leader>d", "<cmd>Dashboard<CR>", opts)
 map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
 map("n", "<leader>sl", "<cmd>SessionLoad<CR>", opts)
 map("n", "<leader>ss", "<cmd>SessionSave<CR>", opts)
+
+function _G.set_terminal_keymaps()
+	vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-t>", [[<cmd>ToggleTermToggleAll<CR>]], opts)
+end
+
+vim.cmd([[
+  augroup TermMappings
+    autocmd! TermOpen term://* lua set_terminal_keymaps()
+  augroup END
+]])
 
 return M

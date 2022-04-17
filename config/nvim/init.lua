@@ -1,6 +1,6 @@
 local impatient_ok, impatient = pcall(require, "impatient")
 if impatient_ok then
-  impatient.enable_profile()
+	impatient.enable_profile()
 end
 
 -- Set options
@@ -18,16 +18,16 @@ local is_bootstrapped = utils.bootstrap_packer()
 require("core.plugins")
 
 if is_bootstrapped then
-  require("packer").sync()
+	require("packer").sync()
 end
 
 -- Set key mappings
 require("core.mappings")
 
 -- Set autocommands
-vim.cmd [[
+vim.cmd([[
   augroup packer_conf
     autocmd!
     autocmd bufwritepost plugins.lua source <afile> | PackerSync
   augroup end
-]]
+]])

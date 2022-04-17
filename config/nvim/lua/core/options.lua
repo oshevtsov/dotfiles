@@ -7,21 +7,21 @@ local opt = vim.opt -- editor options (equivalent to using :set)
 local cmd = vim.cmd -- call vimscript commands from Lua config
 
 -- Map leader
-g.mapleader = ' '
+g.mapleader = " "
 
 -- Undo file directory
-local undodir = fn.expand('$HOME/.config/nvim/.undo//')
-fn.mkdir(undodir, 'p')
+local undodir = fn.expand("$HOME/.config/nvim/.undo//")
+fn.mkdir(undodir, "p")
 opt.undodir = undodir
 
 -- Backup file directory
-local backupdir = fn.expand('$HOME/.config/nvim/.backup//')
-fn.mkdir(backupdir, 'p')
+local backupdir = fn.expand("$HOME/.config/nvim/.backup//")
+fn.mkdir(backupdir, "p")
 opt.backupdir = backupdir
 
 -- Swap file directory
-local swpdir = fn.expand('$HOME/.config/nvim/.swp//')
-fn.mkdir(swpdir, 'p')
+local swpdir = fn.expand("$HOME/.config/nvim/.swp//")
+fn.mkdir(swpdir, "p")
 opt.directory = swpdir
 
 -- Tabs and indentation
@@ -60,6 +60,6 @@ opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
 
 -- Disable automatic comment insertion
-cmd('au BufEnter * set fo-=c fo-=r fo-=o')
+cmd("au BufEnter * set fo-=c fo-=r fo-=o")
 
 return M
