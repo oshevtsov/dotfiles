@@ -240,6 +240,14 @@ local plugins_list = {
 			require("configs.dashboard-nvim").config()
 		end,
 	},
+
+	-- Smooth escaping
+	{
+		"max397574/better-escape.nvim",
+		config = function()
+			require("configs.better-escape").config()
+		end,
+	},
 }
 
 packer.startup({
