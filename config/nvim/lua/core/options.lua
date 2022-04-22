@@ -33,7 +33,7 @@ opt.smartindent = true -- Do auto indenting when starting a new line
 -- UI settings
 opt.fileencoding = "utf-8" -- File content encoding for the buffer
 opt.clipboard = "unnamedplus" -- Connection to the system clipboard
-opt.mouse = "a" -- Enable mouse support
+opt.mouse = "nvc" -- Enable mouse support
 opt.signcolumn = "yes" -- Always show the sign column
 opt.foldmethod = "manual" -- Create folds manually
 opt.completeopt = { "menuone", "noselect" } -- Options for insert mode completion

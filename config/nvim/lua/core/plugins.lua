@@ -51,6 +51,7 @@ local plugins_list = {
 	-- Commenting
 	{
 		"numToStr/Comment.nvim",
+		tag = "v0.6", -- remove this when start using Neovim >= 0.7
 		config = function()
 			require("configs.comment").config()
 		end,
