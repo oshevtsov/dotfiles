@@ -34,7 +34,7 @@ function M.config()
 			diagnostics.eslint_d,
 			diagnostics.gitlint,
 			diagnostics.hadolint,
-			diagnostics.pylama,
+			diagnostics.flake8,
 			diagnostics.tsc,
 			-- Set code actions
 			code_actions.gitsigns,
