@@ -34,9 +34,9 @@ map("n", "<leader>gd", "<cmd>Gitsigns diffthis HEAD<CR>", opts)
 
 -- Toggle Term
 map("n", "<C-t>", "<cmd>ToggleTermToggleAll<CR>", opts)
-map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts)
-map("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", opts)
-map("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", opts)
+map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", opts)
+map("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", opts)
+map("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", opts)
 map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
 map("n", "<leader>tp", "<cmd>lua require('core.utils').toggle_term_cmd('python')<CR>", opts)
 
@@ -80,9 +80,9 @@ map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 map("n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
-map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
-map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
+map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+map("n", "<leader>li", "<cmd>LspInfo<CR>", opts)
+map("n", "<leader>lI", "<cmd>LspInstallInfo<CR>", opts)
 
 -- LSP Symbols Outline
 map("n", "<leader>lp", "<cmd>SymbolsOutline<CR>", opts)
