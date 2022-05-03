@@ -67,7 +67,7 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.document_formatting = false
 	end
 
-	vim.cmd("command! Format execute 'lua vim.lsp.buf.formatting()'")
+	vim.cmd("command! Format execute 'lua vim.lsp.buf.format({async = true})'")
 	lsp_highlight_document(client)
 end
 
