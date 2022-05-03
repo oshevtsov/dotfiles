@@ -43,7 +43,7 @@ function M.config()
     -- NOTE: You can remove this on attach function to disable format on save
     on_attach = function(client)
       if client.server_capabilities.document_formatting then
-        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
       end
     end,
   })
