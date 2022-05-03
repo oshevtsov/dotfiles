@@ -175,6 +175,14 @@ local plugins_list = {
 		end,
 	},
 
+	-- Show signature virtual text
+	{
+		"ray-x/lsp_signature.nvim",
+		config = function()
+			require("lsp_signature").setup()
+		end,
+	},
+
 	-- Completion engine
 	{
 		"hrsh7th/nvim-cmp",
