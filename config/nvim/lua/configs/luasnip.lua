@@ -8,7 +8,7 @@ function M.config()
 
 	-- Keep memory of the snippet to be able to cycle placeholders at any time
 	luasnip.config.setup({
-		history = true,
+		-- history = true,
 	})
 
 	local loader_ok, loader = pcall(require, "luasnip.loaders.from_vscode")

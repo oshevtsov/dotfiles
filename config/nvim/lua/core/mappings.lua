@@ -11,7 +11,7 @@ map("c", "w!!", "w !sudo tee > /dev/null %", opts)
 map("t", "<C-q>", "<C-\\><C-n>", opts)
 
 -- Highlights
-map("n", "<leader><Space>", "<cmd>set hlsearch!<CR>", opts)
+map("n", "<leader><Space>", "<cmd>nohlsearch<CR>", opts)
 
 -- Better tabbing
 map("v", "<", "<gv", opts)
@@ -74,8 +74,6 @@ map("n", "go", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 map("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev({border = 'rounded'})<CR>", opts)
 map("n", "]d", "<cmd>lua vim.diagnostic.goto_next({border = 'rounded'})<CR>", opts)
-map("n", "gj", "<cmd>lua vim.diagnostic.goto_next({border = 'rounded'})<CR>", opts)
-map("n", "gk", "<cmd>lua vim.diagnostic.goto_prev({border = 'rounded'})<CR>", opts)
 map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)

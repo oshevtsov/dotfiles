@@ -21,30 +21,28 @@ function M.config()
 	local code_actions = null_ls.builtins.code_actions
 
 	null_ls.setup({
-		debug = false,
+		debug = true,
 		sources = {
 			-- Set formatters
-			formatting.prettierd,
+			formatting.prettier,
 			formatting.reorder_python_imports,
 			formatting.rustfmt,
 			formatting.stylua,
-			formatting.yapf,
+			formatting.black.with({ extra_args = { "--line-length", "88" } }),
 			-- Set linters
 			diagnostics.credo,
 			diagnostics.eslint_d,
 			diagnostics.gitlint,
 			diagnostics.hadolint,
-			diagnostics.flake8,
+			diagnostics.flake8.with({ extra_args = { "--max-line-length", "88" } }),
 			diagnostics.tsc,
 			-- Set code actions
 			code_actions.gitsigns,
 			code_actions.refactoring,
 		},
 		-- NOTE: You can remove this on attach function to disable format on save
-		on_attach = function(client)
-			if client.server_capabilities.document_formatting then
-				vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
-			end
+		on_attach = function()
+			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
 		end,
 	})
 end
