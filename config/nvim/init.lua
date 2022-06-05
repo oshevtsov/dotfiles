@@ -1,33 +1,26 @@
 local impatient_ok, impatient = pcall(require, "impatient")
 if impatient_ok then
-	impatient.enable_profile()
+  impatient.enable_profile()
 end
 
--- Set options
-require("core.options")
-
--- Disable unused built-ins
-local utils = require("core.utils")
-utils.disable_builtins()
-
--- Set colorscheme
-require("core.colorscheme").load_scheme()
-
--- Set up plugins
-local is_bootstrapped = utils.bootstrap_packer()
-require("core.plugins")
-
-if is_bootstrapped then
-	require("packer").sync()
+for _, source in ipairs({
+  "core.utils",
+  "core.options",
+  "core.plugins",
+  "core.colorscheme",
+  "core.mappings",
+}) do
+  local status_ok, fault = pcall(require, source)
+  if not status_ok then
+    error("Failed to load " .. source .. "\n\n" .. fault)
+  end
 end
-
--- Set key mappings
-require("core.mappings")
 
 -- Set autocommands
-vim.cmd([[
-  augroup packer_conf
-    autocmd!
-    autocmd bufwritepost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
+vim.api.nvim_create_augroup("packer_conf", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  desc = "Sync packer after modifying plugins.lua",
+  group = "packer_conf",
+  pattern = "plugins.lua",
+  command = "source <afile> | PackerSync",
+})

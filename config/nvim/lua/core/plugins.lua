@@ -1,10 +1,5 @@
 local M = {}
 
-local packer_status_ok, packer = pcall(require, "packer")
-if not packer_status_ok then
-	return
-end
-
 local plugins_list = {
 	-- Plugin manager
 	{
@@ -34,12 +29,18 @@ local plugins_list = {
 
 	-- File explorer
 	{
-		"kyazdani42/nvim-tree.lua",
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v2.x",
 		requires = {
-			"kyazdani42/nvim-web-devicons",
+			"nvim-lua/plenary.nvim",
+			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
 		},
+		setup = function()
+			vim.g.neo_tree_remove_legacy_commands = true
+		end,
 		config = function()
-			require("configs.nvim-tree").config()
+			require("configs.neo-tree").config()
 		end,
 	},
 
@@ -51,10 +52,15 @@ local plugins_list = {
 	-- Commenting
 	{
 		"numToStr/Comment.nvim",
-		tag = "v0.6", -- remove this when start using Neovim >= 0.7
 		config = function()
 			require("configs.comment").config()
 		end,
+	},
+
+	-- Better buffer closing
+	{
+		"famiu/bufdelete.nvim",
+		cmd = { "Bdelete", "Bwipeout" },
 	},
 
 	-- Statusline
@@ -87,6 +93,7 @@ local plugins_list = {
 	-- Git signs
 	{
 		"lewis6991/gitsigns.nvim",
+		event = "BufEnter",
 		config = function()
 			require("configs.gitsigns").config()
 		end,
@@ -125,6 +132,17 @@ local plugins_list = {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
+		event = { "BufRead", "BufNewFile" },
+		cmd = {
+			"TSInstall",
+			"TSInstallInfo",
+			"TSInstallSync",
+			"TSUninstall",
+			"TSUpdate",
+			"TSUpdateSync",
+			"TSDisableAll",
+			"TSEnableAll",
+		},
 		config = function()
 			require("configs.treesitter").config()
 		end,
@@ -148,19 +166,17 @@ local plugins_list = {
 		after = "nvim-treesitter",
 	},
 
-	-- Built-in LSP
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			require("configs.lsp")
-		end,
-	},
-
 	-- LSP manager
 	{
 		"williamboman/nvim-lsp-installer",
-		requires = {
+
+		-- Built-in LSP
+		{
 			"neovim/nvim-lspconfig",
+			config = function()
+				require("configs.nvim-lsp-installer").config()
+				require("configs.lsp")
+			end,
 		},
 	},
 
@@ -186,6 +202,7 @@ local plugins_list = {
 	-- Completion engine
 	{
 		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
 		config = function()
 			require("configs.nvim-cmp").config()
 		end,
@@ -252,12 +269,14 @@ local plugins_list = {
 	-- Smooth escaping
 	{
 		"max397574/better-escape.nvim",
+		event = "InsertCharPre",
 		config = function()
 			require("configs.better-escape").config()
 		end,
 	},
 }
 
+local packer = require("core.utils").initialize_packer()
 packer.startup({
 	function(use)
 		for _, plugin in ipairs(plugins_list) do

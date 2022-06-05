@@ -1,13 +1,33 @@
-local M = {}
-
 -- Neovim Lua API
 local g = vim.g -- global editor variables
 local fn = vim.fn -- call vim functions
 local opt = vim.opt -- editor options (equivalent to using :set)
-local cmd = vim.cmd -- call vimscript commands from Lua config
+local cmd = vim.cmd -- execute vimscript commands
 
 -- Map leader
 g.mapleader = " "
+
+-- Use Lua to detect filetype
+g.do_filetype_lua = 1
+g.did_load_filetypes = 0
+
+-- Disable builtin packages
+g.loaded_2html_plugin = false
+g.loaded_getscript = false
+g.loaded_getscriptPlugin = false
+g.loaded_gzip = false
+g.loaded_logipat = false
+g.loaded_netrwFileHandlers = false
+g.loaded_netrwPlugin = false
+g.loaded_netrwSettngs = false
+g.loaded_remote_plugins = false
+g.loaded_tar = false
+g.loaded_tarPlugin = false
+g.loaded_zip = false
+g.loaded_zipPlugin = false
+g.loaded_vimball = false
+g.loaded_vimballPlugin = false
+g.zipPlugin = false
 
 -- Undo file directory
 local undodir = fn.expand("$HOME/.config/nvim/.undo//")
@@ -58,8 +78,7 @@ opt.timeoutlen = 300 -- Length of time to wait for a mapped sequence
 opt.updatetime = 300 -- Length of time to wait before triggering the plugin
 opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
+opt.undofile = true -- Enable persistent undo
 
 -- Disable automatic comment insertion
 cmd("au BufEnter * set fo-=c fo-=r fo-=o")
-
-return M

@@ -2,17 +2,15 @@ local M = {}
 
 function M.config()
 	local status_ok, lualine = pcall(require, "lualine")
-	if not status_ok then
-		return
+	if status_ok then
+		local config = {
+			options = {
+				disabled_filetypes = { "NvimTree", "neo-tree", "dashboard" },
+			},
+		}
+
+		lualine.setup(config)
 	end
-
-	local config = {
-		options = {
-			disabled_filetypes = { "NvimTree", "dashboard" },
-		},
-	}
-
-	lualine.setup(config)
 end
 
 return M
