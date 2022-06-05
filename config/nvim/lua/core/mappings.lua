@@ -25,10 +25,6 @@ map("n", "<b", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer tab left" })
 map("n", "<leader>c", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
 map("n", "<leader>q", "<cmd>Bwipeout<CR>", { desc = "Delete buffer" })
 
--- Nvim Tree
--- map("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle explorer" })
--- map("n", "<leader>o", ":NvimTreeFocus<CR>", { desc = "Focus explorer" })
-
 -- NeoTree
 map("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "Toggle Explorer" })
 map("n", "<leader>o", "<cmd>Neotree focus<CR>", { desc = "Focus Explorer" })
@@ -49,9 +45,9 @@ map("n", "<C-t>", "<cmd>ToggleTermToggleAll<CR>", { desc = "Toggle all terminal 
 map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", { desc = "ToggleTerm float" })
 map("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", { desc = "ToggleTerm horizontal split" })
 map("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", { desc = "ToggleTerm vertical split" })
-map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", { desc = "ToggleTerm lazygit" })
-map("n", "<leader>tp", "<cmd>lua require('core.utils').toggle_term_cmd('python')<CR>", { desc = "ToggleTerm python" })
-map("n", "<leader>tn", "<cmd>lua require('core.utils').toggle_term_cmd('node')<CR>", { desc = "ToggleTerm node" })
+map("n", "<leader>gg", "<cmd>lua require('core.utils'):toggle_term_cmd('lazygit')<CR>", { desc = "ToggleTerm lazygit" })
+map("n", "<leader>tp", "<cmd>lua require('core.utils'):toggle_term_cmd('python')<CR>", { desc = "ToggleTerm python" })
+map("n", "<leader>tn", "<cmd>lua require('core.utils'):toggle_term_cmd('node')<CR>", { desc = "ToggleTerm node" })
 
 -- Telescope
 map(

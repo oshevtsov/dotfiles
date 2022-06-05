@@ -128,7 +128,7 @@ function M.on_attach(client, bufnr)
 	lsp_highlight_document(client)
 end
 
-M.disable_formatting = function(client)
+M.disable_formatting = function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
 end
 

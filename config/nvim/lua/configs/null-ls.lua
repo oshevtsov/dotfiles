@@ -21,8 +21,8 @@ function M.config()
 			debug = true,
 			sources = {
 				-- Set formatters
-				formatting.prettier,
 				formatting.reorder_python_imports,
+				formatting.eslint_d,
 				formatting.rustfmt,
 				formatting.stylua,
 				formatting.black.with({ extra_args = { "--line-length", "88" } }),
@@ -35,11 +35,19 @@ function M.config()
 				diagnostics.tsc,
 				-- Set code actions
 				code_actions.gitsigns,
-				code_actions.refactoring,
+				code_actions.eslint_d,
 			},
 			-- NOTE: You can remove this on attach function to disable format on save
-			on_attach = function()
-				vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
+			on_attach = function(client)
+				if client.server_capabilities.documentFormattingProvider then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						desc = "Auto format before save",
+						pattern = "<buffer>",
+						callback = function()
+							vim.lsp.buf.format({ async = true })
+						end,
+					})
+				end
 			end,
 		})
 	end

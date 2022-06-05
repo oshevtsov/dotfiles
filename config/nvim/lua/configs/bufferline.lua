@@ -7,6 +7,7 @@ function M.config()
 			options = {
 				offsets = {
 					{ filetype = "NvimTree", text = "File Explorer" },
+					{ filetype = "neo-tree", text = "File Explorer" },
 				},
 				buffer_close_icon = "",
 				modified_icon = "",
