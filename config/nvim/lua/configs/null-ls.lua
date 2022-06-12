@@ -22,13 +22,11 @@ function M.config()
 			sources = {
 				-- Set formatters
 				formatting.reorder_python_imports,
-				formatting.eslint_d,
 				formatting.rustfmt,
 				formatting.stylua,
 				formatting.black.with({ extra_args = { "--line-length", "88" } }),
 				-- Set linters
 				diagnostics.credo,
-				diagnostics.eslint_d,
 				diagnostics.gitlint,
 				diagnostics.hadolint,
 				diagnostics.flake8.with({ extra_args = { "--max-line-length", "88" } }),
