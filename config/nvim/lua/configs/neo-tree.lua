@@ -68,6 +68,12 @@ function M.config()
 						end
 					end,
 				},
+				{
+					event = "file_opened",
+					handler = function(_)
+						vim.cmd({ cmd = "Neotree", args = { "close" } })
+					end,
+				},
 			},
 		})
 	end
