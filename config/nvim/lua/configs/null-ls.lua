@@ -32,10 +32,10 @@ function M.config()
 				diagnostics.hadolint,
 				diagnostics.flake8.with({ extra_args = { "--max-line-length", "88" } }),
 				diagnostics.tsc,
-				diagnostics.eslint_d,
+				diagnostics.eslint,
 				-- Set code actions
 				code_actions.gitsigns,
-				code_actions.eslint_d,
+				code_actions.eslint,
 			},
 			-- NOTE: You can remove this on attach function to disable format on save
 			on_attach = function(client)
