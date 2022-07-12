@@ -67,6 +67,7 @@ function M.config()
 				{ name = "luasnip" },
 				{ name = "buffer" },
 				{ name = "path" },
+				{ name = "nvim_lua" },
 			},
 			mapping = {
 				["<C-k>"] = cmp.mapping.select_prev_item(),

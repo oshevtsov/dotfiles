@@ -25,12 +25,14 @@ function M.config()
 				formatting.rustfmt,
 				formatting.stylua,
 				formatting.black.with({ extra_args = { "--line-length", "88" } }),
+				formatting.prettier,
 				-- Set linters
 				diagnostics.credo,
 				diagnostics.gitlint,
 				diagnostics.hadolint,
 				diagnostics.flake8.with({ extra_args = { "--max-line-length", "88" } }),
 				diagnostics.tsc,
+				diagnostics.eslint_d,
 				-- Set code actions
 				code_actions.gitsigns,
 				code_actions.eslint_d,
