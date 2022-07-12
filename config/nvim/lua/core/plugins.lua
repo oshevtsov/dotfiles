@@ -226,6 +226,12 @@ local plugins_list = {
 		after = "nvim-cmp",
 	},
 
+	-- Neovim Lua API completion source
+	{
+		"hrsh7th/cmp-nvim-lua",
+		after = "nvim-cmp",
+	},
+
 	-- Snippet completion source
 	{
 		"saadparwaiz1/cmp_luasnip",
