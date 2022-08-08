@@ -8,8 +8,8 @@ local cmd = vim.cmd -- execute vimscript commands
 g.mapleader = " "
 
 -- Use Lua to detect filetype
-g.do_filetype_lua = 1
-g.did_load_filetypes = 0
+-- g.do_filetype_lua = 1
+-- g.did_load_filetypes = 0
 
 -- Disable builtin packages
 g.loaded_2html_plugin = false
@@ -79,6 +79,14 @@ opt.updatetime = 300 -- Length of time to wait before triggering the plugin
 opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
 opt.undofile = true -- Enable persistent undo
+opt.listchars = {
+	eol = "↵",
+	tab = "▷ ",
+	extends = "◣",
+	precedes = "◢",
+	nbsp = "○",
+}
+opt.list = false
 
 -- Disable automatic comment insertion
 cmd("au BufEnter * set fo-=c fo-=r fo-=o")

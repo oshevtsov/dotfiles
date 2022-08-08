@@ -26,6 +26,8 @@ function M.config()
 				formatting.stylua,
 				formatting.black.with({ extra_args = { "--line-length", "88" } }),
 				formatting.prettier,
+				formatting.mix,
+				formatting.surface,
 				-- Set linters
 				diagnostics.credo,
 				diagnostics.gitlint,
