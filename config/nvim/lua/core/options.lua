@@ -29,21 +29,6 @@ g.loaded_vimball = false
 g.loaded_vimballPlugin = false
 -- g.zipPlugin = false
 
--- Undo file directory
-local undodir = fn.expand("$HOME/.config/nvim/.undo//")
-fn.mkdir(undodir, "p")
-opt.undodir = undodir
-
--- Backup file directory
-local backupdir = fn.expand("$HOME/.config/nvim/.backup//")
-fn.mkdir(backupdir, "p")
-opt.backupdir = backupdir
-
--- Swap file directory
-local swpdir = fn.expand("$HOME/.config/nvim/.swp//")
-fn.mkdir(swpdir, "p")
-opt.directory = swpdir
-
 -- Tabs and indentation
 opt.shiftwidth = 2 -- Number of space inserted for indentation
 opt.tabstop = 2 -- Number of space in a tab
@@ -80,11 +65,11 @@ opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
 opt.undofile = true -- Enable persistent undo
 opt.listchars = {
-	eol = "↵",
-	tab = "▷ ",
-	extends = "◣",
-	precedes = "◢",
-	nbsp = "○",
+  eol = "↵",
+  tab = "▷ ",
+  extends = "◣",
+  precedes = "◢",
+  nbsp = "○",
 }
 opt.list = false
 
