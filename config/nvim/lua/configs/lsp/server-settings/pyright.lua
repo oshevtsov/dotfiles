@@ -1,12 +1,7 @@
 return {
-	settings = {
-		pyright = {
-			disableOrganizeImports = true,
-		},
-		python = {
-			analysis = {
-				typeCheckingMode = "basic",
-			},
-		},
-	},
+  settings = {
+    pyright = {
+      disableOrganizeImports = true,
+    },
+  },
 }
