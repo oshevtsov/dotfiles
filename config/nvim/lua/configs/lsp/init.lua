@@ -152,7 +152,7 @@ function M.on_attach(client, bufnr)
   end
 
   if capabilities.signatureHelpProvider then
-    map("n", "<leader>lh", function()
+    map("i", "<C-s>", function()
       vim.lsp.buf.signature_help()
     end, { desc = "Signature help", buffer = bufnr })
   end
