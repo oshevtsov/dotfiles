@@ -94,7 +94,7 @@ function M.on_attach(client, bufnr)
       vim.lsp.buf.format({ async = true })
     end, { desc = "Format file with LSP" })
 
-    local format_on_save = true
+    local format_on_save = false
     if format_on_save then
       local autocmd_group = "auto_format_" .. bufnr
       vim.api.nvim_create_augroup(autocmd_group, { clear = true })
@@ -185,7 +185,7 @@ local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then
   M.capabilities = capabilities
 else
-  M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+  M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
 function M:server_settings(server)

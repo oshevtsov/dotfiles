@@ -207,14 +207,6 @@ local plugins_list = {
     end,
   },
 
-  -- Show signature virtual text
-  {
-    "ray-x/lsp_signature.nvim",
-    config = function()
-      require("lsp_signature").setup()
-    end,
-  },
-
   -- Completion engine
   {
     "hrsh7th/nvim-cmp",
@@ -245,6 +237,12 @@ local plugins_list = {
   -- Neovim Lua API completion source
   {
     "hrsh7th/cmp-nvim-lua",
+    after = "nvim-cmp",
+  },
+
+  -- Function signature completion source
+  {
+    "hrsh7th/cmp-nvim-lsp-signature-help",
     after = "nvim-cmp",
   },
 
