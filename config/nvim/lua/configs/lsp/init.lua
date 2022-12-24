@@ -48,24 +48,24 @@ function M.on_attach(client, bufnr)
 
   -- code action
   if capabilities.codeActionProvider then
-    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code action" })
   end
 
   -- declaration
   if capabilities.declarationProvider then
-    map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
+    map("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Goto declaration" })
   end
 
   -- definition
   if capabilities.definitionProvider then
-    map("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition" })
+    map("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Goto definition" })
   end
 
   -- formatting
   if capabilities.documentFormattingProvider then
     map({ "n", "v" }, "<leader>lf", function()
       vim.lsp.buf.format({ async = true })
-    end, { desc = "Format code", buffer = bufnr })
+    end, { buffer = bufnr, desc = "Format code" })
 
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function()
       vim.lsp.buf.format({ async = true })
@@ -89,7 +89,7 @@ function M.on_attach(client, bufnr)
       vim.api.nvim_create_user_command("AutoFormatToggle", function()
         format_on_save = not format_on_save
         print('Setting auto-formatting to: ' .. tostring(format_on_save))
-      end, {})
+      end, { desc = "Toggle auto-formatting" })
     end
   end
 
@@ -111,35 +111,36 @@ function M.on_attach(client, bufnr)
 
   -- hover
   if capabilities.hoverProvider then
-    map("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
+    map("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
   end
 
   -- implementation
   if capabilities.implementationProvider then
-    map("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation" })
+    map("n", "gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "Goto implementation" })
   end
 
   -- references
   if capabilities.referencesProvider then
-    map("n", "gr", vim.lsp.buf.references, { desc = "Goto references" })
+    map("n", "gr", vim.lsp.buf.references, { buffer = bufnr, desc = "Goto references" })
   end
 
   -- Telescope LSP integration
-  map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document symbols" })
-  map("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "Workspace symbols" })
+  map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<CR>", { buffer = bufnr, desc = "Document symbols" })
+  map("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>",
+    { buffer = bufnr, desc = "Workspace symbols" })
 
 
   -- rename
   if capabilities.renameProvider then
-    map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
+    map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
   end
 
   if capabilities.signatureHelpProvider then
-    map("i", "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature documentation" })
+    map("i", "<C-s>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature documentation" })
   end
 
   if capabilities.typeDefinitionProvider then
-    map("n", "gT", vim.lsp.buf.type_definition, { desc = "Type definition" })
+    map("n", "gT", vim.lsp.buf.type_definition, { buffer = bufnr, desc = "Type definition" })
   end
 end
 

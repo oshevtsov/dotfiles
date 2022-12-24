@@ -1,15 +1,11 @@
 -- Neovim Lua API
 local g = vim.g -- global editor variables
-local fn = vim.fn -- call vim functions
+local api = vim.api -- call vim api
 local opt = vim.opt -- editor options (equivalent to using :set)
 local cmd = vim.cmd -- execute vimscript commands
 
 -- Map leader
 g.mapleader = " "
-
--- Use Lua to detect filetype
--- g.do_filetype_lua = 1
--- g.did_load_filetypes = 0
 
 -- Disable builtin packages
 g.loaded_2html_plugin = false
@@ -74,8 +70,28 @@ opt.listchars = {
 }
 opt.list = false
 
+-- Custom auto commands that are not related to any plugins
+local my_autocmds = api.nvim_create_augroup("oshevtsov_autocmd", { clear = true })
+
+-- Highlight on yank
+api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = my_autocmds,
+  pattern = "*",
+})
+
 -- Disable automatic comment insertion
-cmd("au BufEnter * set fo-=c fo-=r fo-=o")
+api.nvim_create_autocmd("BufEnter", {
+  command = "set fo-=c fo-=r fo-=o",
+  group = my_autocmds,
+  pattern = "*",
+})
 
 -- Treat *.avsc files as json
-cmd("au BufRead,BufNewFile *.avsc set ft=json")
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  command = "set ft=json",
+  group = my_autocmds,
+  pattern = "*.avsc",
+})
