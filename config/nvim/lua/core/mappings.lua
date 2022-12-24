@@ -5,14 +5,11 @@ local cmd = vim.cmd -- execute vimscript commands
 -- Allow to save files as sudo (even if Neovim started without sudo)
 map("c", "w!!", "w !sudo tee > /dev/null %", { desc = "Sudo write" })
 
--- Eneter select mode from insert mode (useful for jumping between snippet nodes)
-map("i", "<M-g>", "<Esc>gh", { desc = "Jump directly into select mode from insert mode" })
+-- Enter select mode from insert mode (useful for jumping between snippet nodes)
+map("i", "<M-g>", "<Esc>gh", { desc = "Insert mode --> select mode" })
 
 -- Escape terminal emulator
 map("t", "<C-q>", "<C-\\><C-n>", { desc = "Escape terminal" })
-
--- Highlights
-map("n", "<leader><Space>", "<cmd>nohlsearch<CR>", { desc = "No highlight" })
 
 -- Better tabbing
 map("v", "<", "<gv", { desc = "Unindent line", silent = true })
@@ -72,9 +69,12 @@ map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", { desc = "Search man" })
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", { desc = "Search registers" })
 map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", { desc = "Search keymaps" })
 map("n", "<leader>sc", "<cmd>Telescope commands<CR>", { desc = "Search commands" })
-map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Search symbols" })
-map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", { desc = "Search references" })
-map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Search diagnostics" })
+map("n", "<leader>D", "<cmd>Telescope diagnostics<CR>", { desc = "Diagnostics search" })
+map("n", "<leader>d", vim.diagnostic.open_float, { desc = "Diagnostic view" })
+map("n", "[d", vim.diagnostic.goto_prev, { desc = "Diagnostic previous" })
+map("n", "]d", vim.diagnostic.goto_next, { desc = "Diagnostic next" })
+map("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Fuzzy search in current buffer" })
+
 cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search = <q-args>})<CR>")
 
 -- Builtin LSP
@@ -82,7 +82,6 @@ map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "LSP information" })
 map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "LSP installer" })
 
 -- Dashboard
-map("n", "<leader>d", "<cmd>Dashboard<CR>", { desc = "Show dashboard" })
 map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
 map("n", "<leader>sl", "<cmd>SessionLoad<CR>", opts)
 map("n", "<leader>ss", "<cmd>SessionSave<CR>", opts)

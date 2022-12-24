@@ -46,42 +46,19 @@ function M.on_attach(client, bufnr)
   -- Keymaps
   local map = vim.keymap.set
 
-  -- diagnostics
-  map("n", "<leader>ld", function()
-    vim.diagnostic.open_float()
-  end, { desc = "Hover diagnostics", buffer = bufnr })
-
-  map("n", "gl", function()
-    vim.diagnostic.open_float()
-  end, { desc = "Hover diagnostics", buffer = bufnr })
-
-  map("n", "[d", function()
-    vim.diagnostic.goto_prev()
-  end, { desc = "Previous diagnostic", buffer = bufnr })
-
-  map("n", "]d", function()
-    vim.diagnostic.goto_next()
-  end, { desc = "Next diagnostic", buffer = bufnr })
-
   -- code action
   if capabilities.codeActionProvider then
-    map({ "n", "v" }, "<leader>la", function()
-      vim.lsp.buf.code_action()
-    end, { desc = "LSP code action", buffer = bufnr })
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
   end
 
   -- declaration
   if capabilities.declarationProvider then
-    map("n", "gD", function()
-      vim.lsp.buf.declaration()
-    end, { desc = "Declaration of current symbol", buffer = bufnr })
+    map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
   end
 
   -- definition
   if capabilities.definitionProvider then
-    map("n", "gd", function()
-      vim.lsp.buf.definition()
-    end, { desc = "Definition of current symbol", buffer = bufnr })
+    map("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition" })
   end
 
   -- formatting
@@ -134,42 +111,35 @@ function M.on_attach(client, bufnr)
 
   -- hover
   if capabilities.hoverProvider then
-    map("n", "K", function()
-      vim.lsp.buf.hover()
-    end, { desc = "Hover symbol details", buffer = bufnr })
+    map("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
   end
 
   -- implementation
   if capabilities.implementationProvider then
-    map("n", "gi", function()
-      vim.lsp.buf.implementation()
-    end, { desc = "Implementation of current symbol", buffer = bufnr })
+    map("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation" })
   end
 
   -- references
   if capabilities.referencesProvider then
-    map("n", "gr", function()
-      vim.lsp.buf.references()
-    end, { desc = "References of current symbol", buffer = bufnr })
+    map("n", "gr", vim.lsp.buf.references, { desc = "Goto references" })
   end
+
+  -- Telescope LSP integration
+  map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document symbols" })
+  map("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "Workspace symbols" })
+
 
   -- rename
   if capabilities.renameProvider then
-    map("n", "<leader>rn", function()
-      vim.lsp.buf.rename()
-    end, { desc = "Rename current symbol", buffer = bufnr })
+    map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
   end
 
   if capabilities.signatureHelpProvider then
-    map("i", "<C-s>", function()
-      vim.lsp.buf.signature_help()
-    end, { desc = "Signature help", buffer = bufnr })
+    map("i", "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature documentation" })
   end
 
   if capabilities.typeDefinitionProvider then
-    map("n", "gT", function()
-      vim.lsp.buf.type_definition()
-    end, { desc = "Definition of current type", buffer = bufnr })
+    map("n", "gT", vim.lsp.buf.type_definition, { desc = "Type definition" })
   end
 end
 
