@@ -229,12 +229,6 @@ local plugins_list = {
     after = "nvim-cmp",
   },
 
-  -- Neovim Lua API completion source
-  {
-    "hrsh7th/cmp-nvim-lua",
-    after = "nvim-cmp",
-  },
-
   -- Function signature completion source
   {
     "hrsh7th/cmp-nvim-lsp-signature-help",

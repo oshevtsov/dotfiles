@@ -63,7 +63,6 @@ function M.config()
         { name = "buffer" },
         { name = "path" },
         { name = "nvim_lsp_signature_help" },
-        { name = "nvim_lua" },
       },
       mapping = {
         ["<C-j>"] = cmp.mapping.select_next_item(),
