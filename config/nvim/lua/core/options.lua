@@ -2,7 +2,6 @@
 local g = vim.g -- global editor variables
 local api = vim.api -- call vim api
 local opt = vim.opt -- editor options (equivalent to using :set)
-local cmd = vim.cmd -- execute vimscript commands
 
 -- Map leader
 g.mapleader = " "
