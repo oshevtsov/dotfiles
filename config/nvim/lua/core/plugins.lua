@@ -156,6 +156,12 @@ local plugins_list = {
     after = "nvim-treesitter",
   },
 
+  -- Additional text objects via treesitter
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
+  },
+
   -- Formatting and linting (configured by mason-null-ls)
   {
     "jose-elias-alvarez/null-ls.nvim",
@@ -193,17 +199,6 @@ local plugins_list = {
     after = { "mason.nvim", "null-ls.nvim" },
     config = function()
       require("configs.mason-null-ls").config()
-    end,
-  },
-
-  -- LSP symbols
-  {
-    "simrat39/symbols-outline.nvim",
-    requires = {
-      "neovim/nvim-lspconfig",
-    },
-    setup = function()
-      require("configs.symbols-outline").setup()
     end,
   },
 

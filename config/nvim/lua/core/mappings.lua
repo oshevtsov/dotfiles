@@ -81,9 +81,6 @@ cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search 
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "LSP information" })
 map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "LSP installer" })
 
--- LSP Symbols Outline
-map("n", "<leader>lo", "<cmd>SymbolsOutline<CR>", { desc = "Symbols outline" })
-
 -- Dashboard
 map("n", "<leader>d", "<cmd>Dashboard<CR>", { desc = "Show dashboard" })
 map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)

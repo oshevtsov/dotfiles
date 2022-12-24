@@ -42,6 +42,7 @@ opt.mouse = "nvc" -- Enable mouse support
 opt.signcolumn = "yes" -- Always show the sign column
 opt.foldmethod = "manual" -- Create folds manually
 opt.completeopt = { "menuone", "noselect" } -- Options for insert mode completion
+opt.hlsearch = false -- Do not keep the search item highlighted
 opt.hidden = true -- Ignore unsaved buffers
 opt.ignorecase = true -- Case insensitive searching
 opt.smartcase = true -- Case sensitivie searching
