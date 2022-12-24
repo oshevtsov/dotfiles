@@ -5,6 +5,9 @@ local cmd = vim.cmd -- execute vimscript commands
 -- Allow to save files as sudo (even if Neovim started without sudo)
 map("c", "w!!", "w !sudo tee > /dev/null %", { desc = "Sudo write" })
 
+-- Eneter select mode from insert mode (useful for jumping between snippet nodes)
+map("i", "<M-g>", "<Esc>gh", { desc = "Jump directly into select mode from insert mode" })
+
 -- Escape terminal emulator
 map("t", "<C-q>", "<C-\\><C-n>", { desc = "Escape terminal" })
 
@@ -51,10 +54,10 @@ map("n", "<leader>tn", "<cmd>lua require('core.utils'):toggle_term_cmd('node')<C
 
 -- Telescope
 map(
-	"n",
-	"<leader>fd",
-	"<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>",
-	{ desc = "Search dotfiles" }
+  "n",
+  "<leader>fd",
+  "<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>",
+  { desc = "Search dotfiles" }
 )
 map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Search grep" })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "Git status" })
@@ -76,7 +79,7 @@ cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search 
 
 -- Builtin LSP
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "LSP information" })
-map("n", "<leader>lI", "<cmd>LspInstallInfo<CR>", { desc = "LSP installer" })
+map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "LSP installer" })
 
 -- LSP Symbols Outline
 map("n", "<leader>lo", "<cmd>SymbolsOutline<CR>", { desc = "Symbols outline" })

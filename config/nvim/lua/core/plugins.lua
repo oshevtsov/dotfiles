@@ -93,7 +93,6 @@ local plugins_list = {
   -- Git signs
   {
     "lewis6991/gitsigns.nvim",
-    event = "BufEnter",
     config = function()
       require("configs.gitsigns").config()
     end,
@@ -131,8 +130,9 @@ local plugins_list = {
   -- Syntax highlighting
   {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    event = { "BufRead", "BufNewFile" },
+    run = function()
+      require("nvim-treesitter.install").update({ with_sync = true })()
+    end,
     config = function()
       require("configs.treesitter").config()
     end,

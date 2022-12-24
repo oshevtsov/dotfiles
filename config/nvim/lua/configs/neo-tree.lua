@@ -4,7 +4,7 @@ function M.config()
 	local status_ok, neotree = pcall(require, "neo-tree")
 	if status_ok then
 		neotree.setup({
-			close_if_last_window = true,
+			close_if_last_window = false,
 			popup_border_style = "rounded",
 			enable_diagnostics = true,
 			default_component_configs = {

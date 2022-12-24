@@ -94,16 +94,25 @@ function M.on_attach(client, bufnr)
       vim.lsp.buf.format({ async = true })
     end, { desc = "Format file with LSP" })
 
-    local format_on_save = false
+    local format_on_save = true
     if format_on_save then
-      local autocmd_group = "auto_format_" .. bufnr
+      local autocmd_group = "auto_format_" .. client.name
       vim.api.nvim_create_augroup(autocmd_group, { clear = true })
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = autocmd_group,
         buffer = bufnr,
         desc = "Auto format buffer " .. bufnr .. " before save",
-        callback = function() vim.lsp.buf.format({ async = false }) end,
+        callback = function()
+          if not format_on_save then
+            return
+          end
+          vim.lsp.buf.format({ async = false })
+        end,
       })
+      vim.api.nvim_create_user_command("AutoFormatToggle", function()
+        format_on_save = not format_on_save
+        print('Setting auto-formatting to: ' .. tostring(format_on_save))
+      end, {})
     end
   end
 

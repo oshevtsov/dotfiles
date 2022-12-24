@@ -10,6 +10,7 @@ function M.config()
       ensure_installed = {
         "sumneko_lua",
         "pyright",
+        "tsserver",
       },
 
       -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
