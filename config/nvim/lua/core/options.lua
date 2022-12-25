@@ -75,7 +75,7 @@ local my_autocmds = api.nvim_create_augroup("oshevtsov_autocmd", { clear = true 
 -- Highlight on yank
 api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank()
+    vim.highlight.on_yank({ higroup = "PmenuSel" })
   end,
   group = my_autocmds,
   pattern = "*",
