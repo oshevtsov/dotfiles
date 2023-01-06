@@ -73,7 +73,7 @@ function M.on_attach(client, bufnr)
 
     local format_on_save = true
     if format_on_save then
-      local autocmd_group = "auto_format_" .. client.name
+      local autocmd_group = "auto_format_" .. string.format("%d_%s", bufnr, client.name)
       vim.api.nvim_create_augroup(autocmd_group, { clear = true })
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = autocmd_group,
@@ -88,7 +88,7 @@ function M.on_attach(client, bufnr)
       })
       vim.api.nvim_create_user_command("AutoFormatToggle", function()
         format_on_save = not format_on_save
-        print('Setting auto-formatting to: ' .. tostring(format_on_save))
+        print("Setting auto-formatting to: " .. tostring(format_on_save))
       end, { desc = "Toggle auto-formatting" })
     end
   end
@@ -126,9 +126,12 @@ function M.on_attach(client, bufnr)
 
   -- Telescope LSP integration
   map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<CR>", { buffer = bufnr, desc = "Document symbols" })
-  map("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>",
-    { buffer = bufnr, desc = "Workspace symbols" })
-
+  map(
+    "n",
+    "<leader>ws",
+    "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>",
+    { buffer = bufnr, desc = "Workspace symbols" }
+  )
 
   -- rename
   if capabilities.renameProvider then
