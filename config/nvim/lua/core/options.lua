@@ -94,3 +94,9 @@ api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = my_autocmds,
   pattern = "*.avsc",
 })
+
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  command = "set ft=markdown",
+  group = my_autocmds,
+  pattern = "*.mdx",
+})
