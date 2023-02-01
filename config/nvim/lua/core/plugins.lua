@@ -167,8 +167,8 @@ local plugins_list = {
 
   -- Additional text objects via treesitter
   {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    after = 'nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
   },
 
   -- Formatting and linting (configured by mason-null-ls)
@@ -268,6 +268,7 @@ local plugins_list = {
   -- Dashboard
   {
     "glepnir/dashboard-nvim",
+    event = "VimEnter",
     config = function()
       require("configs.dashboard-nvim").config()
     end,
@@ -280,6 +281,12 @@ local plugins_list = {
     config = function()
       require("configs.better-escape").config()
     end,
+  },
+
+  -- JSON schemas
+  {
+    "b0o/SchemaStore.nvim",
+    module = "schemastore",
   },
 }
 

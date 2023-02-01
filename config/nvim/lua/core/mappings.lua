@@ -11,6 +11,9 @@ map("i", "<M-g>", "<Esc>gh", { desc = "Insert mode --> select mode" })
 -- Escape terminal emulator
 map("t", "<C-q>", "<C-\\><C-n>", { desc = "Escape terminal" })
 
+-- Create new empty buffer
+map("n", "<leader>fn", "<cmd>enew<CR>", opts)
+
 -- Better tabbing
 map("v", "<", "<gv", { desc = "Unindent line", silent = true })
 map("v", ">", ">gv", { desc = "Indent line", silent = true })
@@ -81,11 +84,6 @@ cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search 
 -- Builtin LSP
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "LSP information" })
 map("n", "<leader>lI", "<cmd>Mason<CR>", { desc = "LSP installer" })
-
--- Dashboard
-map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
-map("n", "<leader>sl", "<cmd>SessionLoad<CR>", opts)
-map("n", "<leader>ss", "<cmd>SessionSave<CR>", opts)
 
 -- Improved terminal mappings
 map("t", "<C-h>", "<C-\\><C-n><C-W>h", { desc = "Terminal left window navigation", silent = true })

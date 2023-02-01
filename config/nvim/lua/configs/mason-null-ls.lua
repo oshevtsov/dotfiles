@@ -19,10 +19,12 @@ function M.config()
       sources = {
         null_ls.builtins.formatting.black.with({
           cwd = function(params)
-            return vim.fn.fnamemodify(params.bufname, ':h')
+            return vim.fn.fnamemodify(params.bufname, ":h")
           end,
         }),
-        null_ls.builtins.formatting.isort,
+        null_ls.builtins.formatting.isort.with({
+          extra_args = { "--profile", "black" },
+        }),
         null_ls.builtins.formatting.mix,
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.diagnostics.credo,

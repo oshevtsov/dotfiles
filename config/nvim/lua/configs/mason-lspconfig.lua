@@ -12,6 +12,8 @@ function M.config()
         "rust_analyzer",
         "sumneko_lua",
         "tsserver",
+        "jsonls",
+        "yamlls",
       },
 
       -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
