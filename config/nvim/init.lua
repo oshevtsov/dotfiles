@@ -1,26 +1,24 @@
-local impatient_ok, impatient = pcall(require, "impatient")
-if impatient_ok then
-  impatient.enable_profile()
-end
-
-for _, source in ipairs({
-  "core.utils",
-  "core.options",
-  "core.plugins",
-  "core.colorscheme",
-  "core.mappings",
-}) do
-  local status_ok, fault = pcall(require, source)
-  if not status_ok then
-    error("Failed to load " .. source .. "\n\n" .. fault)
-  end
-end
-
--- Set autocommands
-vim.api.nvim_create_augroup("packer_conf", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-  desc = "Sync packer after modifying plugins.lua",
-  group = "packer_conf",
-  pattern = "plugins.lua",
-  command = "source <afile> | PackerSync",
+-- set editor options (including `mapleader` before lazy.nvim setup so that mappings work)
+require("core.options")
+require("core.autocmds")
+require("core.utils").initialize_lazy().setup("plugins", {
+  install = {
+    missing = true, 
+    colorscheme = { "nightfox", "habamax" } -- colorscheme applied to lazy.nvim UI
+  },
+  checker = {
+    enabled = false -- automatically check for plugin updates
+  },
+  performance = {
+    disabled_plugins = {
+      "gzip",
+      -- "matchit",
+      -- "matchparen",
+      -- "netrwPlugin",
+      "tarPlugin",
+      "tohtml",
+      "tutor",
+      "zipPlugin",
+    },
+  },
 })

@@ -5,11 +5,6 @@ function M.config()
   if status_ok then
     local actions = require("telescope.actions")
 
-    local is_notify_present, _ = pcall(require, "notify")
-    if is_notify_present then
-      telescope.load_extension("notify")
-    end
-
     -- custom actions mappings
     local custom_actions = M.make_custom_actions()
     local multi_open_mappings = {
@@ -132,6 +127,8 @@ function M.config()
       },
       extensions = {},
     })
+
+    telescope.load_extension("fzf")
   end
 end
 

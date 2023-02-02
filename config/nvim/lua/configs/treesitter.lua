@@ -4,7 +4,20 @@ function M.config()
   local status_ok, treesitter = pcall(require, "nvim-treesitter.configs")
   if status_ok then
     local config = {
-      ensure_installed = { "python", "rust", "lua", "go", "typescript", "javascript", "help" },
+      ensure_installed = {
+        "astro",
+        "go",
+        "help",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "rust",
+        "typescript",
+        "yaml",
+      },
       sync_install = false,
       ignore_install = {},
       highlight = {

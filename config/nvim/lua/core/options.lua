@@ -6,24 +6,6 @@ local opt = vim.opt -- editor options (equivalent to using :set)
 -- Map leader
 g.mapleader = " "
 
--- Disable builtin packages
-g.loaded_2html_plugin = false
-g.loaded_getscript = false
-g.loaded_getscriptPlugin = false
--- g.loaded_gzip = false
-g.loaded_logipat = false
-g.loaded_netrwFileHandlers = false
-g.loaded_netrwPlugin = false
-g.loaded_netrwSettngs = false
-g.loaded_remote_plugins = false
--- g.loaded_tar = false
--- g.loaded_tarPlugin = false
--- g.loaded_zip = false
--- g.loaded_zipPlugin = false
-g.loaded_vimball = false
-g.loaded_vimballPlugin = false
--- g.zipPlugin = false
-
 -- Tabs and indentation
 opt.shiftwidth = 2 -- Number of space inserted for indentation
 opt.tabstop = 2 -- Number of space in a tab
@@ -60,43 +42,3 @@ opt.updatetime = 300 -- Length of time to wait before triggering the plugin
 opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
 opt.undofile = true -- Enable persistent undo
-opt.listchars = {
-  eol = "↵",
-  tab = "▷ ",
-  extends = "◣",
-  precedes = "◢",
-  nbsp = "○",
-}
-opt.list = false
-
--- Custom auto commands that are not related to any plugins
-local my_autocmds = api.nvim_create_augroup("oshevtsov_autocmd", { clear = true })
-
--- Highlight on yank
-api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank({ higroup = "PmenuSel" })
-  end,
-  group = my_autocmds,
-  pattern = "*",
-})
-
--- Disable automatic comment insertion
-api.nvim_create_autocmd("BufEnter", {
-  command = "set fo-=c fo-=r fo-=o",
-  group = my_autocmds,
-  pattern = "*",
-})
-
--- Treat *.avsc files as json
-api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  command = "set ft=json",
-  group = my_autocmds,
-  pattern = "*.avsc",
-})
-
-api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  command = "set ft=markdown",
-  group = my_autocmds,
-  pattern = "*.mdx",
-})

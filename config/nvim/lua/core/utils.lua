@@ -1,27 +1,25 @@
 local M = {}
 
-function M.initialize_packer()
-  local fn = vim.fn
-  local status_ok, packer = pcall(require, "packer")
+function M.initialize_lazy()
+  local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+  vim.opt.rtp:prepend(lazy_path)
+  local status_ok, lazy = pcall(require, "lazy")
   if not status_ok then
-    local packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-    vim.fn.delete(packer_path, "rf")
+    vim.fn.delete(lazy_path, "rf")
     vim.fn.system({
       "git",
       "clone",
-      "--depth",
-      "1",
-      "https://github.com/wbthomason/packer.nvim",
-      packer_path,
+      "--filter=blob:none",
+      "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable", -- latest stable release
+      lazy_path,
     })
-    print("Cloning packer...\nSetup Neovim")
-    vim.cmd("packadd packer.nvim")
-    status_ok, packer = pcall(require, "packer")
+    status_ok, lazy = pcall(require, "lazy")
     if not status_ok then
-      error("Failed to load packer at:" .. packer_path .. "\n\n" .. packer)
+      error("Failed to load lazy at:" .. lazy_path .. "\n\n" .. lazy)
     end
   end
-  return packer
+  return lazy
 end
 
 M.user_terminals = {}
@@ -38,3 +36,4 @@ function M:toggle_term_cmd(cmd)
 end
 
 return M
+
