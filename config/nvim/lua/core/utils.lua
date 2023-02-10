@@ -36,4 +36,3 @@ function M:toggle_term_cmd(cmd)
 end
 
 return M
-

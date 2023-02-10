@@ -3,11 +3,11 @@ require("core.options")
 require("core.autocmds")
 require("core.utils").initialize_lazy().setup("plugins", {
   install = {
-    missing = true, 
-    colorscheme = { "nightfox", "habamax" } -- colorscheme applied to lazy.nvim UI
+    missing = true,
+    colorscheme = { "nightfox", "habamax" }, -- colorscheme applied to lazy.nvim UI
   },
   checker = {
-    enabled = false -- automatically check for plugin updates
+    enabled = false, -- automatically check for plugin updates
   },
   performance = {
     disabled_plugins = {

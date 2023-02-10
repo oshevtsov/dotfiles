@@ -34,9 +34,9 @@ api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 })
 
 api.nvim_create_autocmd("User", {
- group = my_autocmds,
- pattern = "VeryLazy",
- callback = function()
-  require("core.keymaps")
- end,
+  group = my_autocmds,
+  pattern = "VeryLazy",
+  callback = function()
+    require("core.keymaps")
+  end,
 })

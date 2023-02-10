@@ -2,6 +2,7 @@ return {
   settings = {
     Lua = {
       diagnostics = { globals = { "vim" } },
+      format = { enable = false },
       telemetry = { enable = false },
       runtime = { version = _VERSION },
       semantic = { enable = false },

@@ -1,6 +1,5 @@
 -- Neovim Lua API
 local g = vim.g -- global editor variables
-local api = vim.api -- call vim api
 local opt = vim.opt -- editor options (equivalent to using :set)
 
 -- Map leader

@@ -17,7 +17,7 @@ function M.config()
       preview_bg_highlight = "Pmenu",
       autofold_depth = nil,
       auto_unfold_hover = true,
-      fold_markers = { '', '' },
+      fold_markers = { "", "" },
       wrap = false,
       keymaps = {
         close = { "<Esc>", "q" },
@@ -61,7 +61,7 @@ function M.config()
         Struct = { icon = "𝓢", hl = "@type" },
         Event = { icon = "🗲", hl = "@type" },
         Operator = { icon = "+", hl = "@operator" },
-        TypeParameter = { icon = "𝙏", hl = "@parameter" }
+        TypeParameter = { icon = "𝙏", hl = "@parameter" },
       },
     })
   end

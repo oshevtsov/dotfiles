@@ -57,13 +57,14 @@ function M.config()
       completion = {
         keyword_length = 1,
       },
-      sources = {
-        { name = "luasnip" },
+      sources = cmp.config.sources({
         { name = "nvim_lsp" },
+        { name = "luasnip" },
+      }, {
         { name = "buffer" },
         { name = "path" },
         { name = "nvim_lsp_signature_help" },
-      },
+      }),
       mapping = {
         ["<C-j>"] = cmp.mapping.select_next_item(),
         ["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -73,7 +74,7 @@ function M.config()
           end
         end, {
           "i",
-          "s"
+          "s",
         }),
         ["<C-p>"] = cmp.mapping(function()
           if luasnip.jumpable(-1) then
@@ -81,7 +82,7 @@ function M.config()
           end
         end, {
           "i",
-          "s"
+          "s",
         }),
         ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
         ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
