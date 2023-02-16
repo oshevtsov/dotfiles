@@ -10,12 +10,11 @@ function M.config()
       ensure_installed = {
         "pyright",
         "rust_analyzer",
-        "sumneko_lua",
+        "lua_ls",
         "tsserver",
         "jsonls",
         "yamlls",
       },
-
       -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
       -- This setting has no relation with the `ensure_installed` setting.
       -- Can either be:

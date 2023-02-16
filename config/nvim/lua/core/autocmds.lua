@@ -27,10 +27,25 @@ api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*.avsc",
 })
 
+-- Treat *.mdx files as markdown
 api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "set ft=markdown",
   group = my_autocmds,
   pattern = "*.mdx",
+})
+
+-- Treat *.tf files as terraform
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  command = "set ft=terraform",
+  group = my_autocmds,
+  pattern = { "*.tf", "*.tfvars" },
+})
+
+-- Recognize HCL files
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  command = "set ft=hcl",
+  group = my_autocmds,
+  pattern = "*.hcl",
 })
 
 api.nvim_create_autocmd("User", {
