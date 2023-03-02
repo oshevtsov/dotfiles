@@ -1,230 +1,238 @@
 return {
-	-- Color scheme
-	{
-		require("core.colorscheme").repo,
-		config = function()
-			require("core.colorscheme"):config()
-		end,
-	},
+  -- Color scheme
+  {
+    require("core.colorscheme").repo,
+    config = function()
+      require("core.colorscheme"):config()
+    end,
+  },
 
-	-- File explorer
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		},
-		init = function()
-			vim.g.neo_tree_remove_legacy_commands = true
-		end,
-		config = function()
-			require("configs.neo-tree").config()
-		end,
-	},
+  -- File explorer
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    },
+    init = function()
+      vim.g.neo_tree_remove_legacy_commands = true
+    end,
+    config = function()
+      require("configs.neo-tree").config()
+    end,
+  },
 
-	-- Surround selections
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		config = function()
-			require("nvim-surround").setup({})
-		end,
-	},
+  -- Icons
+  {
+    "nvim-tree/nvim-web-devicons",
+    config = function()
+      require("configs.nvim-web-devicons").config()
+    end,
+  },
 
-	-- Commenting
-	{
-		"numToStr/Comment.nvim",
-		config = function()
-			require("configs.comment").config()
-		end,
-	},
+  -- Surround selections
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require("nvim-surround").setup({})
+    end,
+  },
 
-	-- Better buffer closing
-	{
-		"famiu/bufdelete.nvim",
-		cmd = { "Bdelete", "Bwipeout" },
-	},
+  -- Commenting
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("configs.comment").config()
+    end,
+  },
 
-	-- Statusline
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("configs.lualine").config()
-		end,
-	},
+  -- Better buffer closing
+  {
+    "famiu/bufdelete.nvim",
+    cmd = { "Bdelete", "Bwipeout" },
+  },
 
-	-- Bufferline
-	{
-		"akinsho/bufferline.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("configs.bufferline").config()
-		end,
-	},
+  -- Statusline
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("configs.lualine").config()
+    end,
+  },
 
-	-- Handy mappings
-	{
-		"tpope/vim-unimpaired",
-	},
+  -- Bufferline
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("configs.bufferline").config()
+    end,
+  },
 
-	-- Git integration
-	{
-		"tpope/vim-fugitive",
-	},
+  -- Handy mappings
+  {
+    "tpope/vim-unimpaired",
+  },
 
-	-- Tmux integration (navigation + resize)
-	{
-		"aserowy/tmux.nvim",
-		config = function()
-			require("configs.tmux").config()
-		end,
-	},
+  -- Git integration
+  {
+    "tpope/vim-fugitive",
+  },
 
-	-- Git signs
-	{
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("configs.gitsigns").config()
-		end,
-	},
+  -- Tmux integration (navigation + resize)
+  {
+    "aserowy/tmux.nvim",
+    config = function()
+      require("configs.tmux").config()
+    end,
+  },
 
-	-- Terminal integration
-	{
-		"akinsho/toggleterm.nvim",
-		config = function()
-			require("configs.toggleterm").config()
-		end,
-	},
+  -- Git signs
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("configs.gitsigns").config()
+    end,
+  },
 
-	-- Fuzzy finder
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "make",
-			},
-		},
-		config = function()
-			require("configs.telescope").config()
-		end,
-	},
+  -- Terminal integration
+  {
+    "akinsho/toggleterm.nvim",
+    config = function()
+      require("configs.toggleterm").config()
+    end,
+  },
 
-	-- Syntax highlighting
-	{
-		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"p00f/nvim-ts-rainbow",
-			"windwp/nvim-ts-autotag",
-			"JoosepAlviste/nvim-ts-context-commentstring",
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
-		build = function()
-			require("nvim-treesitter.install").update({ with_sync = true })()
-		end,
-		config = function()
-			require("configs.treesitter").config()
-		end,
-	},
+  -- Fuzzy finder
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+      },
+    },
+    config = function()
+      require("configs.telescope").config()
+    end,
+  },
 
-	-- Dashboard
-	{
-		"glepnir/dashboard-nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		event = "VimEnter",
-		config = function()
-			require("configs.dashboard-nvim").config()
-		end,
-	},
+  -- Syntax highlighting
+  {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "p00f/nvim-ts-rainbow",
+      "windwp/nvim-ts-autotag",
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    build = function()
+      require("nvim-treesitter.install").update({ with_sync = true })()
+    end,
+    config = function()
+      require("configs.treesitter").config()
+    end,
+  },
 
-	-- Smooth escaping
-	{
-		"max397574/better-escape.nvim",
-		event = "InsertCharPre",
-		config = function()
-			require("configs.better-escape").config()
-		end,
-	},
+  -- Dashboard
+  {
+    "glepnir/dashboard-nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    event = "VimEnter",
+    config = function()
+      require("configs.dashboard-nvim").config()
+    end,
+  },
 
-	-- JSON schemas
-	{
-		"b0o/SchemaStore.nvim",
-	},
+  -- Smooth escaping
+  {
+    "max397574/better-escape.nvim",
+    event = "InsertCharPre",
+    config = function()
+      require("configs.better-escape").config()
+    end,
+  },
 
-	-- Completion engine
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"saadparwaiz1/cmp_luasnip",
-			{
-				"L3MON4D3/LuaSnip",
-				dependencies = {
-					"rafamadriz/friendly-snippets",
-				},
-				config = function()
-					require("configs.luasnip").config()
-				end,
-			},
-		},
-		event = "InsertEnter",
-		config = function()
-			require("configs.nvim-cmp").config()
-		end,
-	},
+  -- JSON schemas
+  {
+    "b0o/SchemaStore.nvim",
+  },
 
-	-- Package manager for LSP servers, DAP servers, linters, and formatters
-	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("configs.mason").config()
-		end,
-	},
+  -- Completion engine
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "saadparwaiz1/cmp_luasnip",
+      {
+        "L3MON4D3/LuaSnip",
+        dependencies = {
+          "rafamadriz/friendly-snippets",
+        },
+        config = function()
+          require("configs.luasnip").config()
+        end,
+      },
+    },
+    event = "InsertEnter",
+    config = function()
+      require("configs.nvim-cmp").config()
+    end,
+  },
 
-	-- Built-in LSP
-	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = {
-			"williamboman/mason.nvim",
-			{
-				"neovim/nvim-lspconfig",
-				config = function()
-					require("configs.lsp").setup()
-				end,
-			},
-		},
-		config = function()
-			require("configs.mason-lspconfig").config()
-		end,
-	},
+  -- Package manager for LSP servers, DAP servers, linters, and formatters
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("configs.mason").config()
+    end,
+  },
 
-	-- Formatting and linting
-	{
-		"jayp0521/mason-null-ls.nvim",
-		dependencies = {
-			"williamboman/mason.nvim",
-			{
-				"jose-elias-alvarez/null-ls.nvim",
-				dependencies = {
-					"nvim-lua/plenary.nvim",
-				},
-			},
-		},
-		config = function()
-			require("configs.mason-null-ls").config()
-		end,
-	},
+  -- Built-in LSP
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      {
+        "neovim/nvim-lspconfig",
+        config = function()
+          require("configs.lsp").setup()
+        end,
+      },
+    },
+    config = function()
+      require("configs.mason-lspconfig").config()
+    end,
+  },
+
+  -- Formatting and linting
+  {
+    "jayp0521/mason-null-ls.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      {
+        "jose-elias-alvarez/null-ls.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim",
+        },
+      },
+    },
+    config = function()
+      require("configs.mason-null-ls").config()
+    end,
+  },
 }

@@ -29,7 +29,7 @@ function M.config()
         null_ls.builtins.formatting.stylua.with({
           extra_args = { "--config-path", vim.fn.stdpath("config") .. "/stylua.toml" },
         }),
-        null_ls.builtins.diagnostics.credo,
+        --[[ null_ls.builtins.diagnostics.credo, ]]
         null_ls.builtins.diagnostics.flake8,
       },
     })
