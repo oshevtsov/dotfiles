@@ -1,11 +1,1 @@
-return {
-  settings = {
-    yaml = {
-      schemaStore = {
-        url = "https://www.schemastore.org/api/json/catalog.json",
-        enable = true,
-      },
-      completion = true,
-    },
-  },
-}
+return require("yaml-companion").setup()

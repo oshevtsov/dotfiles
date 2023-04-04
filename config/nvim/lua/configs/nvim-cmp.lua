@@ -54,16 +54,11 @@ function M.config()
       experimental = {
         ghost_text = false,
       },
-      completion = {
-        keyword_length = 1,
-      },
       sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-      }, {
-        { name = "buffer" },
-        { name = "path" },
-        { name = "nvim_lsp_signature_help" },
+        { name = "nvim_lsp", priority = 1000 },
+        { name = "luasnip", priority = 750 },
+        { name = "buffer", priority = 500 },
+        { name = "path", priority = 250 },
       }),
       mapping = {
         ["<C-j>"] = cmp.mapping.select_next_item(),

@@ -7,6 +7,14 @@ return {
     end,
   },
 
+  -- Smart indentation
+  {
+    "nmac427/guess-indent.nvim",
+    config = function()
+      require("guess-indent").setup({})
+    end,
+  },
+
   -- File explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -169,6 +177,24 @@ return {
     "b0o/SchemaStore.nvim",
   },
 
+  -- YAML companion
+  {
+    "someone-stole-my-name/yaml-companion.nvim",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("yaml_schema")
+    end,
+  },
+
+  -- Kubernetes Helm templates support
+  {
+    "towolf/vim-helm",
+  },
+
   -- Completion engine
   {
     "hrsh7th/nvim-cmp",
@@ -176,7 +202,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
       "saadparwaiz1/cmp_luasnip",
       {
         "L3MON4D3/LuaSnip",
@@ -221,7 +246,7 @@ return {
 
   -- Formatting and linting
   {
-    "jayp0521/mason-null-ls.nvim",
+    "jay-babu/mason-null-ls.nvim",
     dependencies = {
       "williamboman/mason.nvim",
       {
