@@ -8,7 +8,7 @@ function M.config()
         "astro",
         "bash",
         "go",
-        "help",
+        "vimdoc",
         "javascript",
         "json",
         "lua",
