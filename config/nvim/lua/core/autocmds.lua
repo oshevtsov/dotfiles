@@ -38,7 +38,14 @@ api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "set ft=terraform",
   group = my_autocmds,
-  pattern = { "*.tf", "*.tfvars" },
+  pattern = "*.tf",
+})
+
+-- Treat *.tfvars files as terraform-vars
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  command = "set ft=terraform-vars",
+  group = my_autocmds,
+  pattern = "*.tfvars",
 })
 
 -- Recognize HCL files
