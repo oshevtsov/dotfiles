@@ -3,6 +3,7 @@ local M = {}
 function M.config()
   local status_ok, telescope = pcall(require, "telescope")
   if status_ok then
+    local lga_actions = require("telescope-live-grep-args.actions")
     local actions = require("telescope.actions")
 
     -- custom actions mappings
@@ -125,9 +126,20 @@ function M.config()
           },
         },
       },
-      extensions = {},
+      extensions = {
+        live_grep_args = {
+          auto_quoting = true,
+          mappings = {
+            i = {
+              ["<C-m>"] = lga_actions.quote_prompt(),
+              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+            },
+          },
+        },
+      },
     })
 
+    telescope.load_extension("live_grep_args")
     telescope.load_extension("fzf")
   end
 end

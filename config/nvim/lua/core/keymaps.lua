@@ -58,7 +58,8 @@ map(
   "<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>",
   { desc = "Search dotfiles" }
 )
-map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Search grep" })
+map("n", "<leader>rr", "<cmd>Telescope resume<CR>", { desc = "Resume the last picker" })
+map("n", "<leader>fg", "<cmd>Telescope live_grep_args<CR>", { desc = "Search grep" })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "Git status" })
 map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "Git branches" })
 map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "Git commits" })
