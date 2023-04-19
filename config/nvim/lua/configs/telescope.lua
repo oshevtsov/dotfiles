@@ -129,12 +129,6 @@ function M.config()
       extensions = {
         live_grep_args = {
           auto_quoting = true,
-          mappings = {
-            i = {
-              ["<C-m>"] = lga_actions.quote_prompt(),
-              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-            },
-          },
         },
       },
     })
