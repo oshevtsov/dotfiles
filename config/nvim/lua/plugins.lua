@@ -154,13 +154,12 @@ return {
 
   -- Dashboard
   {
-    "glepnir/dashboard-nvim",
+    "goolord/alpha-nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    event = "VimEnter",
     config = function()
-      require("configs.dashboard-nvim").config()
+      require("configs.alpha").config()
     end,
   },
 
