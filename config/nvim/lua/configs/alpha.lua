@@ -31,7 +31,7 @@ function M.config()
       dashboard.button("f", "  Find file", ":Telescope find_files<CR>"),
       dashboard.button("o", "  Recents", ":Telescope oldfiles<CR>"),
       dashboard.button("g", "  Find word", ":Telescope live_grep_args<CR>"),
-      dashboard.button("n", "  New file", ":enew"),
+      dashboard.button("n", "  New file", ":enew<CR>"),
       dashboard.button("m", "  Bookmarks", ":Telescope marks<CR>"),
       dashboard.button("q", "  Quit", ":qa<CR>"),
     }

@@ -5,7 +5,7 @@ function M.config()
   if status_ok then
     local config = {
       options = {
-        disabled_filetypes = { "NvimTree", "neo-tree", "dashboard" },
+        disabled_filetypes = { "NvimTree", "neo-tree", "dashboard", "alpha" },
       },
     }
 
