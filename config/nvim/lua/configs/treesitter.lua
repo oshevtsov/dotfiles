@@ -38,12 +38,6 @@ function M.config()
         enable = true,
         enable_autocmd = false,
       },
-      rainbow = {
-        enable = true,
-        disable = { "html" },
-        extended_mode = false,
-        max_file_lines = nil,
-      },
       autotag = {
         enable = true,
       },

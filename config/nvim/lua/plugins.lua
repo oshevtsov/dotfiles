@@ -139,7 +139,6 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      "p00f/nvim-ts-rainbow",
       "windwp/nvim-ts-autotag",
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
