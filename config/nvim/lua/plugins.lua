@@ -240,6 +240,7 @@ return {
       "williamboman/mason.nvim",
       {
         "neovim/nvim-lspconfig",
+        "simrat39/rust-tools.nvim",
         config = function()
           require("configs.lsp").setup()
         end,

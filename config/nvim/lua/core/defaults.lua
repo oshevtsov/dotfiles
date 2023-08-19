@@ -1,9 +1,21 @@
 local defaults = {
   colorscheme = {
-    -- if you get bored, try https://github.com/catppuccin/catppuccin
+    -- catppuccin, see https://github.com/catppuccin/catppuccin
+    -- repo = "catppuccin/nvim",
+    -- name = "catppuccin",
+    -- theme = "catppuccin",
+    -- config = {
+    --   -- latte, frappe, macchiato, mocha
+    --   flavour = "macchiato",
+    --   styles = {
+    --     comments = { "italic" },
+    --   },
+    -- },
+    -- Nightfox, see https://github.com/EdenEast/nightfox.nvim
     repo = "EdenEast/nightfox.nvim",
     name = "nightfox",
-    theme = "nightfox",
+    -- variants: nightfox, dayfox, dawnfox, duskfox, nordfox, terafox, carbonfox
+    theme = "dayfox",
     config = {
       options = {
         styles = {

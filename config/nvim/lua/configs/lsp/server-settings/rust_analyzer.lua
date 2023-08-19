@@ -2,7 +2,7 @@ return {
   settings = {
     ["rust-analyzer"] = {
       -- enable clippy on save
-      checkOnSave = {
+      check = {
         command = "clippy",
       },
     },

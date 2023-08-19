@@ -8,11 +8,11 @@ function M.config()
       -- Example: { "rust_analyzer@nightly", "sumneko_lua" }
       -- This setting has no relation with the `automatic_installation` setting.
       ensure_installed = {
+        "jsonls",
+        "lua_ls",
         "pyright",
         "rust_analyzer",
-        "lua_ls",
         "tsserver",
-        "jsonls",
         "yamlls",
       },
       -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
@@ -35,9 +35,19 @@ function M.config()
       end,
 
       -- Next, you can provide targeted overrides for specific servers.
-      -- ["rust_analyzer"] = function ()
-      --     require("rust-tools").setup {}
-      -- end,
+      ["rust_analyzer"] = function()
+        local lsp = require("configs.lsp")
+        local server = require("lspconfig")["rust_analyzer"]
+        local server_settings = lsp:server_settings(server)
+        require("rust-tools").setup({
+          tools = {
+            -- how to execute terminal commands
+            -- options right now: termopen / quickfix / toggleterm / vimux
+            executor = require("rust-tools.executors").toggleterm,
+          },
+          server = server_settings,
+        })
+      end,
     })
   end
 end

@@ -129,6 +129,10 @@ function M.config()
       extensions = {
         live_grep_args = {
           auto_quoting = true,
+          mappings = {
+            i = multi_open_mappings,
+            n = multi_open_mappings,
+          },
         },
       },
     })
