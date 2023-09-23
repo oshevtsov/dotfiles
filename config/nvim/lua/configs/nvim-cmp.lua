@@ -32,6 +32,11 @@ function M.config()
       TypeParameter = "",
     }
 
+    local border_opts = {
+      border = "rounded",
+      winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+    }
+
     cmp.setup({
       preselect = cmp.PreselectMode.None,
       formatting = {
@@ -47,12 +52,11 @@ function M.config()
         end,
       },
       window = {
-        documentation = {
-          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        },
+        completion = cmp.config.window.bordered(border_opts),
+        documentation = cmp.config.window.bordered(border_opts),
       },
       experimental = {
-        ghost_text = false,
+        ghost_text = true,
       },
       sources = cmp.config.sources({
         { name = "nvim_lsp", priority = 1000 },
@@ -82,6 +86,13 @@ function M.config()
         ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
         ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
         ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+        ["<C-s>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              { name = "luasnip" },
+            },
+          },
+        }),
         ["<C-y>"] = cmp.config.disable,
         ["<C-e>"] = cmp.mapping({
           i = cmp.mapping.abort(),

@@ -159,15 +159,15 @@ return {
   --     require("configs.dashboard-nvim").config()
   --   end,
   -- },
-  -- {
-  --   "goolord/alpha-nvim",
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  --   config = function()
-  --     require("configs.alpha").config()
-  --   end,
-  -- },
+  {
+    "goolord/alpha-nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("configs.alpha").config()
+    end,
+  },
 
   -- Smooth escaping
   {

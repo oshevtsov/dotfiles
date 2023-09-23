@@ -6,7 +6,6 @@ function M.config()
   if status_ok then
     local stats = require("lazy").stats()
     local dashboard = require("alpha.themes.dashboard")
-    dashboard.section.header.opts.hl = "DashboardHeader"
     dashboard.section.header.val = {
       " ",
       " ",
@@ -22,6 +21,9 @@ function M.config()
       " ",
       " ",
     }
+    dashboard.section.header.opts.hl = "DashboardHeader"
+    dashboard.section.footer.opts.hl = "DashboardFooter"
+
     dashboard.section.buttons.val = {
       dashboard.button(
         "d",
