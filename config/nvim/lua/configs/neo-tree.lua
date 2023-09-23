@@ -3,6 +3,7 @@ local M = {}
 function M.config()
   local status_ok, neotree = pcall(require, "neo-tree")
   if status_ok then
+    -- https://github.com/nvim-neo-tree/neo-tree.nvim/blob/v3.x/lua/neo-tree/defaults.lua
     neotree.setup({
       close_if_last_window = false,
       popup_border_style = "rounded",
@@ -10,7 +11,7 @@ function M.config()
       default_component_configs = {
         indent = {
           padding = 1,
-          with_expanders = true,
+          with_expanders = nil,
         },
         icon = {
           folder_closed = "",
@@ -40,9 +41,9 @@ function M.config()
       },
       filesystem = {
         filtered_items = {
-          visible = false,
+          visible = true,
           hide_dotfiles = true,
-          hide_gitignored = false,
+          hide_gitignored = true,
           hide_by_name = {
             ".DS_Store",
             "thumbs.db",
@@ -50,22 +51,15 @@ function M.config()
             "__pycache__",
           },
         },
-        follow_current_file = true,
+        follow_current_file = { enabled = true },
         hijack_netrw_behavior = "open_current",
         use_libuv_file_watcher = true,
       },
-      git_status = {
-        window = {
-          position = "float",
-        },
-      },
       event_handlers = {
         {
-          event = "vim_buffer_enter",
+          event = "neo_tree_buffer_enter",
           handler = function(_)
-            if vim.bo.filetype == "neo-tree" then
-              vim.wo.signcolumn = "auto"
-            end
+            vim.opt_local.signcolumn = "auto"
           end,
         },
         {

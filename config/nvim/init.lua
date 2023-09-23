@@ -14,7 +14,7 @@ require("core.utils").initialize_lazy().setup("plugins", {
       "gzip",
       -- "matchit",
       -- "matchparen",
-      "netrwPlugin",
+      -- "netrwPlugin",
       "tarPlugin",
       "tohtml",
       "tutor",
