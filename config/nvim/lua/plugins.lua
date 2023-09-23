@@ -209,6 +209,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
+      "rcarriga/cmp-dap",
       {
         "L3MON4D3/LuaSnip",
         dependencies = {
@@ -225,46 +226,43 @@ return {
     end,
   },
 
+  -- Built-in LSP
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "simrat39/rust-tools.nvim",
+    },
+    config = function()
+      require("configs.lsp").setup()
+    end,
+  },
+
   -- Package manager for LSP servers, DAP servers, linters, and formatters
   {
     "williamboman/mason.nvim",
-    config = function()
-      require("configs.mason").config()
-    end,
-  },
-
-  -- Built-in LSP
-  {
-    "williamboman/mason-lspconfig.nvim",
     dependencies = {
-      "williamboman/mason.nvim",
+      -- LSP servers
+      "nvim-lua/plenary.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      -- Formatting and linting
+      "jay-babu/mason-null-ls.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+      -- Debugger
       {
-        "neovim/nvim-lspconfig",
-        "simrat39/rust-tools.nvim",
-        config = function()
-          require("configs.lsp").setup()
-        end,
-      },
-    },
-    config = function()
-      require("configs.mason-lspconfig").config()
-    end,
-  },
-
-  -- Formatting and linting
-  {
-    "jay-babu/mason-null-ls.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-      {
-        "jose-elias-alvarez/null-ls.nvim",
+        "jay-babu/mason-nvim-dap.nvim",
         dependencies = {
-          "nvim-lua/plenary.nvim",
+          {
+            "rcarriga/nvim-dap-ui",
+            dependencies = { "mfussenegger/nvim-dap" },
+            config = function()
+              require("configs.nvim-dap-ui").config()
+            end,
+          },
         },
       },
     },
     config = function()
-      require("configs.mason-null-ls").config()
+      require("configs.mason").config()
     end,
   },
 }

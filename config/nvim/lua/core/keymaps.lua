@@ -72,7 +72,7 @@ map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", { desc = "Search man" })
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", { desc = "Search registers" })
 map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", { desc = "Search keymaps" })
 map("n", "<leader>sc", "<cmd>Telescope commands<CR>", { desc = "Search commands" })
-map("n", "<leader>dd", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Document diagnostics" })
+map("n", "<leader>bd", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer diagnostics" })
 map("n", "<leader>wd", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace diagnostics" })
 map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Diagnostic previous" })
@@ -91,3 +91,37 @@ map("t", "<C-j>", "<C-\\><C-n><C-W>j", { desc = "Terminal down window navigation
 map("t", "<C-k>", "<C-\\><C-n><C-W>k", { desc = "Terminal up window navigation", silent = true })
 map("t", "<C-l>", "<C-\\><C-n><C-W>l", { desc = "Terminal right window naviation", silent = true })
 map("t", "<C-t>", "<cmd>ToggleTermToggleAll<CR>", { desc = "Toggle all terminal windows", silent = true })
+
+-- Debugger
+local core_utils = require("core.utils")
+if core_utils.is_plugin_available("nvim-dap") then
+  map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Debugger: Start/Continue" })
+  map("n", "<leader>dq", "<cmd>DapTerminate<CR>", { desc = "Debugger: Stop" })
+  map("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debugger: Toggle breakpoint" })
+  map("n", "<leader>di", "<cmd>DapStepInto<CR>", { desc = "Debugger: Step into" })
+  map("n", "<leader>do", "<cmd>DapStepOver<CR>", { desc = "Debugger: Step over" })
+  map("n", "<leader>dO", "<cmd>DapStepOut<CR>", { desc = "Debugger: Step out" })
+  map("n", "<leader>dr", "<cmd>DapRestartFrame<CR>", { desc = "Debugger: Restart frame" })
+  map("n", "<leader>dR", "<cmd>DapToggleRepl<CR>", { desc = "Debugger: Toggle REPL" })
+
+  map("n", "<leader>dC", function()
+    vim.ui.input({ prompt = "Condition: " }, function(condition)
+      if condition then
+        require("dap").set_breakpoint(condition)
+      end
+    end)
+  end, { desc = "Debugger: Set conditional breakpoint" })
+  map("n", "<leader>dB", function()
+    require("dap").clear_breakpoints()
+  end, { desc = "Debugger: Toggle breakpoint" })
+
+  if core_utils.is_plugin_available("nvim-dap-ui") then
+    map("n", "<leader>dh", function()
+      require("dap.ui.widgets").hover()
+    end, { desc = "Debugger: Hover over" })
+    map("n", "<leader>dv", function()
+      local widgets = require("dap.ui.widgets")
+      widgets.centered_float(widgets.scopes)
+    end, { desc = "Debugger: View variables in the current scopes" })
+  end
+end

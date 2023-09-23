@@ -38,6 +38,11 @@ function M.config()
     }
 
     cmp.setup({
+      enabled = function()
+        local cmp_dap_ok, cmp_dap = pcall(require, "cmp_dap")
+        local is_prompt = vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+        return is_prompt or cmp_dap_ok and cmp_dap.is_dap_buffer()
+      end,
       preselect = cmp.PreselectMode.None,
       formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -123,6 +128,12 @@ function M.config()
           "i",
           "s",
         }),
+      },
+    })
+
+    cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+      sources = {
+        { name = "dap" },
       },
     })
   end

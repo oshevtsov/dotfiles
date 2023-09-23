@@ -35,4 +35,10 @@ function M:toggle_term_cmd(cmd)
   self.user_terminals[cmd]:toggle()
 end
 
+--- Check if a plugin is defined in lazy.nvim (useful when a plugin may not be loaded yet)
+function M.is_plugin_available(plugin_name)
+  local lazy_config_avail, lazy_config = pcall(require, "lazy.core.config")
+  return lazy_config_avail and lazy_config.spec.plugins[plugin_name] ~= nil
+end
+
 return M
