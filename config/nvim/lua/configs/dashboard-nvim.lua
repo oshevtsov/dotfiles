@@ -4,7 +4,7 @@ function M.config()
   local status_ok, db = pcall(require, "dashboard")
 
   if status_ok then
-    local utils = require("dashboard.utils")
+    local stats = require("dashboard.utils").get_package_manager_stats()
     db.setup({
       theme = "doom",
       config = {
@@ -63,11 +63,17 @@ function M.config()
             key = "m",
             action = "Telescope marks",
           },
+          {
+            icon = "  ",
+            desc = "Quit                      ",
+            key = "q",
+            action = "qa",
+          },
         },
         footer = {
           "",
           "",
-          "✨ neovim loaded " .. utils.get_packages_count() .. " packages",
+          "✨ neovim loaded " .. stats.loaded .. " of " .. stats.count .. " packages",
         },
       },
     })
