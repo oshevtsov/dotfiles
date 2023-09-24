@@ -241,12 +241,14 @@ return {
   {
     "williamboman/mason.nvim",
     dependencies = {
+      -- Mason tools management
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
       -- LSP servers
       "nvim-lua/plenary.nvim",
       "williamboman/mason-lspconfig.nvim",
       -- Formatting and linting
-      "jay-babu/mason-null-ls.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
+      "mfussenegger/nvim-lint",
+      "mhartington/formatter.nvim",
       -- Debugger
       {
         "jay-babu/mason-nvim-dap.nvim",

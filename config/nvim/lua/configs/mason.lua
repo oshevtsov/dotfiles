@@ -13,8 +13,10 @@ function M.config()
       },
     })
 
+    require("configs.mason-tools-installer").config()
     require("configs.mason-lspconfig").config()
-    require("configs.mason-null-ls").config()
+    require("configs.nvim-lint").config()
+    require("configs.formatter").config()
     require("configs.mason-nvim-dap").config()
   end
 end

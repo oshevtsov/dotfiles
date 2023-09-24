@@ -55,10 +55,22 @@ api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*.hcl",
 })
 
+-- Set up keymaps
 api.nvim_create_autocmd("User", {
-  group = my_autocmds,
-  pattern = "VeryLazy",
   callback = function()
     require("core.keymaps")
   end,
+  group = my_autocmds,
+  pattern = "VeryLazy",
+})
+
+-- Set up format-on-save and linting
+-- NOTE: This will run for languages whose LSP does not support formatting
+api.nvim_create_autocmd("BufWritePost", {
+  callback = function()
+    vim.cmd("FormatWriteLock")
+    require("lint").try_lint()
+  end,
+  group = my_autocmds,
+  pattern = "*",
 })
