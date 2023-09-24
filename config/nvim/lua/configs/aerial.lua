@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 function M.config()
   local status_ok, aerial = pcall(require, "aerial")

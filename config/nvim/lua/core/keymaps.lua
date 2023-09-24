@@ -102,8 +102,10 @@ if core_utils.is_plugin_available("nvim-dap") then
   map("n", "<leader>do", "<cmd>DapStepOver<CR>", { desc = "Debugger: Step over" })
   map("n", "<leader>dO", "<cmd>DapStepOut<CR>", { desc = "Debugger: Step out" })
   map("n", "<leader>dr", "<cmd>DapRestartFrame<CR>", { desc = "Debugger: Restart frame" })
-  map("n", "<leader>dR", "<cmd>DapToggleRepl<CR>", { desc = "Debugger: Toggle REPL" })
 
+  map("n", "<leader>dR", function()
+    require("dap").restart()
+  end, { desc = "Debugger: Restart session" })
   map("n", "<leader>dC", function()
     vim.ui.input({ prompt = "Condition: " }, function(condition)
       if condition then

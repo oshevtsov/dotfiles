@@ -4,7 +4,7 @@ function M.config()
   local luasnip_ok, luasnip = pcall(require, "luasnip")
   if luasnip_ok then
     -- Keep memory of the snippet to be able to cycle placeholders at any time
-    luasnip.config.setup({
+    luasnip.setup({
       history = true,
       delete_check_events = "TextChanged",
       region_check_events = "CursorMoved",

@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 function M.config()
   local dap_ok, dap = pcall(require, "dap")
