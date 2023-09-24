@@ -152,13 +152,6 @@ return {
   },
 
   -- Dashboard
-  -- {
-  --   "nvimdev/dashboard-nvim",
-  --   event = "VimEnter",
-  --   config = function()
-  --     require("configs.dashboard-nvim").config()
-  --   end,
-  -- },
   {
     "goolord/alpha-nvim",
     dependencies = {
