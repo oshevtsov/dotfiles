@@ -150,12 +150,12 @@ local function multiopen(prompt_bufnr, method)
           vim.api.nvim_buf_set_option(entry_bufnr, "buflisted", true)
         end
         local command = i == 1 and "buffer" or edit_buf_cmd_map[method]
-        pcall(vim.cmd, string.format("%s %s", command, vim.api.nvim_buf_get_name(entry_bufnr)))
+        pcall(vim.api.nvim_exec2, string.format("%s %s", command, vim.api.nvim_buf_get_name(entry_bufnr)))
       else
         local command = i == 1 and "edit" or edit_file_cmd_map[method]
         if vim.api.nvim_buf_get_name(0) ~= filename or command ~= "edit" then
           filename = require("plenary.path"):new(vim.fn.fnameescape(filename)):normalize(vim.loop.cwd())
-          pcall(vim.cmd, string.format("%s %s", command, filename))
+          pcall(vim.api.nvim_exec2, string.format("%s %s", command, filename))
         end
       end
 

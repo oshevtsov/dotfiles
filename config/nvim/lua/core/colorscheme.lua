@@ -5,7 +5,7 @@ local colorscheme = require("core.defaults").colorscheme
 M.repo = colorscheme.repo
 
 function M.load_scheme()
-  local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme.theme)
+  local status_ok, _ = pcall(vim.api.nvim_exec2, "colorscheme " .. colorscheme.theme, { output = false })
   if not status_ok then
     vim.notify("colorscheme " .. colorscheme.theme .. " not found!")
   end
