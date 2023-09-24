@@ -131,7 +131,13 @@ function M.config()
       },
     })
 
-    cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+    cmp.setup.filetype({
+      -- uncomment below when https://github.com/rcarriga/cmp-dap/issues/7 is fixed,
+      -- for now - use <C-x><C-o> to use omnifunc for completion suggestions
+      -- "dap-repl",
+      "dapui_watches",
+      "dapui_hover",
+    }, {
       sources = {
         { name = "dap" },
       },

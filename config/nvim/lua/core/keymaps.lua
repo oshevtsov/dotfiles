@@ -96,7 +96,7 @@ map("t", "<C-t>", "<cmd>ToggleTermToggleAll<CR>", { desc = "Toggle all terminal 
 local core_utils = require("core.utils")
 if core_utils.is_plugin_available("nvim-dap") then
   map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Debugger: Start/Continue" })
-  map("n", "<leader>dq", "<cmd>DapTerminate<CR>", { desc = "Debugger: Stop" })
+  map("n", "<leader>dq", "<cmd>DapTerminate<CR>", { desc = "Debugger: Terminate" })
   map("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debugger: Toggle breakpoint" })
   map("n", "<leader>di", "<cmd>DapStepInto<CR>", { desc = "Debugger: Step into" })
   map("n", "<leader>do", "<cmd>DapStepOver<CR>", { desc = "Debugger: Step over" })
@@ -115,7 +115,7 @@ if core_utils.is_plugin_available("nvim-dap") then
   end, { desc = "Debugger: Set conditional breakpoint" })
   map("n", "<leader>dB", function()
     require("dap").clear_breakpoints()
-  end, { desc = "Debugger: Toggle breakpoint" })
+  end, { desc = "Debugger: Clear all breakpoints" })
 
   if core_utils.is_plugin_available("nvim-dap-ui") then
     map("n", "<leader>dh", function()
