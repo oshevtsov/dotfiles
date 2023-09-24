@@ -40,7 +40,7 @@ function M.config()
     dashboard.section.footer.val = {
       "",
       "",
-      "✨ neovim loaded " .. stats.loaded .. " of " .. stats.count .. " packages",
+      "✨ neovim has " .. stats.count .. " packages installed",
     }
     dashboard.config.opts.noautocmd = true
     alpha.setup(dashboard.config)

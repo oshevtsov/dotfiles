@@ -152,22 +152,22 @@ return {
   },
 
   -- Dashboard
-  {
-    "nvimdev/dashboard-nvim",
-    event = "VimEnter",
-    config = function()
-      require("configs.dashboard-nvim").config()
-    end,
-  },
   -- {
-  --   "goolord/alpha-nvim",
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
+  --   "nvimdev/dashboard-nvim",
+  --   event = "VimEnter",
   --   config = function()
-  --     require("configs.alpha").config()
+  --     require("configs.dashboard-nvim").config()
   --   end,
   -- },
+  {
+    "goolord/alpha-nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("configs.alpha").config()
+    end,
+  },
 
   -- Smooth escaping
   {
