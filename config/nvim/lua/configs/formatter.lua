@@ -31,6 +31,9 @@ function M.config()
         typescriptreact = {
           prettier,
         },
+        yaml = {
+          prettier,
+        },
         -- Use the special "*" filetype for defining formatter configurations on any filetype
         ["*"] = {
           -- "formatter.filetypes.any" defines default configurations for any filetype

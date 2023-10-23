@@ -6,6 +6,7 @@ function M.config()
     lint.linters_by_ft = {
       python = { "flake8" },
       terraform = { "tflint" },
+      sh = { "shellcheck" },
     }
   end
 end
