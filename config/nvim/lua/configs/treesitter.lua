@@ -39,10 +39,6 @@ function M.config()
           node_decremental = "<C-Backspace>",
         },
       },
-      context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
-      },
       autotag = { enable = true },
       indent = { enable = true },
       textobjects = {

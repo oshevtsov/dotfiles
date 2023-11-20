@@ -13,6 +13,20 @@ function M.config()
           require("formatter.filetypes.lua").stylua,
         },
         python = {
+          -- function()
+          --   return {
+          --     exe = "ruff",
+          --     args = { "check", "--select", "I", "--fix", "-" },
+          --     stdin = true,
+          --   }
+          -- end,
+          -- function()
+          --   return {
+          --     exe = "ruff",
+          --     args = { "format", "-q", "-" },
+          --     stdin = true,
+          --   }
+          -- end,
           python_formatters.isort,
           python_formatters.black,
         },
@@ -32,6 +46,9 @@ function M.config()
           prettier,
         },
         yaml = {
+          prettier,
+        },
+        markdown = {
           prettier,
         },
         -- Use the special "*" filetype for defining formatter configurations on any filetype

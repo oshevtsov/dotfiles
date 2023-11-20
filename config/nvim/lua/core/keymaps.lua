@@ -50,6 +50,7 @@ map("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", { desc = "Tog
 map("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", { desc = "ToggleTerm vertical split" })
 map("n", "<leader>tp", "<cmd>lua require('core.utils'):toggle_term_cmd('python')<CR>", { desc = "ToggleTerm python" })
 map("n", "<leader>tn", "<cmd>lua require('core.utils'):toggle_term_cmd('node')<CR>", { desc = "ToggleTerm node" })
+map("n", "<leader>vv", "<cmd>TermExec cmd='vale %' direction=float<CR>", { desc = "ToggleTerm node" })
 
 -- Telescope
 map(
