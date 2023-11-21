@@ -153,17 +153,6 @@ return {
     end,
   },
 
-  -- Dashboard
-  {
-    "goolord/alpha-nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("configs.alpha").config()
-    end,
-  },
-
   -- Smooth escaping
   {
     "max397574/better-escape.nvim",
