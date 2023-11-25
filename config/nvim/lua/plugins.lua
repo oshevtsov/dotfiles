@@ -215,6 +215,8 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "simrat39/rust-tools.nvim",
+      "Hoffs/omnisharp-extended-lsp.nvim",
+      "Issafalcon/lsp-overloads.nvim",
     },
     config = function()
       require("configs.lsp").setup()
