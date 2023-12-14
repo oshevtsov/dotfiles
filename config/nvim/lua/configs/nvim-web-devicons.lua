@@ -10,6 +10,7 @@ function M.config()
       mp3 = { icon = "", name = "Mp3" },
       mp4 = { icon = "", name = "Mp4" },
       out = { icon = "", name = "Out" },
+      toml = { icon = "", color = "#6d8086", cterm_color = "66", name = "Toml" },
       ["robots.txt"] = { icon = "ﮧ", name = "Robots" },
       ttf = { icon = "", name = "TrueTypeFont" },
       rpm = { icon = "", name = "Rpm" },
