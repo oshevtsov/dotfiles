@@ -140,18 +140,18 @@ function M.on_attach(client, bufnr)
 
   if capabilities.signatureHelpProvider then
     map("n", "<C-s>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature documentation" })
-    local lsp_overloads_ok, lsp_overloads = pcall(require, "lsp-overloads")
-    if lsp_overloads_ok then
-      lsp_overloads.setup(client, {
-        keymaps = {
-          next_signature = "<M-j>",
-          previous_signature = "<M-k>",
-          next_parameter = "<M-l>",
-          previous_parameter = "<M-h>",
-          close_signature = "<M-s>",
-        },
-      })
-    end
+    -- local lsp_overloads_ok, lsp_overloads = pcall(require, "lsp-overloads")
+    -- if lsp_overloads_ok then
+    --   lsp_overloads.setup(client, {
+    --     keymaps = {
+    --       next_signature = "<M-j>",
+    --       previous_signature = "<M-k>",
+    --       next_parameter = "<M-l>",
+    --       previous_parameter = "<M-h>",
+    --       close_signature = "<M-s>",
+    --     },
+    --   })
+    -- end
   end
 
   if capabilities.typeDefinitionProvider then
