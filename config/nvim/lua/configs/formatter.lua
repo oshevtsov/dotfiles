@@ -45,6 +45,9 @@ function M.config()
         typescriptreact = {
           prettier,
         },
+        css = {
+          prettier,
+        },
         yaml = {
           prettier,
         },
