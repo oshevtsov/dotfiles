@@ -14,17 +14,8 @@ function M.config()
 
       -- Next, you can provide targeted overrides for specific servers.
       ["rust_analyzer"] = function()
-        local lsp = require("configs.lsp")
-        local server = require("lspconfig")["rust_analyzer"]
-        local server_settings = lsp:server_settings(server)
-        require("rust-tools").setup({
-          tools = {
-            -- how to execute terminal commands
-            -- options right now: termopen / quickfix / toggleterm / vimux
-            executor = require("rust-tools.executors").toggleterm,
-          },
-          server = server_settings,
-        })
+        -- rust_analyzer is set up automatically by the 'mrcjkb/rustaceanvim'
+        -- plugin (see corresponding lua config)
       end,
     }
 

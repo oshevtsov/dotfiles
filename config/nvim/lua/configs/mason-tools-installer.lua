@@ -11,7 +11,6 @@ function M.config()
         "lua-language-server",
         "json-lsp",
         "pyright",
-        "rust_analyzer",
         "tsserver",
         "yaml-language-server",
         -- Linters
