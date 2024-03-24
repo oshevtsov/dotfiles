@@ -23,6 +23,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
+      "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     init = function()
       vim.g.neo_tree_remove_legacy_commands = true
@@ -227,6 +228,13 @@ return {
     ft = { "rust" },
     config = function()
       require("configs.rustaceanvim").config()
+    end,
+  },
+  {
+    "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    config = function()
+      require("configs.crates").config()
     end,
   },
 

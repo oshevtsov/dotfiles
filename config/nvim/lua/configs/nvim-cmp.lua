@@ -5,31 +5,40 @@ function M.config()
   local snip_status_ok, luasnip = pcall(require, "luasnip")
   if cmp_status_ok and snip_status_ok then
     local kind_icons = {
-      Text = "",
-      Method = "",
-      Function = "",
+      Array = "󰅪",
+      Boolean = "⊨",
+      Key = "󰌆",
+      Namespace = "󰅪",
+      Null = "NULL",
+      Number = "#",
+      Object = "󰀚",
+      Package = "󰏗",
+      String = "󰀬",
+      Class = "󰠱",
+      Color = "󰏘",
+      Constant = "󰏿",
       Constructor = "",
-      Field = "ﰠ",
-      Variable = "",
-      Class = "",
-      Interface = "",
-      Module = "",
-      Property = "",
-      Unit = "",
-      Value = "",
       Enum = "",
-      Keyword = "",
-      Snippet = "",
-      Color = "",
-      File = "",
-      Reference = "",
-      Folder = "",
       EnumMember = "",
-      Constant = "",
-      Struct = "פּ",
       Event = "",
-      Operator = "",
-      TypeParameter = "",
+      Field = "󰜢",
+      File = "󰈙",
+      Folder = "󰉋",
+      Function = "󰊕",
+      Interface = "",
+      Keyword = "󰌋",
+      Method = "󰆧",
+      Module = "",
+      Operator = "󰆕",
+      Property = "󰜢",
+      Reference = "",
+      Snippet = "",
+      Struct = "󰙅",
+      Text = "󰉿",
+      TypeParameter = "󰊄",
+      Unit = "󰑭",
+      Value = "󰎠",
+      Variable = "󰀫",
     }
 
     local border_opts = {
@@ -40,7 +49,7 @@ function M.config()
     cmp.setup({
       enabled = function()
         local cmp_dap_ok, cmp_dap = pcall(require, "cmp_dap")
-        local is_prompt = vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+        local is_prompt = vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
         return is_prompt or cmp_dap_ok and cmp_dap.is_dap_buffer()
       end,
       preselect = cmp.PreselectMode.None,

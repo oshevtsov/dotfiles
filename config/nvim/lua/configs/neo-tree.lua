@@ -17,15 +17,17 @@ function M.config()
           folder_closed = "",
           folder_open = "",
           folder_empty = "",
-          default = "",
+          default = "󰈙",
         },
         git_status = {
           symbols = {
-            added = "",
-            deleted = "",
+            -- Change type
+            added = "", -- NOTE: you can set any of these to an empty string to not show them
+            deleted = "",
             modified = "",
             renamed = "➜",
-            untracked = "★",
+            -- Status type
+            untracked = "",
             ignored = "◌",
             unstaged = "✗",
             staged = "✓",
