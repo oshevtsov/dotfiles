@@ -38,31 +38,37 @@ function M.setup()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
+
+  -- set up neodev for better lua dev experience with neovim config
+  local neodev_ok, neodev = pcall(require, "neodev")
+  if neodev_ok then
+    neodev.setup({})
+  end
 end
 
+---@param client lsp.Client
+---@param bufnr integer
 function M.on_attach(client, bufnr)
-  local capabilities = client.server_capabilities
-
   -- Keymaps
   local map = vim.keymap.set
 
   -- code action
-  if capabilities.codeActionProvider then
+  if client.supports_method("codeActionProvider") then
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code action" })
   end
 
   -- declaration
-  if capabilities.declarationProvider then
+  if client.supports_method("declarationProvider") then
     map("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Goto declaration" })
   end
 
   -- definition
-  if capabilities.definitionProvider then
+  if client.supports_method("definitionProvider") then
     map("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Goto definition" })
   end
 
   -- formatting
-  if capabilities.documentFormattingProvider then
+  if client.supports_method("documentFormattingProvider") then
     map({ "n", "v" }, "<leader>lf", function()
       vim.lsp.buf.format({ async = true })
     end, { buffer = bufnr, desc = "Format code" })
@@ -94,7 +100,7 @@ function M.on_attach(client, bufnr)
   end
 
   -- syntax highlighting
-  if capabilities.documentHighlightProvider then
+  if client.supports_method("documentHighlightProvider") then
     local highlight_name = vim.fn.printf("lsp_document_highlight_%d", bufnr)
     vim.api.nvim_create_augroup(highlight_name, { clear = true })
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -110,17 +116,17 @@ function M.on_attach(client, bufnr)
   end
 
   -- hover
-  if capabilities.hoverProvider then
+  if client.supports_method("hoverProvider") then
     map("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
   end
 
   -- implementation
-  if capabilities.implementationProvider then
+  if client.supports_method("implementationProvider") then
     map("n", "gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "Goto implementation" })
   end
 
   -- references
-  if capabilities.referencesProvider then
+  if client.supports_method("referencesProvider") then
     map("n", "gr", vim.lsp.buf.references, { buffer = bufnr, desc = "Goto references" })
   end
 
@@ -134,11 +140,11 @@ function M.on_attach(client, bufnr)
   )
 
   -- rename
-  if capabilities.renameProvider then
+  if client.supports_method("renameProvider") then
     map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
   end
 
-  if capabilities.signatureHelpProvider then
+  if client.supports_method("signatureHelpProvider") then
     map("n", "<C-s>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature documentation" })
     -- local lsp_overloads_ok, lsp_overloads = pcall(require, "lsp-overloads")
     -- if lsp_overloads_ok then
@@ -154,18 +160,18 @@ function M.on_attach(client, bufnr)
     -- end
   end
 
-  if capabilities.typeDefinitionProvider then
+  if client.supports_method("typeDefinitionProvider") then
     map("n", "gT", vim.lsp.buf.type_definition, { buffer = bufnr, desc = "Type definition" })
   end
 end
 
+---@param client lsp.Client
 M.disable_formatting = function(client)
   client.server_capabilities.documentFormattingProvider = false
 end
 
 function M.make_client_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.completion.completionItem.preselectSupport = true
   capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
@@ -208,6 +214,7 @@ function M:server_settings(server)
   return opts
 end
 
+---@param server_name string
 function M.setup_server(server_name)
   local server = require("lspconfig")[server_name]
   local opts = M:server_settings(server)

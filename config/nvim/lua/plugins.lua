@@ -216,6 +216,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "Hoffs/omnisharp-extended-lsp.nvim",
+      "folke/neodev.nvim",
       -- "Issafalcon/lsp-overloads.nvim",
     },
     config = function()

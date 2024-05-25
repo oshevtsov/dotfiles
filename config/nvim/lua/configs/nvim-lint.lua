@@ -7,6 +7,7 @@ function M.config()
       python = { "flake8" },
       terraform = { "tflint" },
       sh = { "shellcheck" },
+      make = { "checkmake" },
     }
   end
 end

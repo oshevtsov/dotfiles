@@ -2,7 +2,7 @@ return {
   settings = {
     robot = {
       ["language-server"] = {
-        python = ".venv/bin/python"
+        python = ".venv/bin/python",
       },
       -- python = {
       --   executable = ".venv/bin/python",

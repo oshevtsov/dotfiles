@@ -54,6 +54,7 @@ function M.config()
       end,
       preselect = cmp.PreselectMode.None,
       formatting = {
+        expandable_indicator = true,
         fields = { "kind", "abbr", "menu" },
         format = function(_, vim_item)
           vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
