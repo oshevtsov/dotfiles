@@ -133,6 +133,7 @@ return {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
       },
+      "nvim-telescope/telescope-symbols.nvim",
     },
     config = function()
       require("configs.telescope").config()

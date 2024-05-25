@@ -68,6 +68,7 @@ map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Search files" 
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Search buffers" })
 map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "Search marks" })
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "Search old files" })
+map("n", "<leader>fe", "<cmd>Telescope symbols<CR>", { desc = "Search and insert emojis" })
 map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "Search help" })
 map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", { desc = "Search man" })
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", { desc = "Search registers" })
