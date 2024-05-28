@@ -99,22 +99,6 @@ function M.on_attach(client, bufnr)
     end
   end
 
-  -- syntax highlighting
-  if client.supports_method("documentHighlightProvider") then
-    local highlight_name = vim.fn.printf("lsp_document_highlight_%d", bufnr)
-    vim.api.nvim_create_augroup(highlight_name, { clear = true })
-    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      group = highlight_name,
-      buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
-    })
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      group = highlight_name,
-      buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
-    })
-  end
-
   -- hover
   if client.supports_method("hoverProvider") then
     map("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })

@@ -154,6 +154,12 @@ return {
       require("configs.treesitter").config()
     end,
   },
+  {
+    "tzachar/local-highlight.nvim",
+    config = function()
+      require("configs.local-highlight").config()
+    end,
+  },
 
   -- Smooth escaping
   {
