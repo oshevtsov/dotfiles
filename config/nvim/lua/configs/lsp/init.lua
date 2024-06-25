@@ -44,6 +44,11 @@ function M.setup()
   if neodev_ok then
     neodev.setup({})
   end
+
+  -- set up LSP for Gleam (the language server comes shipped with the toolchain)
+  if vim.fn.executable("gleam") == 1 then
+    M.setup_server("gleam")
+  end
 end
 
 ---@param client lsp.Client
