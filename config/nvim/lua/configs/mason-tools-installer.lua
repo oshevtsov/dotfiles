@@ -15,6 +15,7 @@ function M.config()
         "yaml-language-server",
         -- Linters
         "flake8",
+        "shellcheck",
         -- formatters
         "black",
         "isort",

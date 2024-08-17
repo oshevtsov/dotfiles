@@ -51,7 +51,7 @@ function M.setup()
   end
 end
 
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr integer
 function M.on_attach(client, bufnr)
   -- Keymaps
@@ -154,7 +154,7 @@ function M.on_attach(client, bufnr)
   end
 end
 
----@param client lsp.Client
+---@param client vim.lsp.Client
 M.disable_formatting = function(client)
   client.server_capabilities.documentFormattingProvider = false
 end
