@@ -20,8 +20,11 @@ git clone https://github.com/oshevtsov/dotfiles.git ~/.dotfiles
    optional)
 
 ```
-rcup -v
+rcup rcrc
+rcup config/nvim
 ```
+
+It is important to run `rcup rcrc` first since it sets up the configuration for the `rcm` tool itself.
 
 5. Make sure that all the necessary programs required by the dotfiles are installed
 
