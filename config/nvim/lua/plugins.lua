@@ -1106,12 +1106,14 @@ return {
         },
       },
       "nvim-neotest/neotest-python",
+      "mrcjkb/rustaceanvim",
     },
     config = function()
       require("neotest").setup({
         adapters = {
           require("neotest-golang"),
           require("neotest-python"),
+          require("rustaceanvim.neotest"),
         },
       })
 
@@ -1119,8 +1121,8 @@ return {
         require("neotest").run.run(vim.fn.expand("%"))
       end, { desc = "Run File [Neotest]" })
 
-      vim.keymap.set("n", "<leader><leader>tT", function()
-        require("neotest").run.run(vim.uv.cwd())
+      vim.keymap.set("n", "<leader><leader>ta", function()
+        require("neotest").run.run(vim.fn.getcwd())
       end, { desc = "Run All Test Files [Neotest]" })
 
       vim.keymap.set("n", "<leader><leader>tr", function()
@@ -1139,7 +1141,7 @@ return {
         require("neotest").output.open({ enter = true, auto_close = true })
       end, { desc = "Show Output [Neotest]" })
 
-      vim.keymap.set("n", "<leader><leader>tO", function()
+      vim.keymap.set("n", "<leader><leader>tP", function()
         require("neotest").output_panel.toggle()
       end, { desc = "Toggle Output Panel [Neotest]" })
 
