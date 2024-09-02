@@ -71,6 +71,14 @@ return {
     end,
   },
 
+  -- Better notifications
+  {
+    "rcarriga/nvim-notify",
+    config = function()
+      vim.notify = require("notify")
+    end,
+  },
+
   -- File explorer
   {
     "nvim-tree/nvim-tree.lua",
@@ -158,6 +166,7 @@ return {
         build = "make",
       },
       "nvim-telescope/telescope-symbols.nvim",
+      "rcarriga/nvim-notify",
     },
     config = function()
       -- Custom actions
@@ -263,6 +272,7 @@ return {
 
       telescope.load_extension("live_grep_args")
       telescope.load_extension("fzf")
+      telescope.load_extension("notify")
 
       local map = vim.keymap.set -- set new key mapping
       local cmd = vim.cmd -- execute vimscript commands
@@ -673,8 +683,8 @@ return {
       vim.g.rustaceanvim = {
         tools = {
           executor = "toggleterm",
-          test_executor = "toggleterm",
-          crate_test_executor = "toggleterm",
+          -- test_executor = "neotest", -- see test runner plugin below
+          -- crate_test_executor = "neotest", -- see test runner plugin below
         },
         server = {
           capabilities = lsp_zero.get_capabilities(),
@@ -702,9 +712,12 @@ return {
           "pyright",
           "tsserver",
           "yaml-language-server",
+          "gopls",
           -- Linters
           "flake8",
           "shellcheck",
+          "revive",
+          "checkmake",
           -- formatters
           "black",
           "isort",
@@ -987,6 +1000,8 @@ return {
       require("lint").linters_by_ft = {
         python = { "flake8" },
         sh = { "shellcheck" },
+        go = { "revive" },
+        make = { "checkmake" },
       }
     end,
   },
@@ -1107,6 +1122,8 @@ return {
       },
       "nvim-neotest/neotest-python",
       "mrcjkb/rustaceanvim",
+      -- this is to make sure mason is loaded first (otherwise codelldb fails to be found sometimes)
+      "neovim/nvim-lspconfig",
     },
     config = function()
       require("neotest").setup({
