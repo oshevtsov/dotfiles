@@ -22,6 +22,16 @@ api.nvim_create_autocmd("BufWritePost", {
   pattern = "*",
 })
 
+-- Make line numbers more visible (see :help guifg for available colors)
+api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "LightGray" })
+    vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "LightGray" })
+  end,
+  group = my_autocmds,
+  once = true,
+})
+
 -- Disable automatic comment insertion
 -- api.nvim_create_autocmd("BufEnter", {
 --   command = "set fo-=c fo-=r fo-=o",
