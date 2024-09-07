@@ -792,6 +792,12 @@ return {
               opts = vim.tbl_deep_extend("force", settings, opts)
             end
 
+            -- NOTE: Temporary fix before https://github.com/williamboman/mason-lspconfig.nvim/pull/459
+            -- is merged
+            if server_name == "tsserver" then
+              server_name = "ts_ls"
+            end
+
             require("lspconfig")[server_name].setup(opts)
           end,
 
