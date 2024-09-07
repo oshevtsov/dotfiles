@@ -92,6 +92,7 @@ return {
 
       vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle Explorer" })
       vim.keymap.set("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", { desc = "Focus Explorer" })
+      vim.keymap.set("n", "<leader>z", "<cmd>NvimTreeFindFile<CR>", { desc = "Reveal the open file in Explorer" })
     end,
   },
 
