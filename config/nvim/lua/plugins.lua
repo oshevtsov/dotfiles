@@ -288,7 +288,8 @@ return {
       map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "Git status" })
       map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "Git branches" })
       map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "Git commits" })
-      map("n", "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", { desc = "Search files" })
+      map("n", "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", { desc = "Search files (respect .gitignore)" })
+      map("n", "<leader>fi", "<cmd>Telescope find_files hidden=true no_ignore=true<CR>", { desc = "Search files (include ignored)" })
       map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Search buffers" })
       map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "Search marks" })
       map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "Search old files" })
@@ -711,9 +712,10 @@ return {
           "lua-language-server",
           "json-lsp",
           "pyright",
-          "tsserver",
+          "ts_ls",
           "yaml-language-server",
           "gopls",
+          "eslint-lsp",
           -- Linters
           "flake8",
           "shellcheck",
@@ -791,12 +793,6 @@ return {
 
             if present then
               opts = vim.tbl_deep_extend("force", settings, opts)
-            end
-
-            -- NOTE: Temporary fix before https://github.com/williamboman/mason-lspconfig.nvim/pull/459
-            -- is merged
-            if server_name == "tsserver" then
-              server_name = "ts_ls"
             end
 
             require("lspconfig")[server_name].setup(opts)
