@@ -1124,6 +1124,7 @@ return {
         },
       },
       "nvim-neotest/neotest-python",
+      "nvim-neotest/neotest-jest",
       "mrcjkb/rustaceanvim",
       -- this is to make sure mason is loaded first (otherwise codelldb fails to be found sometimes)
       "neovim/nvim-lspconfig",
@@ -1134,6 +1135,23 @@ return {
           require("neotest-golang"),
           require("neotest-python"),
           require("rustaceanvim.neotest"),
+          require("neotest-jest")({
+            jestCommand = "npm test --",
+            env = { CI = true },
+            jestConfigFile = function(file)
+              if string.find(file, "/packages/") then
+                return string.match(file, "(.-/[^/]+/)src") .. "jest.config.ts"
+              end
+
+              return vim.fn.getcwd() .. "/jest.config.ts"
+            end,
+            cwd = function(file)
+              if string.find(file, "/packages/") then
+                return string.match(file, "(.-/[^/]+/)src")
+              end
+              return vim.fn.getcwd()
+            end,
+          }),
         },
       })
 

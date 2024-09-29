@@ -41,3 +41,4 @@ opt.updatetime = 300 -- Length of time to wait before triggering the plugin
 opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
 opt.undofile = true -- Enable persistent undo
+opt.swapfile = false -- Disable swapfiles
