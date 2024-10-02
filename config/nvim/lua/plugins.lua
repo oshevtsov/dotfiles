@@ -1015,10 +1015,24 @@ return {
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
+      {
+        "mxsdev/nvim-dap-vscode-js",
+        dependencies = {
+          {
+            "microsoft/vscode-js-debug",
+            build = "npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+          },
+        },
+      },
     },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
+
+      require("dap-vscode-js").setup({
+        debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
+        adapters = { "pwa-node", "pwa-chrome", "node-terminal" },
+      })
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
@@ -1137,6 +1151,13 @@ return {
           require("rustaceanvim.neotest"),
           require("neotest-jest")({
             jestCommand = "npm test --",
+            strategy_config = function(default_strategy, _)
+              default_strategy["resolveSourceMapLocations"] = {
+                "${workspaceFolder}/**",
+                "!**/node_modules/**",
+              }
+              return default_strategy
+            end,
             env = { CI = true },
             jestConfigFile = function(file)
               if string.find(file, "/packages/") then
