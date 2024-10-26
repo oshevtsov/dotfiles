@@ -330,6 +330,7 @@ return {
     config = function()
       require("neogit").setup({})
       vim.api.nvim_create_user_command("G", "Neogit", { desc = "Start Neogit" })
+      vim.api.nvim_create_user_command("D", "DiffviewOpen", { desc = "Open DiffView Tab" })
     end,
   },
 
