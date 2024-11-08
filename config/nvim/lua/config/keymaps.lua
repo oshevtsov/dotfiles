@@ -23,9 +23,21 @@ map("t", "<C-k>", "<C-\\><C-n><C-W>k", { desc = "Terminal up window navigation",
 map("t", "<C-l>", "<C-\\><C-n><C-W>l", { desc = "Terminal right window naviation", silent = true })
 
 -- Some of the mappings inspired by vim-unimpaired
-map("n", "[q", "<cmd>cprevious<CR>", {desc = "Previous in quickfix list", silent = true})
-map("n", "]q", "<cmd>cnext<CR>", {desc = "Next in quickfix list", silent = true})
-map("n", "[Q", "<cmd>cfirst<CR>", {desc = "First in quickfix list", silent = true})
-map("n", "]Q", "<cmd>clast<CR>", {desc = "Last in quickfix list", silent = true})
-map("n", "[<Space>", "<cmd>call append(line('.')-1, '')<CR>", {desc = "Insert empty line above", silent = true})
-map("n", "]<Space>", "<cmd>call append(line('.'), '')<CR>", {desc = "Insert empty line below", silent = true})
+map("n", "[q", "<cmd>cprevious<CR>", { desc = "Previous in quickfix list", silent = true })
+map("n", "]q", "<cmd>cnext<CR>", { desc = "Next in quickfix list", silent = true })
+map("n", "[Q", "<cmd>cfirst<CR>", { desc = "First in quickfix list", silent = true })
+map("n", "]Q", "<cmd>clast<CR>", { desc = "Last in quickfix list", silent = true })
+map("n", "[<Space>", "<cmd>call append(line('.')-1, '')<CR>", { desc = "Insert empty line above", silent = true })
+map("n", "]<Space>", "<cmd>call append(line('.'), '')<CR>", { desc = "Insert empty line below", silent = true })
+
+-- Close all buffers except the current one
+local function close_all_buffes_except_current()
+  local bufs = vim.api.nvim_list_bufs()
+  local current_buf = vim.api.nvim_get_current_buf()
+  for _, i in ipairs(bufs) do
+    if i ~= current_buf then
+      vim.api.nvim_buf_delete(i, {})
+    end
+  end
+end
+map("n", "<F5>", close_all_buffes_except_current, { desc = "Close all buffers except current one", silent = true })
