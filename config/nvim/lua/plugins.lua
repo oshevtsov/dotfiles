@@ -10,6 +10,17 @@ return {
     end,
   },
 
+  -- Color highlights
+  {
+    "brenoprata10/nvim-highlight-colors",
+    config = function()
+      require("nvim-highlight-colors").setup({
+        ---Highlight tailwind colors, e.g. 'bg-blue-500'
+        enable_tailwind = true,
+      })
+    end,
+  },
+
   -- Smart indentation
   {
     "nmac427/guess-indent.nvim",
@@ -847,6 +858,7 @@ return {
           require("luasnip.loaders.from_vscode").lazy_load()
         end,
       },
+      "brenoprata10/nvim-highlight-colors",
     },
     event = "InsertEnter",
     config = function()
@@ -904,7 +916,7 @@ return {
               buffer = "[Buffer]",
               path = "[Path]",
             })[entry.source.name]
-            return vim_item
+            return require("nvim-highlight-colors").format(entry, vim_item)
           end,
         },
         window = {
