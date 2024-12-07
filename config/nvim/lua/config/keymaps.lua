@@ -40,4 +40,4 @@ local function close_all_buffes_except_current()
     end
   end
 end
-map("n", "<F5>", close_all_buffes_except_current, { desc = "Close all buffers except current one", silent = true })
+map("n", "<leader>bb", close_all_buffes_except_current, { desc = "Close all buffers except current one", silent = true })

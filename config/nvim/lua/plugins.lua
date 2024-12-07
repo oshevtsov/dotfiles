@@ -646,6 +646,14 @@ return {
       vim.keymap.set("n", "<leader>tn", function()
         node:toggle()
       end, { desc = "ToggleTerm node" })
+      vim.keymap.set("n", "<leader>\\", function()
+        if vim.v.count == 0 then
+          vim.cmd("ToggleTerm")
+        else
+          vim.cmd("ToggleTerm")
+          vim.cmd(vim.v.count .. "ToggleTerm")
+        end
+      end, { desc = "Open new terminal avoiding side-by-side split" })
     end,
   },
 
