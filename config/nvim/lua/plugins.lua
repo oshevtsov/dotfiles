@@ -455,6 +455,7 @@ return {
           "css",
           "go",
           "html",
+          "http", -- required by the HTTP Client (see below)
           "javascript",
           "json",
           "lua",
@@ -1241,6 +1242,16 @@ return {
       vim.keymap.set("n", "<leader><leader>tw", function()
         require("neotest").watch.toggle(vim.fn.expand("%"))
       end, { desc = "Toggle Watch [Neotest]" })
+    end,
+  },
+
+  -- HTTP Client
+  -- this requires luarocks (Lua's package manager) to be installed:
+  -- e.g. via `sudo apt install luarocks` in Ubuntu
+  {
+    "rest-nvim/rest.nvim",
+    config = function()
+      vim.keymap.set("n", "<leader>er", "<cmd>Rest run<CR>", { desc = "[REST] Run nearest request" })
     end,
   },
 }
