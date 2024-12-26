@@ -699,9 +699,14 @@ return {
         vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { buffer = bufnr, desc = "Type definition" })
         vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { buffer = bufnr, desc = "Find references" })
         vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = bufnr, desc = "Signature help" })
-        vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename symbol" })
-        vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", { buffer = bufnr, desc = "Format buffer" })
-        vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code action" })
+        vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename symbol" })
+        vim.keymap.set(
+          { "n", "x" },
+          "<leader>bf",
+          "<cmd>lua vim.lsp.buf.format({async = true})<cr>",
+          { buffer = bufnr, desc = "Format buffer" }
+        )
+        vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code action" })
       end
 
       -- Make sure this is called BEFORE mason-lspconfig setup
@@ -924,6 +929,7 @@ return {
               luasnip = "[LuaSnip]",
               buffer = "[Buffer]",
               path = "[Path]",
+              vim_dadbod_completion = "[DB]",
             })[entry.source.name]
             return require("nvim-highlight-colors").format(entry, vim_item)
           end,
@@ -1046,6 +1052,7 @@ return {
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
+      "theHamsta/nvim-dap-virtual-text",
       {
         "mxsdev/nvim-dap-vscode-js",
         dependencies = {
@@ -1060,20 +1067,45 @@ return {
       local dap = require("dap")
       local dapui = require("dapui")
 
+      require("nvim-dap-virtual-text").setup()
+
       require("dap-vscode-js").setup({
         debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
-        adapters = { "pwa-node", "pwa-chrome", "node-terminal" },
+        adapters = { "pwa-node", "pwa-chrome", "node", "chrome" },
       })
 
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
+      local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+
+      for _, language in ipairs(js_based_languages) do
+        dap.configurations[language] = {
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch file",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach",
+            processId = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-chrome",
+            request = "launch",
+            name = 'Start Chrome with "localhost"',
+            url = "http://localhost:3000",
+            webRoot = "${workspaceFolder}",
+            userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir",
+          },
+        }
       end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
-      end
+
+      dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+      dap.listeners.before.event_terminated["dapui_config"] = dapui.close
+      dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
       dapui.setup({
         floating = {
@@ -1119,17 +1151,20 @@ return {
         },
       })
 
-      vim.keymap.set("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Start/Continue [DAP]" })
-      vim.keymap.set("n", "<leader>dq", "<cmd>DapTerminate<CR>", { desc = "Terminate [DAP]" })
-      vim.keymap.set("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Toggle breakpoint [DAP]" })
-      vim.keymap.set("n", "<leader>di", "<cmd>DapStepInto<CR>", { desc = "Step into [DAP]" })
-      vim.keymap.set("n", "<leader>do", "<cmd>DapStepOver<CR>", { desc = "Step over [DAP]" })
-      vim.keymap.set("n", "<leader>dO", "<cmd>DapStepOut<CR>", { desc = "Step out [DAP]" })
-      vim.keymap.set("n", "<leader>dr", "<cmd>DapRestartFrame<CR>", { desc = "Restart frame [DAP]" })
+      -- see https://github.com/tjdevries/config.nvim/blob/master/lua/custom/plugins/dap.lua
+      vim.keymap.set("n", "<leader>?", function()
+        dapui.eval(nil, { enter = true })
+      end, { desc = "Eval variable under cursor [DAP]" })
 
-      vim.keymap.set("n", "<leader>dR", function()
-        require("dap").restart()
-      end, { desc = "Restart session [DAP]" })
+      vim.keymap.set("n", "<F1>", dap.continue, { desc = "Start/Continue [DAP]" })
+      vim.keymap.set("n", "<F2>", dap.step_into, { desc = "Step into [DAP]" })
+      vim.keymap.set("n", "<F3>", dap.step_over, { desc = "Step over [DAP]" })
+      vim.keymap.set("n", "<F4>", dap.step_out, { desc = "Step out [DAP]" })
+      vim.keymap.set("n", "<F5>", dap.restart, { desc = "Restart current session [DAP]" })
+      vim.keymap.set("n", "<leader>dc", dap.run_to_cursor, { desc = "Run to cursor [DAP]" })
+      vim.keymap.set("n", "<leader>dq", dap.terminate, { desc = "Terminate [DAP]" })
+      vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle breakpoint [DAP]" })
+      vim.keymap.set("n", "<leader>dB", dap.clear_breakpoints, { desc = "Clear all breakpoints [DAP]" })
 
       vim.keymap.set("n", "<leader>dC", function()
         vim.ui.input({ prompt = "Condition: " }, function(condition)
@@ -1138,10 +1173,6 @@ return {
           end
         end)
       end, { desc = "Set conditional breakpoint [DAP]" })
-
-      vim.keymap.set("n", "<leader>dB", function()
-        require("dap").clear_breakpoints()
-      end, { desc = "Clear all breakpoints [DAP]" })
 
       vim.keymap.set("n", "<leader>dh", function()
         require("dap.ui.widgets").hover()
