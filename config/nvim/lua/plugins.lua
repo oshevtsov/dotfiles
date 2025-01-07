@@ -929,7 +929,6 @@ return {
               luasnip = "[LuaSnip]",
               buffer = "[Buffer]",
               path = "[Path]",
-              vim_dadbod_completion = "[DB]",
             })[entry.source.name]
             return require("nvim-highlight-colors").format(entry, vim_item)
           end,
