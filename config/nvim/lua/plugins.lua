@@ -86,7 +86,11 @@ return {
   {
     "rcarriga/nvim-notify",
     config = function()
-      vim.notify = require("notify")
+      local notify = require("notify")
+      vim.notify = notify
+      vim.keymap.set("n", "<leader>dn", function()
+        notify.dismiss()
+      end, { desc = "Dismiss notifications" })
     end,
   },
 
@@ -942,6 +946,7 @@ return {
           { name = "luasnip", priority = 750 },
           { name = "buffer", priority = 500 },
           { name = "path", priority = 250 },
+          { name = "render-markdown" },
         }),
         snippet = {
           expand = function(args)
@@ -1282,6 +1287,84 @@ return {
     "rest-nvim/rest.nvim",
     config = function()
       vim.keymap.set("n", "<leader>er", "<cmd>Rest run<CR>", { desc = "[REST] Run nearest request" })
+    end,
+  },
+
+  -- Better markdown rendering
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    ft = { "markdown", "codecompanion" },
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+  },
+
+  -- AI companion
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope.nvim", -- Optional, but recommended
+    },
+    config = function()
+      -- see:
+      -- 1. https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua
+      -- 2. https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/adapters/gemini.lua
+      require("codecompanion").setup({
+        adapters = {
+          gemini = function()
+            return require("codecompanion.adapters").extend("gemini", {
+              env = {
+                api_key = "GEMINI_API_KEY",
+                model = "schema.model.default",
+              },
+              schema = {
+                model = {
+                  default = "gemini-2.0-flash-exp",
+                },
+              },
+            })
+          end,
+        },
+        strategies = {
+          chat = {
+            adapter = "gemini",
+            slash_commands = {
+              ["buffer"] = {
+                opts = {
+                  provider = "telescope",
+                },
+              },
+              ["file"] = {
+                opts = {
+                  provider = "telescope",
+                },
+              },
+              ["symbols"] = {
+                opts = {
+                  provider = "telescope",
+                },
+              },
+            },
+          },
+          inline = {
+            adapter = "gemini",
+          },
+          cmd = {
+            adapter = "gemini",
+          },
+        },
+        display = {
+          action_palette = {
+            provider = "telescope",
+          },
+        },
+      })
+
+      vim.keymap.set("n", "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Toggle CodeCompanion chat" })
+      vim.keymap.set("n", "<leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "Start new CodeCompanion chat" })
     end,
   },
 }
