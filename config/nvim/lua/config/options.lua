@@ -42,3 +42,9 @@ opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
 opt.shortmess:append("I") -- Disable startup intro
 opt.undofile = true -- Enable persistent undo
 opt.swapfile = false -- Disable swapfiles
+
+vim.filetype.add({
+  extension = {
+    ["http"] = "http",
+  },
+})

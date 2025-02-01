@@ -1281,13 +1281,11 @@ return {
   },
 
   -- HTTP Client
-  -- this requires luarocks (Lua's package manager) to be installed:
-  -- e.g. via `sudo apt install luarocks` in Ubuntu
   {
-    "rest-nvim/rest.nvim",
-    config = function()
-      vim.keymap.set("n", "<leader>er", "<cmd>Rest run<CR>", { desc = "[REST] Run nearest request" })
-    end,
+    "mistweaverco/kulala.nvim",
+    opts = {
+      winbar = true,
+    },
   },
 
   -- Better markdown rendering
