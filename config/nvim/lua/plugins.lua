@@ -843,6 +843,19 @@ return {
     end,
   },
 
+  -- LSP signature help
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {
+      toggle_key = "<M-x>",
+      select_signature_key = "<M-n>",
+    },
+    config = function(_, opts)
+      require("lsp_signature").setup(opts)
+    end,
+  },
+
   -- YAML companion
   {
     "someone-stole-my-name/yaml-companion.nvim",
