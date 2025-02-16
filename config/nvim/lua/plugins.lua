@@ -1299,6 +1299,12 @@ return {
     opts = {
       winbar = true,
     },
+    config = function(_, opts)
+      require("kulala").setup(opts)
+      vim.keymap.set("n", "<leader>pp", function()
+        require("kulala").scratchpad()
+      end, { desc = "Open scratchpad [Kulala]" })
+    end,
   },
 
   -- Better markdown rendering
@@ -1333,7 +1339,7 @@ return {
               },
               schema = {
                 model = {
-                  default = "gemini-2.0-flash-exp",
+                  default = "gemini-2.0-flash",
                 },
               },
             })
