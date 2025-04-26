@@ -1,12 +1,14 @@
 return {
   -- Colorscheme
   {
-    "folke/tokyonight.nvim",
+    "sonph/onehalf",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
+    config = function(plugin)
+      -- specify subdirectory in the repo that is relevant for Neovim
+      vim.opt.rtp:append(plugin.dir .. "/vim")
       -- load the colorscheme here
-      vim.cmd([[colorscheme tokyonight]])
+      vim.cmd([[colorscheme onehalflight]])
     end,
   },
 
@@ -87,6 +89,9 @@ return {
     "rcarriga/nvim-notify",
     config = function()
       local notify = require("notify")
+      notify.setup({
+        background_colour = "#000000",
+      })
       vim.notify = notify
       vim.keymap.set("n", "<leader>dn", function()
         notify.dismiss()
@@ -129,7 +134,7 @@ return {
       require("lualine").setup({
         options = {
           disabled_filetypes = { "NvimTree", "neo-tree", "dashboard", "alpha" },
-          theme = "tokyonight",
+          theme = "auto",
         },
       })
     end,
@@ -163,6 +168,11 @@ return {
           separator_style = "thin",
           always_show_bufferline = false,
           diagnostics = "nvim_lsp",
+          custom_filter = function(buf_number, buf_numbers)
+            if vim.bo[buf_number].filetype ~= "qf" then
+              return true
+            end
+          end,
         },
       })
 
@@ -846,7 +856,7 @@ return {
   -- LSP signature help
   {
     "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
+    event = "InsertEnter",
     opts = {
       toggle_key = "<M-x>",
       select_signature_key = "<M-n>",
@@ -1075,7 +1085,7 @@ return {
         dependencies = {
           {
             "microsoft/vscode-js-debug",
-            build = "npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+            build = "rm -rf dist out && npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
           },
         },
       },
