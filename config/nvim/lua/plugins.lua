@@ -1,14 +1,25 @@
 return {
   -- Colorscheme
+  -- {
+  --   "sonph/onehalf",
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function(plugin)
+  --     -- specify subdirectory in the repo that is relevant for Neovim
+  --     vim.opt.rtp:append(plugin.dir .. "/vim")
+  --     -- load the colorscheme here
+  --     vim.cmd([[colorscheme onehalflight]])
+  --   end,
+  -- },
+
   {
-    "sonph/onehalf",
+    "catppuccin/nvim",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function(plugin)
-      -- specify subdirectory in the repo that is relevant for Neovim
-      vim.opt.rtp:append(plugin.dir .. "/vim")
       -- load the colorscheme here
-      vim.cmd([[colorscheme onehalflight]])
+      -- variants: catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+      vim.cmd([[colorscheme catppuccin-latte]])
     end,
   },
 
