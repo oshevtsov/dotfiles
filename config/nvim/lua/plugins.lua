@@ -1,27 +1,27 @@
 return {
   -- Colorscheme
-  -- {
-  --   "sonph/onehalf",
-  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
-  --   config = function(plugin)
-  --     -- specify subdirectory in the repo that is relevant for Neovim
-  --     vim.opt.rtp:append(plugin.dir .. "/vim")
-  --     -- load the colorscheme here
-  --     vim.cmd([[colorscheme onehalflight]])
-  --   end,
-  -- },
-
   {
-    "catppuccin/nvim",
+    "sonph/onehalf",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function(plugin)
+      -- specify subdirectory in the repo that is relevant for Neovim
+      vim.opt.rtp:append(plugin.dir .. "/vim")
       -- load the colorscheme here
-      -- variants: catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-      vim.cmd([[colorscheme catppuccin-latte]])
+      vim.cmd([[colorscheme onehalflight]])
     end,
   },
+
+  -- {
+  --   "catppuccin/nvim",
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function(plugin)
+  --     -- load the colorscheme here
+  --     -- variants: catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+  --     vim.cmd([[colorscheme catppuccin-latte]])
+  --   end,
+  -- },
 
   -- Color highlights
   {
@@ -46,6 +46,7 @@ return {
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
     config = function()
       require("nvim-surround").setup({})
     end,
@@ -69,14 +70,14 @@ return {
     end,
   },
 
-  -- Better buffer closing
-  {
-    "famiu/bufdelete.nvim",
-    config = function()
-      vim.keymap.set("n", "<leader>c", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
-      vim.keymap.set("n", "<leader>q", "<cmd>Bwipeout<CR>", { desc = "Delete buffer" })
-    end,
-  },
+  -- Better buffer closing (TODO: remove this one)
+  -- {
+  --   "famiu/bufdelete.nvim",
+  --   config = function()
+  --     vim.keymap.set("n", "<leader>c", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
+  --     vim.keymap.set("n", "<leader>q", "<cmd>Bwipeout<CR>", { desc = "Delete buffer" })
+  --   end,
+  -- },
 
   -- Smooth escaping
   {
@@ -348,8 +349,12 @@ return {
       map("n", "<leader>bd", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer diagnostics" })
       map("n", "<leader>wd", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace diagnostics" })
       map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
-      map("n", "[d", vim.diagnostic.goto_prev, { desc = "Diagnostic previous" })
-      map("n", "]d", vim.diagnostic.goto_next, { desc = "Diagnostic next" })
+      map("n", "[d", function()
+        vim.diagnostic.jump({ count = -1, float = true })
+      end, { desc = "Diagnostic previous" })
+      map("n", "]d", function()
+        vim.diagnostic.jump({ count = 1, float = true })
+      end, { desc = "Diagnostic next" })
       map("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Fuzzy search in current buffer" })
 
       cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search = <q-args>})<CR>")
@@ -427,7 +432,7 @@ return {
   -- Splits/windows
   {
     "mrjones2014/smart-splits.nvim",
-    version = ">=1.0.0",
+    version = ">=2.0.0",
     config = function()
       -- recommended mappings
       -- resizing splits
@@ -522,8 +527,8 @@ return {
               ["ic"] = { query = "@class.inner", desc = "inside class" },
               ["a?"] = { query = "@conditional.outer", desc = "around conditional" },
               ["i?"] = { query = "@conditional.inner", desc = "inside conditional" },
-              ["af"] = { query = "@function.outer", desc = "around function " },
-              ["if"] = { query = "@function.inner", desc = "inside function " },
+              ["af"] = { query = "@function.outer", desc = "around function" },
+              ["if"] = { query = "@function.inner", desc = "inside function" },
               ["al"] = { query = "@loop.outer", desc = "around loop" },
               ["il"] = { query = "@loop.inner", desc = "inside loop" },
               ["aa"] = { query = "@parameter.outer", desc = "around argument" },
@@ -685,23 +690,33 @@ return {
 
   -- LSP
   {
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- used for completion, annotations and signatures of Neovim apis
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "saghen/blink.cmp",
+      "mason-org/mason.nvim",
+      -- "williamboman/mason-lspconfig.nvim", -- Use builtin lsp features
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
-      {
-        "VonHeikemen/lsp-zero.nvim",
-        branch = "v4.x",
-      },
       -- JSON schemas
       "b0o/SchemaStore.nvim",
+      -- Useful status updates for LSP
+      { "j-hui/fidget.nvim", opts = {} },
       -- Rust LSP setup
       {
         "mrcjkb/rustaceanvim",
-        version = "^5", -- Recommended
+        version = "^6", -- Recommended
         lazy = false, -- This plugin is already lazy
       },
       -- Integration with crates.io
@@ -709,11 +724,12 @@ return {
         "saecki/crates.nvim",
         tag = "stable",
         event = { "BufRead Cargo.toml" },
+        config = function()
+          require("crates").setup()
+        end,
       },
     },
     config = function()
-      local lsp_zero = require("lsp-zero")
-
       -- lsp_attach is where you enable features that only work
       -- if there is a language server active in the file
       local lsp_attach = function(client, bufnr)
@@ -734,11 +750,13 @@ return {
         vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code action" })
       end
 
-      -- Make sure this is called BEFORE mason-lspconfig setup
-      lsp_zero.extend_lspconfig({
-        sign_text = true,
-        lsp_attach = lsp_attach,
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("my-lsp-attach", { clear = true }),
+        callback = function(event)
+          local bufnr = event.buf
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          lsp_attach(client, bufnr)
+        end,
       })
 
       -- Set up rustaceanvim
@@ -747,9 +765,6 @@ return {
           executor = "toggleterm",
           -- test_executor = "neotest", -- see test runner plugin below
           -- crate_test_executor = "neotest", -- see test runner plugin below
-        },
-        server = {
-          capabilities = lsp_zero.get_capabilities(),
         },
       }
 
@@ -843,37 +858,22 @@ return {
         },
       })
 
-      require("mason-lspconfig").setup({
-        handlers = {
-          -- this first function is the "default handler"
-          -- it applies to every language server without a "custom handler"
-          function(server_name)
-            local opts = vim.empty_dict()
-            local present, settings = pcall(require, "config.lsp-server-settings." .. server_name)
+      -- Finding mapping between mason package names and the correspodnig LSP name
+      local registry = require("mason-registry")
+      local mason_installed = registry.get_installed_package_names()
+      local mason_to_lspconfig_map = {}
+      for _, pkg_spec in ipairs(registry.get_all_package_specs()) do
+        if vim.list_contains(mason_installed, pkg_spec.name) then
+          local lspconfig = vim.tbl_get(pkg_spec, "neovim", "lspconfig")
+          if lspconfig then
+            mason_to_lspconfig_map[pkg_spec.name] = lspconfig
+          end
+        end
+      end
 
-            if present then
-              opts = vim.tbl_deep_extend("force", settings, opts)
-            end
-
-            require("lspconfig")[server_name].setup(opts)
-          end,
-
-          rust_analyzer = lsp_zero.noop,
-        },
-      })
-    end,
-  },
-
-  -- LSP signature help
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "InsertEnter",
-    opts = {
-      toggle_key = "<M-x>",
-      select_signature_key = "<M-n>",
-    },
-    config = function(_, opts)
-      require("lsp_signature").setup(opts)
+      vim.schedule(function()
+        vim.lsp.enable(vim.tbl_values(mason_to_lspconfig_map))
+      end)
     end,
   },
 
@@ -892,13 +892,11 @@ return {
 
   -- Autocompletion
   {
-    "hrsh7th/nvim-cmp",
+    "saghen/blink.cmp",
+    event = "InsertEnter",
+    version = "1.*",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",
-      "rcarriga/cmp-dap",
+      -- Snippet Engine
       {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
@@ -910,119 +908,87 @@ return {
           require("luasnip.loaders.from_vscode").lazy_load()
         end,
       },
-      "brenoprata10/nvim-highlight-colors",
+      "folke/lazydev.nvim",
     },
-    event = "InsertEnter",
-    config = function()
-      local cmp = require("cmp")
-      local cmp_action = require("lsp-zero").cmp_action()
-      local kind_icons = {
-        Array = "󰅪",
-        Boolean = "⊨",
-        Class = "󰠱",
-        Color = "󰏘",
-        Constant = "󰏿",
-        Constructor = "",
-        Enum = "",
-        EnumMember = "",
-        Event = "",
-        Field = "󰜢",
-        File = "󰈙",
-        Folder = "󰉋",
-        Function = "󰊕",
-        Interface = "",
-        Key = "󰌆",
-        Keyword = "󰌋",
-        Method = "󰆧",
-        Module = "",
-        Namespace = "󰅪",
-        Null = "NULL",
-        Number = "#",
-        Object = "󰀚",
-        Operator = "󰆕",
-        Package = "󰏗",
-        Property = "󰜢",
-        Reference = "",
-        Snippet = "",
-        String = "󰀬",
-        Struct = "󰙅",
-        Text = "󰉿",
-        TypeParameter = "󰊄",
-        Unit = "󰑭",
-        Value = "󰎠",
-        Variable = "󰀫",
-      }
+    --- @module 'blink.cmp'
+    --- @type blink.cmp.Config
+    opts = {
+      keymap = {
+        -- 'default' (recommended) for mappings similar to built-in completions
+        --   <c-y> to accept ([y]es) the completion.
+        --    This will auto-import if your LSP supports it.
+        --    This will expand snippets if the LSP sent a snippet.
+        -- 'super-tab' for tab to accept
+        -- 'enter' for enter to accept
+        -- 'none' for no mappings
+        --
+        -- For an understanding of why the 'default' preset is recommended,
+        -- you will need to read `:help ins-completion`
+        --
+        -- No, but seriously. Please read `:help ins-completion`, it is really good!
+        --
+        -- All presets have the following mappings:
+        -- <tab>/<s-tab>: move to right/left of your snippet expansion
+        -- <c-space>: Open menu or open docs if already open
+        -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
+        -- <c-e>: Hide menu
+        -- <c-k>: Toggle signature help
+        --
+        -- See :h blink-cmp-config-keymap for defining your own keymap
+        preset = "enter",
 
-      cmp.setup({
-        enabled = function()
-          return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt" or require("cmp_dap").is_dap_buffer()
-        end,
-        preselect = cmp.PreselectMode.None,
-        formatting = {
-          expandable_indicator = true,
-          format = function(entry, vim_item)
-            vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
-            vim_item.menu = ({
-              nvim_lsp = "[LSP]",
-              luasnip = "[LuaSnip]",
-              buffer = "[Buffer]",
-              path = "[Path]",
-            })[entry.source.name]
-            return require("nvim-highlight-colors").format(entry, vim_item)
-          end,
+        -- ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
+        -- ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
+
+        ["<C-f>"] = { "snippet_forward", "fallback" },
+        ["<C-b>"] = { "snippet_backward", "fallback" },
+
+        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+      },
+
+      appearance = {
+        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = "mono",
+      },
+
+      completion = {
+        -- By default, you may press `<c-space>` to show the documentation.
+        -- Optionally, set `auto_show = true` to show the documentation after a delay.
+        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      },
+
+      sources = {
+        default = { "lsp", "buffer", "path", "snippets", "lazydev" },
+        providers = {
+          lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
         },
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+      },
+
+      snippets = {
+        preset = "luasnip",
+      },
+
+      -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
+      -- which automatically downloads a prebuilt binary when enabled.
+      --
+      -- By default, we use the Lua implementation instead, but you may enable
+      -- the rust implementation via `'prefer_rust_with_warning'`
+      --
+      -- See :h blink-cmp-config-fuzzy for more information
+      fuzzy = {
+        implementation = "prefer_rust",
+        sorts = {
+          "exact",
+          "score",
+          "sort_text",
         },
-        sources = cmp.config.sources({
-          { name = "nvim_lsp", priority = 1000 },
-          { name = "luasnip", priority = 750 },
-          { name = "buffer", priority = 500 },
-          { name = "path", priority = 250 },
-          { name = "render-markdown" },
-        }),
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          -- confirm completion item
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      },
 
-          -- trigger completion menu
-          ["<C-Space>"] = cmp.mapping.complete(),
-
-          -- more convenient navigation
-          ["<C-j>"] = cmp.mapping.select_next_item(),
-          ["<C-k>"] = cmp.mapping.select_prev_item(),
-
-          -- scroll up and down the documentation window
-          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),
-
-          -- navigate between snippet placeholders
-          ["<C-f>"] = cmp_action.luasnip_jump_forward(),
-          ["<C-b>"] = cmp_action.luasnip_jump_backward(),
-
-          -- disable one-character completion
-          ["<C-y>"] = cmp.config.disable,
-        }),
-      })
-
-      cmp.setup.filetype({
-        -- uncomment below when https://github.com/rcarriga/cmp-dap/issues/7 is fixed,
-        -- for now - use <C-x><C-o> to use omnifunc for completion suggestions
-        -- "dap-repl",
-        "dapui_watches",
-        "dapui_hover",
-      }, {
-        sources = {
-          { name = "dap" },
-        },
-      })
-    end,
+      -- Shows a signature help window while you type arguments for a function
+      signature = { enabled = true },
+    },
   },
 
   -- Formatter
