@@ -2,8 +2,12 @@
 local g = vim.g -- global editor variables
 local opt = vim.opt -- editor options (equivalent to using :set)
 
--- Map leader
-g.mapleader = " "
+-- Map leader is set on lazy.nvim setup
+-- g.mapleader = " "
+-- g.maplocalleader = "\\"
+
+-- Nerd Font support (set to true if Nerd Font is used)
+g.have_nerd_font = true
 
 -- Tabs and indentation
 opt.shiftwidth = 2 -- Number of space inserted for indentation
@@ -13,12 +17,25 @@ opt.smartindent = true -- Do auto indenting when starting a new line
 
 -- UI settings
 opt.fileencoding = "utf-8" -- File content encoding for the buffer
-opt.clipboard = "unnamedplus" -- Connection to the system clipboard
+
+--  Schedule the setting after `UiEnter` because it can increase startup-time.
+vim.schedule(function()
+  opt.clipboard = "unnamedplus" -- Connection to the system clipboard
+end)
+
+opt.breakindent = true -- Enable break indent
+
+-- Display certain whitespace characters
+opt.list = true
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+opt.inccommand = "split" -- Preview substitution live as you type
+opt.confirm = true -- raise dialog asking to save unsaved changes instead of failing
 opt.mouse = "nvc" -- Enable mouse support
 opt.signcolumn = "yes" -- Always show the sign column
 opt.foldmethod = "manual" -- Create folds manually
 opt.completeopt = { "menuone", "noselect" } -- Options for insert mode completion
-opt.hlsearch = false -- Do not keep the search item highlighted
+opt.hlsearch = true -- Keep the search item highlighted
 opt.hidden = true -- Ignore unsaved buffers
 opt.ignorecase = true -- Case insensitive searching
 opt.smartcase = true -- Case sensitivie searching

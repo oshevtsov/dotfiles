@@ -1,5 +1,8 @@
 local map = vim.keymap.set -- set new key mapping
 
+-- Clear highlights on search when pressing <Esc> in normal mode
+map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+
 -- Allow to save files as sudo (even if Neovim started without sudo)
 map("c", "w!!", "w !sudo tee > /dev/null %", { desc = "Sudo write" })
 
