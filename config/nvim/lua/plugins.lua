@@ -71,6 +71,7 @@ return {
   },
 
   -- Better buffer closing
+  -- FIXME: This plugin is archived, consider using snacks.nvim instead or implement yourself
   {
     "famiu/bufdelete.nvim",
     config = function()
