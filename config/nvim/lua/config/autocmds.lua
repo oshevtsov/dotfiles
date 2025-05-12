@@ -32,6 +32,14 @@ api.nvim_create_autocmd("VimEnter", {
   once = true,
 })
 
+-- This can be implemented in eslint LSP config, see:
+-- https://github.com/neovim/nvim-lspconfig/pull/3844/files
+api.nvim_create_autocmd("BufWritePre", {
+  group = my_autocmds,
+  command = "LspEslintFixAll",
+  pattern = { "*.js", "*.jsx", "*.mjs", "*.cjs", "*.ts", "*.tsx", "*.mts", "*.cts" },
+})
+
 -- Disable automatic comment insertion
 -- api.nvim_create_autocmd("BufEnter", {
 --   command = "set fo-=c fo-=r fo-=o",

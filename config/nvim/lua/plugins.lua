@@ -842,7 +842,64 @@ return {
         },
       })
 
-      -- Finding mapping between mason package names and the correspodnig LSP name
+      -- Add extra config options to selected language servers
+      vim.lsp.config("jsonls", {
+        settings = {
+          json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = true },
+            format = { enable = false },
+          },
+        },
+      })
+
+      vim.lsp.config(
+        "yamlls",
+        require("yaml-companion").setup({
+          lspconfig = {
+            settings = {
+              yaml = {
+                -- CloudFormation custom tags
+                customTags = {
+                  "!And scalar",
+                  "!If scalar",
+                  "!Not",
+                  "!Equals scalar",
+                  "!Or scalar",
+                  "!FindInMap scalar",
+                  "!Base64",
+                  "!Cidr",
+                  "!Ref",
+                  "!Sub scalar",
+                  "!Sub sequence",
+                  "!GetAtt",
+                  "!GetAZs",
+                  "!ImportValue scalar",
+                  "!Select sequence",
+                  "!Split sequence",
+                  "!Join sequence",
+                },
+              },
+            },
+          },
+        })
+      )
+
+      vim.lsp.config("pyright", {
+        settings = {
+          pyright = {
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              diagnosticMode = "openFilesOnly",
+              indexing = true,
+            },
+          },
+        },
+      })
+
+      -- Find mapping between mason package names and the correspodnig LSP name
       local registry = require("mason-registry")
       local mason_installed = registry.get_installed_package_names()
       local mason_to_lspconfig_map = {}
