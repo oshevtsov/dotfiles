@@ -45,6 +45,7 @@ return {
   -- Surround selections
   {
     "kylechui/nvim-surround",
+    event = "VeryLazy",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
       require("nvim-surround").setup({})
@@ -347,10 +348,16 @@ return {
       map("n", "<leader>sc", "<cmd>Telescope commands<CR>", { desc = "Search commands" })
       map("n", "<leader>bd", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer diagnostics" })
       map("n", "<leader>wd", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace diagnostics" })
-      map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
-      map("n", "[d", vim.diagnostic.goto_prev, { desc = "Diagnostic previous" })
-      map("n", "]d", vim.diagnostic.goto_next, { desc = "Diagnostic next" })
       map("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Fuzzy search in current buffer" })
+      map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
+
+      map("n", "[d", function()
+        vim.diagnostic.jump({ count = -1, float = true })
+      end, { desc = "Diagnostic previous" })
+
+      map("n", "]d", function()
+        vim.diagnostic.jump({ count = 1, float = true })
+      end, { desc = "Diagnostic next" })
 
       cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search = <q-args>})<CR>")
     end,
@@ -427,7 +434,7 @@ return {
   -- Splits/windows
   {
     "mrjones2014/smart-splits.nvim",
-    version = ">=1.0.0",
+    version = ">=2.0.0",
     config = function()
       -- recommended mappings
       -- resizing splits
@@ -522,8 +529,8 @@ return {
               ["ic"] = { query = "@class.inner", desc = "inside class" },
               ["a?"] = { query = "@conditional.outer", desc = "around conditional" },
               ["i?"] = { query = "@conditional.inner", desc = "inside conditional" },
-              ["af"] = { query = "@function.outer", desc = "around function " },
-              ["if"] = { query = "@function.inner", desc = "inside function " },
+              ["af"] = { query = "@function.outer", desc = "around function" },
+              ["if"] = { query = "@function.inner", desc = "inside function" },
               ["al"] = { query = "@loop.outer", desc = "around loop" },
               ["il"] = { query = "@loop.inner", desc = "inside loop" },
               ["aa"] = { query = "@parameter.outer", desc = "around argument" },
@@ -689,19 +696,14 @@ return {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
-      {
-        "VonHeikemen/lsp-zero.nvim",
-        branch = "v4.x",
-      },
       -- JSON schemas
       "b0o/SchemaStore.nvim",
       -- Rust LSP setup
       {
         "mrcjkb/rustaceanvim",
-        version = "^5", -- Recommended
+        version = "^6", -- Recommended
         lazy = false, -- This plugin is already lazy
       },
       -- Integration with crates.io
@@ -712,8 +714,6 @@ return {
       },
     },
     config = function()
-      local lsp_zero = require("lsp-zero")
-
       -- lsp_attach is where you enable features that only work
       -- if there is a language server active in the file
       local lsp_attach = function(client, bufnr)
@@ -734,11 +734,13 @@ return {
         vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code action" })
       end
 
-      -- Make sure this is called BEFORE mason-lspconfig setup
-      lsp_zero.extend_lspconfig({
-        sign_text = true,
-        lsp_attach = lsp_attach,
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("my-lsp-attach", { clear = true }),
+        callback = function(event)
+          local bufnr = event.buf
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          lsp_attach(client, bufnr)
+        end,
       })
 
       -- Set up rustaceanvim
@@ -747,9 +749,6 @@ return {
           executor = "toggleterm",
           -- test_executor = "neotest", -- see test runner plugin below
           -- crate_test_executor = "neotest", -- see test runner plugin below
-        },
-        server = {
-          capabilities = lsp_zero.get_capabilities(),
         },
       }
 
@@ -843,24 +842,22 @@ return {
         },
       })
 
-      require("mason-lspconfig").setup({
-        handlers = {
-          -- this first function is the "default handler"
-          -- it applies to every language server without a "custom handler"
-          function(server_name)
-            local opts = vim.empty_dict()
-            local present, settings = pcall(require, "config.lsp-server-settings." .. server_name)
+      -- Finding mapping between mason package names and the correspodnig LSP name
+      local registry = require("mason-registry")
+      local mason_installed = registry.get_installed_package_names()
+      local mason_to_lspconfig_map = {}
+      for _, pkg_spec in ipairs(registry.get_all_package_specs()) do
+        if vim.list_contains(mason_installed, pkg_spec.name) then
+          local lspconfig = vim.tbl_get(pkg_spec, "neovim", "lspconfig")
+          if lspconfig then
+            mason_to_lspconfig_map[pkg_spec.name] = lspconfig
+          end
+        end
+      end
 
-            if present then
-              opts = vim.tbl_deep_extend("force", settings, opts)
-            end
-
-            require("lspconfig")[server_name].setup(opts)
-          end,
-
-          rust_analyzer = lsp_zero.noop,
-        },
-      })
+      vim.schedule(function()
+        vim.lsp.enable(vim.tbl_values(mason_to_lspconfig_map))
+      end)
     end,
   },
 
@@ -915,7 +912,7 @@ return {
     event = "InsertEnter",
     config = function()
       local cmp = require("cmp")
-      local cmp_action = require("lsp-zero").cmp_action()
+      local luasnip = require("luasnip")
       local kind_icons = {
         Array = "󰅪",
         Boolean = "⊨",
@@ -984,7 +981,7 @@ return {
         }),
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
         mapping = cmp.mapping.preset.insert({
@@ -1003,8 +1000,21 @@ return {
           ["<C-d>"] = cmp.mapping.scroll_docs(4),
 
           -- navigate between snippet placeholders
-          ["<C-f>"] = cmp_action.luasnip_jump_forward(),
-          ["<C-b>"] = cmp_action.luasnip_jump_backward(),
+          ["<C-f>"] = cmp.mapping(function(fallback)
+            if luasnip.locally_jumpable(1) then
+              luasnip.jump(1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+
+          ["<C-b>"] = cmp.mapping(function(fallback)
+            if luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
 
           -- disable one-character completion
           ["<C-y>"] = cmp.config.disable,
