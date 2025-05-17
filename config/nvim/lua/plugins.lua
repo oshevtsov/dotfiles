@@ -70,14 +70,19 @@ return {
     end,
   },
 
-  -- Better buffer closing (TODO: remove this one)
-  -- {
-  --   "famiu/bufdelete.nvim",
-  --   config = function()
-  --     vim.keymap.set("n", "<leader>c", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
-  --     vim.keymap.set("n", "<leader>q", "<cmd>Bwipeout<CR>", { desc = "Delete buffer" })
-  --   end,
-  -- },
+  -- Better buffer closing
+  {
+    "echasnovski/mini.bufremove",
+    version = "*",
+    config = function()
+      vim.keymap.set("n", "<leader>c", function()
+        require("mini.bufremove").delete()
+      end, { desc = "Close buffer" })
+      vim.keymap.set("n", "<leader>q", function()
+        require("mini.bufremove").wipeout()
+      end, { desc = "Delete buffer" })
+    end,
+  },
 
   -- Smooth escaping
   {
