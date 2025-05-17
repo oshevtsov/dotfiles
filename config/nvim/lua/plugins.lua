@@ -706,7 +706,7 @@ return {
     dependencies = {
       "saghen/blink.cmp",
       "mason-org/mason.nvim",
-      -- "williamboman/mason-lspconfig.nvim", -- Use builtin lsp features
+      "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
       -- JSON schemas
@@ -739,7 +739,7 @@ return {
         vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { buffer = bufnr, desc = "Go to implementation" })
         vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { buffer = bufnr, desc = "Type definition" })
         vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { buffer = bufnr, desc = "Find references" })
-        vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = bufnr, desc = "Signature help" })
+        vim.keymap.set("n", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = bufnr, desc = "Signature help" })
         vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename symbol" })
         vim.keymap.set(
           { "n", "x" },
@@ -750,8 +750,9 @@ return {
         vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code action" })
       end
 
+      local lsp_group = vim.api.nvim_create_augroup("my-lsp-attach", { clear = true })
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("my-lsp-attach", { clear = true }),
+        group = lsp_group,
         callback = function(event)
           local bufnr = event.buf
           local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -849,6 +850,8 @@ return {
 
       -- see https://github.com/jay-babu/mason-nvim-dap.nvim?tab=readme-ov-file#advanced-customization
       require("mason-nvim-dap").setup({
+        ensure_installed = {},
+        automatic_installation = false,
         handlers = {
           -- this first function is the "default handler"
           -- it applies to every DAP adapter without a "custom handler"
@@ -858,22 +861,39 @@ return {
         },
       })
 
-      -- Finding mapping between mason package names and the correspodnig LSP name
-      local registry = require("mason-registry")
-      local mason_installed = registry.get_installed_package_names()
-      local mason_to_lspconfig_map = {}
-      for _, pkg_spec in ipairs(registry.get_all_package_specs()) do
-        if vim.list_contains(mason_installed, pkg_spec.name) then
-          local lspconfig = vim.tbl_get(pkg_spec, "neovim", "lspconfig")
-          if lspconfig then
-            mason_to_lspconfig_map[pkg_spec.name] = lspconfig
-          end
-        end
-      end
+      -- Override certain LSP server configs from nvim-lspconfig
+      vim.lsp.config("eslint", {
+        on_attach = function(client, bufnr)
+          vim.api.nvim_buf_create_user_command(bufnr, "LspEslintFixAll", function()
+            client:exec_cmd({
+              title = "Fix all Eslint errors in the buffer",
+              command = "eslint.applyAllFixes",
+              arguments = {
+                {
+                  uri = vim.uri_from_bufnr(bufnr),
+                  version = vim.lsp.util.buf_versions[bufnr],
+                },
+              },
+            }, { bufnr = bufnr })
+          end, { desc = "Fix all Eslint errors in the buffer" })
 
-      vim.schedule(function()
-        vim.lsp.enable(vim.tbl_values(mason_to_lspconfig_map))
-      end)
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            group = lsp_group,
+            buffer = bufnr,
+            command = "LspEslintFixAll",
+          })
+        end,
+      })
+
+      -- Enable installed LSP servers
+      require("mason-lspconfig").setup({
+        automatic_enable = {
+          exclude = {
+            "rust_analyzer",
+          },
+        },
+        ensure_installed = {},
+      })
     end,
   },
 
@@ -937,11 +957,11 @@ return {
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = "enter",
 
-        -- ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
-        -- ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
+        -- ["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+        -- ["<C-j>"] = { "select_next", "fallback_to_mappings" },
 
-        ["<C-f>"] = { "snippet_forward", "fallback" },
-        ["<C-b>"] = { "snippet_backward", "fallback" },
+        ["<M-f>"] = { "snippet_forward", "fallback" },
+        ["<M-b>"] = { "snippet_backward", "fallback" },
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -960,7 +980,7 @@ return {
       },
 
       sources = {
-        default = { "lsp", "buffer", "path", "snippets", "lazydev" },
+        default = { "lazydev", "lsp", "buffer", "path", "snippets" },
         providers = {
           lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
         },
@@ -988,6 +1008,9 @@ return {
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
+
+      -- This is very slow (picks up all the executable on the machine)
+      cmdline = { enabled = false },
     },
   },
 
