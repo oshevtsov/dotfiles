@@ -461,6 +461,7 @@ return {
   -- Syntax highlighting and context objects
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -696,7 +697,8 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
       -- JSON schemas
@@ -735,11 +737,16 @@ return {
         vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code action" })
       end
 
+      vim.lsp.config("*", {
+        capabilities = vim.lsp.protocol.make_client_capabilities(),
+      })
+
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("my-lsp-attach", { clear = true }),
         callback = function(event)
           local bufnr = event.buf
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+
           lsp_attach(client, bufnr)
         end,
       })
@@ -900,22 +907,58 @@ return {
         },
       })
 
-      -- Find mapping between mason package names and the correspodnig LSP name
-      local registry = require("mason-registry")
-      local mason_installed = registry.get_installed_package_names()
-      local mason_to_lspconfig_map = {}
-      for _, pkg_spec in ipairs(registry.get_all_package_specs()) do
-        if vim.list_contains(mason_installed, pkg_spec.name) then
-          local lspconfig = vim.tbl_get(pkg_spec, "neovim", "lspconfig")
-          if lspconfig then
-            mason_to_lspconfig_map[pkg_spec.name] = lspconfig
-          end
-        end
-      end
+      -- See:
+      -- 1. https://github.com/neovim/nvim-lspconfig/issues/3827
+      -- 2. https://github.com/neovim/nvim-lspconfig/pull/3844
+      -- 3. https://github.com/neovim/nvim-lspconfig/blob/master/lsp/eslint.lua
+      vim.lsp.config("eslint", {
+        -- override the on_attach definition form nvim-lspconfig since it applies only
+        -- to the current buffer, i.e. id = 0.
+        on_attach = function(client, bufnr)
+          vim.api.nvim_buf_create_user_command(bufnr, "LspEslintFixAll", function()
+            client:exec_cmd({
+              title = "Fix all Eslint errors in buffer",
+              command = "eslint.applyAllFixes",
+              arguments = {
+                {
+                  uri = vim.uri_from_bufnr(bufnr),
+                  version = vim.lsp.util.buf_versions[bufnr],
+                },
+              },
+            }, { bufnr = bufnr })
+          end, { desc = "Fix all Eslint errors in buffer" })
 
-      vim.schedule(function()
-        vim.lsp.enable(vim.tbl_values(mason_to_lspconfig_map))
-      end)
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "LspEslintFixAll",
+          })
+        end,
+      })
+
+      -- See https://github.com/williamboman/nvim-config/tree/mason-v2-example
+      require("mason-lspconfig").setup({
+        automatic_enable = {
+          exclude = {
+            "rust_analyzer",
+          },
+        },
+      })
+      -- Find mapping between mason package names and the correspodnig LSP name
+      -- local registry = require("mason-registry")
+      -- local mason_installed = registry.get_installed_package_names()
+      -- local mason_to_lspconfig_map = {}
+      -- for _, pkg_spec in ipairs(registry.get_all_package_specs()) do
+      --   if vim.list_contains(mason_installed, pkg_spec.name) then
+      --     local lspconfig = vim.tbl_get(pkg_spec, "neovim", "lspconfig")
+      --     if lspconfig then
+      --       mason_to_lspconfig_map[pkg_spec.name] = lspconfig
+      --     end
+      --   end
+      -- end
+      --
+      -- vim.schedule(function()
+      --   vim.lsp.enable(vim.tbl_values(mason_to_lspconfig_map))
+      -- end)
     end,
   },
 
