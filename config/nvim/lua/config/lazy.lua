@@ -33,7 +33,7 @@ require("lazy").setup({
     -- install missing plugins on startup
     missing = true,
     -- colorscheme that will be used when installing plugins
-    colorscheme = { "tokyonight", "habamax" },
+    colorscheme = { "catppuccin", "tokyonight", "habamax" },
   },
   -- automatically check for plugin updates
   checker = {
