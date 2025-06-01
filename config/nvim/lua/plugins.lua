@@ -744,7 +744,7 @@ return {
         vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { buffer = bufnr, desc = "Go to implementation" })
         vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { buffer = bufnr, desc = "Type definition" })
         vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { buffer = bufnr, desc = "Find references" })
-        vim.keymap.set("n", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = bufnr, desc = "Signature help" })
+        -- vim.keymap.set("n", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = bufnr, desc = "Signature help" })
         vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename symbol" })
         vim.keymap.set(
           { "n", "x" },
@@ -960,13 +960,24 @@ return {
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = "enter",
+        preset = "none",
 
-        -- ["<C-k>"] = { "select_prev", "fallback_to_mappings" },
-        -- ["<C-j>"] = { "select_next", "fallback_to_mappings" },
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-e>"] = { "hide", "fallback" },
+        ["<CR>"] = { "accept", "fallback" },
 
-        ["<M-f>"] = { "snippet_forward", "fallback" },
-        ["<M-b>"] = { "snippet_backward", "fallback" },
+        ["<C-f>"] = { "snippet_forward", "fallback" },
+        ["<C-b>"] = { "snippet_backward", "fallback" },
+
+        ["<Up>"] = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+        ["<C-j>"] = { "select_next", "fallback_to_mappings" },
+
+        ["<M-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<M-f>"] = { "scroll_documentation_down", "fallback" },
+
+        ["<C-s>"] = { "show_signature", "hide_signature", "fallback" },
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -988,6 +999,13 @@ return {
         default = { "lazydev", "lsp", "buffer", "path", "snippets" },
         providers = {
           lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+          -- cmdline = {
+          --   module = "blink.cmp.sources.cmdline",
+          --   -- Disable shell commands on windows, since they cause neovim to hang
+          --   enabled = function()
+          --     return vim.fn.has("wsl") == 0 or vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
+          --   end,
+          -- },
         },
       },
 
@@ -1354,7 +1372,7 @@ return {
               },
               schema = {
                 model = {
-                  default = "gemini-2.0-flash",
+                  default = "gemini-2.5-flash-preview-05-20",
                 },
               },
             })
