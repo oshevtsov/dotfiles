@@ -329,7 +329,7 @@ return {
         "<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>",
         { desc = "Search dotfiles" }
       )
-      map("n", "<leader>lr", "<cmd>Telescope lsp_references fname_width=50<CR>", { desc = "Show all reference to symbol under cursor" })
+      map("n", "<leader>lr", "<cmd>Telescope lsp_references show_line=false<CR>", { desc = "Show all reference to symbol under cursor" })
       map("n", "<leader>rr", "<cmd>Telescope resume<CR>", { desc = "Resume the last picker" })
       map("n", "<leader>fg", "<cmd>Telescope live_grep_args<CR>", { desc = "Search grep" })
       map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "Git status" })
@@ -1207,7 +1207,7 @@ return {
         dependencies = {
           {
             "microsoft/vscode-js-debug",
-            build = "rm -rf dist out && npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+            build = "rm -rf dist out && git checkout -f && npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
           },
         },
       },
