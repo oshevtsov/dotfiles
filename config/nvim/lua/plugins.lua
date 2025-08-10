@@ -1449,6 +1449,20 @@ return {
     opts = {},
   },
 
+  -- MCP Hub
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    build = "bundled_build.lua", -- Bundles `mcp-hub` binary along with the neovim plugin
+    config = function()
+      require("mcphub").setup({
+        use_bundled_binary = true, -- Use local `mcp-hub` binary
+      })
+    end,
+  },
+
   -- AI companion
   {
     "olimorris/codecompanion.nvim",
@@ -1456,6 +1470,8 @@ return {
       "nvim-lua/plenary.nvim", -- Required
       "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope.nvim", -- Optional, but recommended
+      "ravitemer/mcphub.nvim",
+      "ravitemer/codecompanion-history.nvim",
     },
     config = function()
       -- see:
@@ -1471,8 +1487,15 @@ return {
               },
               schema = {
                 model = {
-                  default = "gemini-2.0-flash",
+                  default = "gemini-2.5-flash",
                 },
+              },
+            })
+          end,
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              env = {
+                api_key = "OPENAI_API_KEY",
               },
             })
           end,
@@ -1497,6 +1520,14 @@ return {
                 },
               },
             },
+            keymaps = {
+              close = {
+                modes = {
+                  n = "<Esc>",
+                  i = "<Esc>",
+                },
+              },
+            },
           },
           inline = {
             adapter = "gemini",
@@ -1508,6 +1539,19 @@ return {
         display = {
           action_palette = {
             provider = "telescope",
+          },
+        },
+        extensions = {
+          mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              make_vars = true,
+              make_slash_commands = true,
+              show_result_in_chat = true,
+            },
+          },
+          history = {
+            enabled = true,
           },
         },
       })
