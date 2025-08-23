@@ -71,12 +71,15 @@ return {
   },
 
   -- Better buffer closing
-  -- FIXME: This plugin is archived, consider using snacks.nvim instead or implement yourself
   {
-    "famiu/bufdelete.nvim",
+    "echasnovski/mini.bufremove",
     config = function()
-      vim.keymap.set("n", "<leader>c", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
-      vim.keymap.set("n", "<leader>q", "<cmd>Bwipeout<CR>", { desc = "Delete buffer" })
+      vim.keymap.set("n", "<leader>c", function()
+        require("mini.bufremove").delete(0)
+      end, { desc = "Delete buffer" })
+      vim.keymap.set("n", "<leader>q", function()
+        require("mini.bufremove").wipeout(0)
+      end, { desc = "Wipeout buffer" })
     end,
   },
 
