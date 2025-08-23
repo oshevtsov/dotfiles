@@ -28,26 +28,7 @@ It is important to run `rcup rcrc` first since it sets up the configuration for 
 
 5. Make sure that all the necessary programs required by the dotfiles are installed
 
-- tmux
 - neovim (run `:checkhealth` to see what is missing)
 - nodejs
 - ripgrep
 - fd-find
-
-## Notes
-
-### Rust
-
-There are some behaviors of `rust-analyzer` and the way it interacts with Neovim that may make you think your
-setup is broken. For example, if you are working with a cargo workspace and do not see error diagnostics
-from the on-save command (`clippy`), this is most probably because it is stuck in another crate within the
-workspace and didn't make it through to the file you are working with right now. The command that is run
-by `rust-analyzer` is:
-
-```shell
-cargo clippy --workspace --message-format=json --all-targets --manifest-path <path-to-workspace>/Cargo.toml
-```
-
-You may run it manually and see where `clippy` got stuck. What may seem more surprising though is that using
-the built-in `check` instead of `clippy` is more resilient and can show errors in the file you are working
-with, while still having failed diagnostics elsewhere within the workspace.

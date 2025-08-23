@@ -41,7 +41,7 @@
 ; depth=null
 ; description=true
 ; dev=false
-; 
+;
 ; diff-ignore-all-space=false
 ; diff-name-only=false
 ; diff-no-prefix=false
@@ -70,7 +70,7 @@
 ; https-proxy=null
 ; if-present=false
 ; ignore-scripts=false
-; 
+;
 ; include-staged=false
 ; include-workspace-root=false
 ; init-author-email=
@@ -103,11 +103,11 @@
 ; noproxy=
 ; npm-version=8.3.1
 ; offline=false
-; 
+;
 ; only=null
 ; optional=null
 ; otp=null
-; 
+;
 ; package-lock=true
 ; package-lock-only=false
 ; pack-destination=.
@@ -158,6 +158,6 @@ prefix=${HOME}/.local
 ; versions=false
 ; viewer=man
 ; which=null
-; 
+;
 ; workspaces=null
 ; yes=null
