@@ -801,6 +801,7 @@ return {
           "debugpy",
           "codelldb",
           "delve",
+          "js-debug-adapter",
         },
 
         -- if set to true this will check each tool for updates. If updates
@@ -1205,15 +1206,6 @@ return {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
       "theHamsta/nvim-dap-virtual-text",
-      {
-        "mxsdev/nvim-dap-vscode-js",
-        dependencies = {
-          {
-            "microsoft/vscode-js-debug",
-            build = "rm -rf dist out && git checkout -f && npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-          },
-        },
-      },
     },
     config = function()
       local dap = require("dap")
@@ -1221,38 +1213,81 @@ return {
 
       require("nvim-dap-virtual-text").setup()
 
-      require("dap-vscode-js").setup({
-        debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
-        adapters = { "pwa-node", "pwa-chrome", "node", "chrome" },
-      })
+      -- js-debug adapter is installed via mason-nvim-dap (js-debug-adapter),
+      -- but we still need to register all the adapters referenced below.
+      for _, adapter_name in ipairs({ "pwa-node", "pwa-chrome", "pwa-msedge" }) do
+        if not dap.adapters[adapter_name] then
+          dap.adapters[adapter_name] = {
+            type = "server",
+            host = "localhost",
+            port = "${port}",
+            executable = {
+              command = "node",
+              args = {
+                vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+                "${port}",
+              },
+            },
+          }
+        end
+      end
 
-      local js_based_languages = { "typescript", "javascript", "typescriptreact" }
-
-      for _, language in ipairs(js_based_languages) do
-        dap.configurations[language] = {
-          {
-            type = "pwa-node",
-            request = "launch",
-            name = "Launch file",
-            program = "${file}",
-            cwd = "${workspaceFolder}",
-          },
-          {
-            type = "pwa-node",
-            request = "attach",
-            name = "Attach",
-            processId = require("dap.utils").pick_process,
-            cwd = "${workspaceFolder}",
-          },
-          {
-            type = "pwa-chrome",
-            request = "launch",
-            name = 'Start Chrome with "localhost"',
-            url = "http://localhost:3000",
-            webRoot = "${workspaceFolder}",
-            userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir",
-          },
-        }
+      for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
+        if not dap.configurations[language] then
+          dap.configurations[language] = {
+            {
+              name = "Launch current file (Node)",
+              type = "pwa-node",
+              request = "launch",
+              program = "${file}",
+              cwd = "${workspaceFolder}",
+              sourceMaps = true,
+              resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+              console = "integratedTerminal",
+            },
+            {
+              name = "Attach to running process",
+              type = "pwa-node",
+              request = "attach",
+              processId = require("dap.utils").pick_process,
+              cwd = "${workspaceFolder}",
+              sourceMaps = true,
+              restart = true,
+            },
+            {
+              name = "Nest.js: start debug",
+              type = "pwa-node",
+              request = "launch",
+              cwd = "${workspaceFolder}",
+              runtimeArgs = { "--inspect-brk", "node_modules/.bin/nest", "start", "--watch" },
+              sourceMaps = true,
+              resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+              console = "integratedTerminal",
+            },
+            {
+              name = "Nest.js: attach 9229",
+              type = "pwa-node",
+              request = "attach",
+              cwd = "${workspaceFolder}",
+              address = "localhost",
+              port = 9229,
+            },
+            {
+              name = "React: Chrome http://localhost:3000",
+              type = "pwa-chrome",
+              request = "launch",
+              url = "http://localhost:3000",
+              webRoot = "${workspaceFolder}",
+            },
+            {
+              name = "React: MS Edge http://localhost:3000",
+              type = "pwa-msedge",
+              request = "launch",
+              url = "http://localhost:3000",
+              webRoot = "${workspaceFolder}",
+            },
+          }
+        end
       end
 
       dap.listeners.after.event_initialized["dapui_config"] = dapui.open
