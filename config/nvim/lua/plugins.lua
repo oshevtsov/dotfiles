@@ -72,7 +72,7 @@ return {
 
   -- Better buffer closing
   {
-    "echasnovski/mini.bufremove",
+    "nvim-mini/mini.bufremove",
     config = function()
       vim.keymap.set("n", "<leader>c", function()
         require("mini.bufremove").delete(0)
@@ -1528,26 +1528,28 @@ return {
       -- 2. https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/adapters/gemini.lua
       require("codecompanion").setup({
         adapters = {
-          gemini = function()
-            return require("codecompanion.adapters").extend("gemini", {
-              env = {
-                api_key = "GEMINI_API_KEY",
-                model = "schema.model.default",
-              },
-              schema = {
-                model = {
-                  default = "gemini-2.5-flash",
+          http = {
+            gemini = function()
+              return require("codecompanion.adapters").extend("gemini", {
+                env = {
+                  api_key = "GEMINI_API_KEY",
+                  model = "schema.model.default",
                 },
-              },
-            })
-          end,
-          openai = function()
-            return require("codecompanion.adapters").extend("openai", {
-              env = {
-                api_key = "OPENAI_API_KEY",
-              },
-            })
-          end,
+                schema = {
+                  model = {
+                    default = "gemini-2.5-flash",
+                  },
+                },
+              })
+            end,
+            openai = function()
+              return require("codecompanion.adapters").extend("openai", {
+                env = {
+                  api_key = "OPENAI_API_KEY",
+                },
+              })
+            end,
+          },
         },
         strategies = {
           chat = {
