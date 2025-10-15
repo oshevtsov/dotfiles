@@ -802,6 +802,7 @@ return {
           "shellcheck",
           "revive",
           "checkmake",
+          "sqruff", -- both linter and formatter for SQL
           -- formatters
           "black",
           "isort",
@@ -1174,6 +1175,7 @@ return {
             return { "isort", "black" }
           end
         end,
+        sql = { "sqruff" },
 
         -- Use the "_" filetype to run formatters on filetypes that don't
         -- have other formatters configured.
@@ -1206,6 +1208,7 @@ return {
         sh = { "shellcheck" },
         go = { "revive" },
         make = { "checkmake" },
+        sql = { "sqruff" },
       }
     end,
   },
