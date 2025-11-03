@@ -50,7 +50,7 @@ return {
     {
       "<leader>sn",
       function()
-        Snacks.notifier.show_history()
+        Snacks.picker.notifications()
       end,
       desc = "Search notifications",
     },
