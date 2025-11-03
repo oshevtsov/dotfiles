@@ -70,19 +70,6 @@ return {
     end,
   },
 
-  -- Better buffer closing
-  {
-    "nvim-mini/mini.bufremove",
-    config = function()
-      vim.keymap.set("n", "<leader>c", function()
-        require("mini.bufremove").delete(0)
-      end, { desc = "Delete buffer" })
-      vim.keymap.set("n", "<leader>q", function()
-        require("mini.bufremove").wipeout(0)
-      end, { desc = "Wipeout buffer" })
-    end,
-  },
-
   -- Smooth escaping
   {
     "max397574/better-escape.nvim",

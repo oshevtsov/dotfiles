@@ -30,18 +30,6 @@ map("n", "]Q", "<cmd>clast<CR>", { desc = "Last in quickfix list", silent = true
 map("n", "[<Space>", "<cmd>call append(line('.')-1, '')<CR>", { desc = "Insert empty line above", silent = true })
 map("n", "]<Space>", "<cmd>call append(line('.'), '')<CR>", { desc = "Insert empty line below", silent = true })
 
--- Close all buffers except the current one
-local function close_all_buffes_except_current()
-  local bufs = vim.api.nvim_list_bufs()
-  local current_buf = vim.api.nvim_get_current_buf()
-  for _, i in ipairs(bufs) do
-    if i ~= current_buf then
-      vim.api.nvim_buf_delete(i, {})
-    end
-  end
-end
-map("n", "<leader>bb", close_all_buffes_except_current, { desc = "Close all buffers except current one", silent = true })
-
 -- Diagnostics
 map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
 

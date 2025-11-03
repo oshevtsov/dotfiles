@@ -8,6 +8,7 @@ return {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     bigfile = { enabled = true },
+    bufdelete = { enabled = true },
     input = { enabled = true },
     notifier = { enabled = true },
     picker = {
@@ -39,6 +40,28 @@ return {
     terminal = { enabled = true },
   },
   keys = {
+    -- bufdelete
+    {
+      "<leader>c",
+      function()
+        Snacks.bufdelete.delete()
+      end,
+      "Delete buffer",
+    },
+    {
+      "<leader>q",
+      function()
+        Snacks.bufdelete.delete({ wipe = true })
+      end,
+      "Wipeout buffer",
+    },
+    {
+      "<leader>bb",
+      function()
+        Snacks.bufdelete.other()
+      end,
+      "Delete all buffers except current one",
+    },
     -- notifier
     {
       "<leader>dn",
