@@ -41,3 +41,14 @@ local function close_all_buffes_except_current()
   end
 end
 map("n", "<leader>bb", close_all_buffes_except_current, { desc = "Close all buffers except current one", silent = true })
+
+-- Diagnostics
+map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
+
+map("n", "[d", function()
+  vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Diagnostic previous" })
+
+map("n", "]d", function()
+  vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Diagnostic next" })

@@ -100,21 +100,6 @@ return {
     end,
   },
 
-  -- Better notifications
-  {
-    "rcarriga/nvim-notify",
-    config = function()
-      local notify = require("notify")
-      notify.setup({
-        background_colour = "#000000",
-      })
-      vim.notify = notify
-      vim.keymap.set("n", "<leader>dn", function()
-        notify.dismiss()
-      end, { desc = "Dismiss notifications" })
-    end,
-  },
-
   -- File explorer
   {
     "nvim-tree/nvim-tree.lua",
@@ -210,181 +195,13 @@ return {
     end,
   },
 
-  -- Fuzzy finder
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.8",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      {
-        "nvim-telescope/telescope-live-grep-args.nvim",
-        -- This will not install any breaking changes.
-        -- For major updates, this must be adjusted manually.
-        version = "^1.0.0",
-      },
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-      },
-      "nvim-telescope/telescope-symbols.nvim",
-      "rcarriga/nvim-notify",
-    },
-    config = function()
-      -- Custom actions
-      -- see https://github.com/nvim-telescope/telescope.nvim/issues/1048
-      -- to understand where it all started
-      local select_one_or_multi = function(prompt_bufnr)
-        local actions = require("telescope.actions")
-        local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
-        local multi_selection = picker:get_multi_selection()
-        if not vim.tbl_isempty(multi_selection) then
-          actions.close(prompt_bufnr)
-          for _, j in pairs(multi_selection) do
-            if j.path ~= nil then
-              if j.lnum ~= nil then
-                vim.cmd(string.format("%s +%s %s", "edit", j.lnum, j.path))
-              else
-                vim.cmd(string.format("%s %s", "edit", j.path))
-              end
-            end
-          end
-        else
-          actions.select_default(prompt_bufnr)
-        end
-      end
-
-      -- custom actions mappings
-      local multi_open_mappings = {
-        ["<CR>"] = select_one_or_multi,
-      }
-
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-
-      telescope.setup({
-        defaults = {
-          prompt_prefix = "  ",
-          selection_caret = "❯ ",
-          path_display = { "truncate" },
-          selection_strategy = "reset",
-          sorting_strategy = "ascending",
-          layout_strategy = "vertical",
-          layout_config = {
-            horizontal = {
-              prompt_position = "top",
-              width = 0.9,
-            },
-            vertical = {
-              mirror = false,
-              height = 0.95,
-            },
-          },
-          mappings = {
-            i = {
-              ["<C-n>"] = actions.cycle_history_next,
-              ["<C-p>"] = actions.cycle_history_prev,
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-k>"] = actions.move_selection_previous,
-              ["<C-a>"] = actions.toggle_all,
-            },
-            n = {
-              ["<C-a>"] = actions.toggle_all,
-              ["d"] = actions.delete_buffer,
-            },
-          },
-        },
-        pickers = {
-          oldfiles = {
-            mappings = {
-              i = multi_open_mappings,
-              n = multi_open_mappings,
-            },
-          },
-          find_files = {
-            follow = true,
-            mappings = {
-              i = multi_open_mappings,
-              n = multi_open_mappings,
-            },
-          },
-          live_grep = {
-            mappings = {
-              i = multi_open_mappings,
-              n = multi_open_mappings,
-            },
-          },
-          grep_string = {
-            mappings = {
-              i = multi_open_mappings,
-              n = multi_open_mappings,
-            },
-          },
-        },
-        extensions = {
-          live_grep_args = {
-            auto_quoting = true,
-            mappings = {
-              i = multi_open_mappings,
-              n = multi_open_mappings,
-            },
-          },
-        },
-      })
-
-      telescope.load_extension("live_grep_args")
-      telescope.load_extension("fzf")
-      telescope.load_extension("notify")
-
-      local map = vim.keymap.set -- set new key mapping
-      local cmd = vim.cmd -- execute vimscript commands
-      map(
-        "n",
-        "<leader>fd",
-        "<cmd>lua require('telescope.builtin').find_files({prompt_title='Dotfiles', cwd='$HOME/.dotfiles'})<CR>",
-        { desc = "Search dotfiles" }
-      )
-      map("n", "<leader>lr", "<cmd>Telescope lsp_references show_line=false<CR>", { desc = "Show all reference to symbol under cursor" })
-      map("n", "<leader>rr", "<cmd>Telescope resume<CR>", { desc = "Resume the last picker" })
-      map("n", "<leader>fg", "<cmd>Telescope live_grep_args<CR>", { desc = "Search grep" })
-      map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "Git status" })
-      map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "Git branches" })
-      map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "Git commits" })
-      map("n", "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", { desc = "Search files (respect .gitignore)" })
-      map("n", "<leader>fi", "<cmd>Telescope find_files hidden=true no_ignore=true<CR>", { desc = "Search files (include ignored)" })
-      map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Search buffers" })
-      map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "Search marks" })
-      map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "Search old files" })
-      map("n", "<leader>fe", "<cmd>Telescope symbols<CR>", { desc = "Search and insert emojis" })
-      map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Search for LSP document symbols" })
-      map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "Search help" })
-      map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", { desc = "Search man" })
-      map("n", "<leader>sr", "<cmd>Telescope registers<CR>", { desc = "Search registers" })
-      map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", { desc = "Search keymaps" })
-      map("n", "<leader>sc", "<cmd>Telescope commands<CR>", { desc = "Search commands" })
-      map("n", "<leader>bd", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer diagnostics" })
-      map("n", "<leader>wd", "<cmd>Telescope diagnostics<CR>", { desc = "Workspace diagnostics" })
-      map("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Fuzzy search in current buffer" })
-      map("n", "<leader>vd", vim.diagnostic.open_float, { desc = "View diagnostic" })
-
-      map("n", "[d", function()
-        vim.diagnostic.jump({ count = -1, float = true })
-      end, { desc = "Diagnostic previous" })
-
-      map("n", "]d", function()
-        vim.diagnostic.jump({ count = 1, float = true })
-      end, { desc = "Diagnostic next" })
-
-      cmd(":command -nargs=+ Rg :lua require('telescope.builtin').grep_string({search = <q-args>})<CR>")
-    end,
-  },
-
   -- Git integration
   {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
-      "nvim-telescope/telescope.nvim", -- optional
+      "folke/snacks.nvim", -- optional
     },
     config = function()
       require("neogit").setup({})
@@ -878,38 +695,6 @@ return {
         },
       })
 
-      vim.lsp.config(
-        "yamlls",
-        require("yaml-companion").setup({
-          lspconfig = {
-            settings = {
-              yaml = {
-                -- CloudFormation custom tags
-                customTags = {
-                  "!And scalar",
-                  "!If scalar",
-                  "!Not",
-                  "!Equals scalar",
-                  "!Or scalar",
-                  "!FindInMap scalar",
-                  "!Base64",
-                  "!Cidr",
-                  "!Ref",
-                  "!Sub scalar",
-                  "!Sub sequence",
-                  "!GetAtt",
-                  "!GetAZs",
-                  "!ImportValue scalar",
-                  "!Select sequence",
-                  "!Split sequence",
-                  "!Join sequence",
-                },
-              },
-            },
-          },
-        })
-      )
-
       vim.lsp.config("pyright", {
         settings = {
           pyright = {
@@ -989,19 +774,6 @@ return {
     },
     config = function(_, opts)
       require("lsp_signature").setup(opts)
-    end,
-  },
-
-  -- YAML companion
-  {
-    "someone-stole-my-name/yaml-companion.nvim",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    config = function()
-      require("telescope").load_extension("yaml_schema")
     end,
   },
 
@@ -1496,7 +1268,7 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-    ft = { "markdown", "codecompanion" },
+    ft = { "markdown" },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {},
@@ -1517,102 +1289,4 @@ return {
   },
 
   -- AI companion
-  {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- Required
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim", -- Optional, but recommended
-      "ravitemer/mcphub.nvim",
-      "ravitemer/codecompanion-history.nvim",
-    },
-    config = function()
-      -- see:
-      -- 1. https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua
-      -- 2. https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/adapters/gemini.lua
-      require("codecompanion").setup({
-        adapters = {
-          http = {
-            gemini = function()
-              return require("codecompanion.adapters").extend("gemini", {
-                env = {
-                  api_key = "GEMINI_API_KEY",
-                  model = "schema.model.default",
-                },
-                schema = {
-                  model = {
-                    default = "gemini-2.5-flash",
-                  },
-                },
-              })
-            end,
-            openai = function()
-              return require("codecompanion.adapters").extend("openai", {
-                env = {
-                  api_key = "OPENAI_API_KEY",
-                },
-              })
-            end,
-          },
-        },
-        strategies = {
-          chat = {
-            adapter = "gemini",
-            slash_commands = {
-              ["buffer"] = {
-                opts = {
-                  provider = "telescope",
-                },
-              },
-              ["file"] = {
-                opts = {
-                  provider = "telescope",
-                },
-              },
-              ["symbols"] = {
-                opts = {
-                  provider = "telescope",
-                },
-              },
-            },
-            keymaps = {
-              close = {
-                modes = {
-                  n = "<Esc>",
-                  i = "<Esc>",
-                },
-              },
-            },
-          },
-          inline = {
-            adapter = "gemini",
-          },
-          cmd = {
-            adapter = "gemini",
-          },
-        },
-        display = {
-          action_palette = {
-            provider = "telescope",
-          },
-        },
-        extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion",
-            opts = {
-              make_vars = true,
-              make_slash_commands = true,
-              show_result_in_chat = true,
-            },
-          },
-          history = {
-            enabled = true,
-          },
-        },
-      })
-
-      vim.keymap.set("n", "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Toggle CodeCompanion chat" })
-      vim.keymap.set("n", "<leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "Start new CodeCompanion chat" })
-    end,
-  },
 }
