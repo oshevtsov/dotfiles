@@ -709,6 +709,7 @@ return {
   -- LSP
   {
     "neovim/nvim-lspconfig",
+    tag = "v2.5.0",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "mason-org/mason.nvim",
