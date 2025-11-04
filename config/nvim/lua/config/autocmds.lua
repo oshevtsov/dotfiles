@@ -82,11 +82,11 @@ local function delete_qf_items()
 end
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = custom_group,
+  group = my_autocmds,
   pattern = "qf",
   callback = function()
     -- Do not show quickfix in buffer lists.
-    vim.api.nvim_buf_set_option(0, "buflisted", false)
+    vim.api.nvim_set_option_value("buflisted", false, { buf = 0 })
 
     -- Escape closes quickfix window.
     vim.keymap.set("n", "<ESC>", "<CMD>cclose<CR>", { buffer = true, remap = false, silent = true })
@@ -97,3 +97,30 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   desc = "Quickfix tweaks",
 })
+
+-- LSP rename files
+-- See https://github.com/folke/snacks.nvim/blob/main/docs/rename.md
+vim.api.nvim_create_autocmd("User", {
+  pattern = "OilActionsPost",
+  callback = function(event)
+    if event.data.actions[1].type == "move" then
+      Snacks.rename.on_rename_file(event.data.actions[1].src_url, event.data.actions[1].dest_url)
+    end
+  end,
+})
+
+-- TODO: This is not working
+-- local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "NvimTreeSetup",
+--   callback = function()
+--     local events = require("nvim-tree.api").events
+--     events.subscribe(events.Event.NodeRenamed, function(data)
+--       print("Node renamed from " .. data.old_name .. " to " .. data.new_name)
+--       if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+--         prev = data -- note that this line is incorrect in the link above
+--         Snacks.rename.on_rename_file(data.old_name, data.new_name)
+--       end
+--     end)
+--   end,
+-- })

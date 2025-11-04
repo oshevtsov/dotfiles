@@ -37,6 +37,7 @@ return {
         },
       },
     },
+    rename = { enabled = true },
     terminal = { enabled = true },
   },
   keys = {
