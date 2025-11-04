@@ -108,7 +108,10 @@ return {
     {
       "<leader>lr",
       function()
-        Snacks.picker.lsp_references()
+        Snacks.picker.lsp_references({
+          include_current = true,
+          auto_confirm = false,
+        })
       end,
       desc = "LSP references",
     },
