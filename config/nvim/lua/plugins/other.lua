@@ -1,39 +1,4 @@
 return {
-  -- Colorscheme
-  -- {
-  --   "sonph/onehalf",
-  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
-  --   config = function(plugin)
-  --     -- specify subdirectory in the repo that is relevant for Neovim
-  --     vim.opt.rtp:append(plugin.dir .. "/vim")
-  --     -- load the colorscheme here
-  --     vim.cmd([[colorscheme onehalflight]])
-  --   end,
-  -- },
-
-  {
-    "catppuccin/nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function(plugin)
-      -- load the colorscheme here
-      -- variants: catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-      vim.cmd([[colorscheme catppuccin]])
-    end,
-  },
-
-  -- Color highlights
-  {
-    "brenoprata10/nvim-highlight-colors",
-    config = function()
-      require("nvim-highlight-colors").setup({
-        ---Highlight tailwind colors, e.g. 'bg-blue-500'
-        enable_tailwind = true,
-      })
-    end,
-  },
-
   -- Smart indentation
   {
     "nmac427/guess-indent.nvim",
