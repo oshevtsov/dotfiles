@@ -18,6 +18,13 @@ return {
         },
       })
 
+      local api = require("nvim-tree.api")
+      local Event = api.events.Event
+
+      api.events.subscribe(Event.NodeRenamed, function(data)
+        Snacks.rename.on_rename_file(data.old_name, data.new_name)
+      end)
+
       vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle Explorer" })
       vim.keymap.set("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", { desc = "Focus Explorer" })
       vim.keymap.set("n", "<leader>z", "<cmd>NvimTreeFindFile<CR>", { desc = "Reveal the open file in Explorer" })

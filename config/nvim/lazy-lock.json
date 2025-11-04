@@ -25,7 +25,7 @@
   "mason-tool-installer.nvim": { "branch": "main", "commit": "517ef5994ef9d6b738322664d5fdd948f0fdeb46" },
   "mason.nvim": { "branch": "main", "commit": "ad7146aa61dcaeb54fa900144d768f040090bff0" },
   "mcphub.nvim": { "branch": "main", "commit": "8ff40b5edc649959bb7e89d25ae18e055554859a" },
-  "neogit": { "branch": "master", "commit": "1cedfc3fd4e8af76e47593a60691dedd8b1edeba" },
+  "neogit": { "branch": "master", "commit": "d2a2ae4415872fbddb2441920ab109ee52fd4916" },
   "neotest": { "branch": "master", "commit": "366175e1e74ff112787f9adbfb072eeaedd2a88e" },
   "neotest-golang": { "branch": "main", "commit": "2806bc07066a734d6ed94d45d2d2557a0e2195d8" },
   "neotest-jest": { "branch": "main", "commit": "5dc15386a2b04080fd24901eb2450aaf787bd172" },
@@ -52,6 +52,6 @@
   "render-markdown.nvim": { "branch": "main", "commit": "a1b2bf029c37397947082f31969b4aec0d1b92bd" },
   "rustaceanvim": { "branch": "master", "commit": "88575b98bb9937fb9983ddec5e532b67e75ce677" },
   "smart-splits.nvim": { "branch": "master", "commit": "ebb1375cda434c7a075986e1724fa53d0c754e8f" },
-  "snacks.nvim": { "branch": "main", "commit": "53d8012e5e4b2115ade2c15d040223ef97ffb05c" },
+  "snacks.nvim": { "branch": "main", "commit": "41712e3026a6d690e3c65f83b335cb34e054d2cd" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" }
 }

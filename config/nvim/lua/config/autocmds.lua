@@ -101,6 +101,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- LSP rename files
 -- See https://github.com/folke/snacks.nvim/blob/main/docs/rename.md
 vim.api.nvim_create_autocmd("User", {
+  group = my_autocmds,
   pattern = "OilActionsPost",
   callback = function(event)
     if event.data.actions[1].type == "move" then
@@ -108,19 +109,3 @@ vim.api.nvim_create_autocmd("User", {
     end
   end,
 })
-
--- TODO: This is not working
--- local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
--- vim.api.nvim_create_autocmd("User", {
---   pattern = "NvimTreeSetup",
---   callback = function()
---     local events = require("nvim-tree.api").events
---     events.subscribe(events.Event.NodeRenamed, function(data)
---       print("Node renamed from " .. data.old_name .. " to " .. data.new_name)
---       if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
---         prev = data -- note that this line is incorrect in the link above
---         Snacks.rename.on_rename_file(data.old_name, data.new_name)
---       end
---     end)
---   end,
--- })
