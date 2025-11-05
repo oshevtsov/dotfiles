@@ -9,6 +9,13 @@ return {
     -- refer to the configuration section below
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
+    indent = {
+      enabled = true,
+      indent = {
+        enabled = true, -- set to false to not render non-current scopes
+        only_scope = false, -- set to true to only render for current and children
+      },
+    },
     input = { enabled = true },
     notifier = { enabled = true },
     picker = {
