@@ -191,8 +191,12 @@ return {
       -- 1. https://github.com/neovim/nvim-lspconfig/issues/3827
       -- 2. https://github.com/neovim/nvim-lspconfig/pull/3844
       -- 3. https://github.com/neovim/nvim-lspconfig/blob/master/lsp/eslint.lua
+      -- 4. checrry-picked root_dir from v2.4.0 tag since it identifies incorrectly in monorepos
       vim.lsp.config("eslint", {
-        -- override the on_attach definition form nvim-lspconfig since it applies only
+        settings = {
+          workingDirectory = { mode = "location" },
+        },
+        -- override the on_attach definition from nvim-lspconfig since it applies only
         -- to the current buffer, i.e. id = 0.
         on_attach = function(client, bufnr)
           vim.api.nvim_buf_create_user_command(bufnr, "LspEslintFixAll", function()
@@ -212,6 +216,63 @@ return {
             buffer = bufnr,
             command = "LspEslintFixAll",
           })
+        end,
+        -- override root_dir definition from nvim-lspconfig since it does not correctly
+        -- identify the root of the package in monorepos
+        root_dir = function(bufnr, on_dir)
+          local util = require("lspconfig.util")
+          local eslint_config_files = {
+            ".eslintrc",
+            ".eslintrc.js",
+            ".eslintrc.cjs",
+            ".eslintrc.yaml",
+            ".eslintrc.yml",
+            ".eslintrc.json",
+            "eslint.config.js",
+            "eslint.config.mjs",
+            "eslint.config.cjs",
+            "eslint.config.ts",
+            "eslint.config.mts",
+            "eslint.config.cts",
+          }
+          -- The project root is where the LSP can be started from
+          -- As stated in the documentation above, this LSP supports monorepos and simple projects.
+          -- We select then from the project root, which is identified by the presence of a package
+          -- manager lock file.
+          local root_markers = { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" }
+          -- Root markers priority:
+          -- 1. eslint_config_files
+          -- 2. root_markers
+          -- 3. .git
+          --
+          -- stylua: ignore start
+          root_markers = vim.fn.has("nvim-0.11.3") == 1
+            and { eslint_config_files, root_markers, { ".git" } }
+            or vim.list_extend(eslint_config_files, vim.list_extend(root_markers, { ".git" }))
+          -- stylua: ignore end
+
+          -- We fallback to the current working directory if no project root is found
+          local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.getcwd()
+
+          -- We know that the buffer is using ESLint if it has a config file
+          -- in its directory tree.
+          --
+          -- Eslint used to support package.json files as config files, but it doesn't anymore.
+          -- We keep this for backward compatibility.
+          local filename = vim.api.nvim_buf_get_name(bufnr)
+          local eslint_config_files_with_package_json = util.insert_package_json(eslint_config_files, "eslintConfig", filename)
+          local is_buffer_using_eslint = vim.fs.find(eslint_config_files_with_package_json, {
+            path = filename,
+            type = "file",
+            limit = 1,
+            upward = true,
+            stop = vim.fs.dirname(project_root),
+          })[1]
+          if not is_buffer_using_eslint then
+            return
+          end
+
+          on_dir(project_root)
         end,
       })
 
