@@ -166,14 +166,13 @@ return {
           map("v", "<leader>hr", function()
             gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
           end, { desc = "Reset Git hunk (visual mode)" })
-          map("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "Undo stage Git hunk" })
           map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Reset Git buffer" })
           map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Preview Git hunk" })
           map("n", "<leader>hb", function()
             gitsigns.blame_line({ full = true })
           end, { desc = "Blame Git line" })
           map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle blame Git line" })
-          map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "Toggle Git deleted" })
+          map("n", "<leader>td", gitsigns.preview_hunk_inline(), { desc = "Toggle Git deleted" })
         end,
       })
     end,
