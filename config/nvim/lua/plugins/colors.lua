@@ -13,7 +13,7 @@ return {
     "brenoprata10/nvim-highlight-colors",
     config = function()
       require("nvim-highlight-colors").setup({
-        ---Highlight tailwind colors, e.g. 'bg-blue-500'
+        ---Highlight tailwind colors, e.g. 'bg-blue-500' or '#00ff00'
         enable_tailwind = true,
       })
     end,
