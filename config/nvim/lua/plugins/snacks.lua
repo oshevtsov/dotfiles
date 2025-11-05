@@ -46,6 +46,7 @@ return {
     },
     rename = { enabled = true },
     terminal = { enabled = true },
+    zen = { enabled = true },
   },
   keys = {
     -- bufdelete
@@ -208,6 +209,14 @@ return {
         Snacks.picker.lsp_workspace_symbols()
       end,
       desc = "Workspace LSP symbols",
+    },
+    -- zen
+    {
+      "<leader>bz",
+      function()
+        Snacks.zen()
+      end,
+      desc = "Toggle Zen mode",
     },
   },
   init = function()
