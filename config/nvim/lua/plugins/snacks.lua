@@ -52,6 +52,10 @@ return {
               max_width = 180,
             },
           }
+        else
+          return {
+            preset = "default",
+          }
         end
       end,
       win = {
