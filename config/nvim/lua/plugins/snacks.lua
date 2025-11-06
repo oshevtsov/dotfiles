@@ -20,17 +20,40 @@ return {
     notifier = { enabled = true },
     picker = {
       enabled = true,
-      layout = {
-        preset = "dropdown",
-        layout = {
-          width = function()
-            return vim.o.columns >= 100 and 0.75 or 0
-          end,
-          height = 0.9,
-          min_width = 0,
-          max_width = 180,
-        },
-      },
+      layout = function(source)
+        local dropdown_sources = {
+          "buffers",
+          "diagnostics",
+          "diagnostics_buffer",
+          "files",
+          "grep",
+          "help",
+          "keymaps",
+          "lsp_references",
+          "lsp_symbols",
+          "lsp_workspace_symbols",
+          "notifications",
+          "recent",
+          "registers",
+        }
+        local it = vim.iter(dropdown_sources)
+        local is_dropdown_source = function(dropdown_source)
+          return dropdown_source == source
+        end
+        if it:any(is_dropdown_source) then
+          return {
+            preset = "dropdown",
+            layout = {
+              width = function()
+                return vim.o.columns >= 100 and 0.75 or 0
+              end,
+              height = 0.8,
+              min_width = 0,
+              max_width = 180,
+            },
+          }
+        end
+      end,
       win = {
         input = {
           keys = {
@@ -79,6 +102,35 @@ return {
       end,
       desc = "Dismiss all notifications",
     },
+    -- picker
+    {
+      "<leader>s/",
+      function()
+        Snacks.picker.search_history()
+      end,
+      desc = "Search history",
+    },
+    {
+      "<leader>s:",
+      function()
+        Snacks.picker.command_history()
+      end,
+      desc = "Command history",
+    },
+    {
+      "<leader>sc",
+      function()
+        Snacks.picker.colorschemes({ layout = { preset = "vertical" } })
+      end,
+      desc = "Search colorschemes",
+    },
+    {
+      "<leader>si",
+      function()
+        Snacks.picker.icons()
+      end,
+      desc = "Search icons",
+    },
     {
       "<leader>sn",
       function()
@@ -86,7 +138,6 @@ return {
       end,
       desc = "Search notifications",
     },
-    -- picker
     {
       "<leader>ff",
       function()
@@ -99,10 +150,7 @@ return {
     {
       "<leader>fi",
       function()
-        Snacks.picker.files({
-          hidden = true,
-          ignored = true,
-        })
+        Snacks.picker.files({ hidden = true, ignored = true })
       end,
       desc = "Find files (include ignored)",
     },
@@ -116,10 +164,7 @@ return {
     {
       "<leader>lr",
       function()
-        Snacks.picker.lsp_references({
-          include_current = true,
-          auto_confirm = false,
-        })
+        Snacks.picker.lsp_references({ include_current = true, auto_confirm = false })
       end,
       desc = "LSP references",
     },
