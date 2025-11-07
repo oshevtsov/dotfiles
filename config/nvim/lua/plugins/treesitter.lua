@@ -1,3 +1,6 @@
+-- NOTE: The master branch is fronzen and will not get new updates/features.
+-- The main branch will replace it eventually, but it is not yet stable enough
+-- with many bugs reported by the community. Keep an eye on it to switch.
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "master",
@@ -21,6 +24,7 @@ return {
     local configs = require("nvim-treesitter.configs")
 
     configs.setup({
+      modules = {},
       ensure_installed = {
         "astro",
         "bash",
@@ -41,6 +45,8 @@ return {
         "vimdoc",
         "yaml",
       },
+      auto_install = true,
+      ignore_install = {},
       sync_install = false,
       indent = {
         enable = true,
