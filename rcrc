@@ -1,2 +1,2 @@
-EXCLUDES="README.md packer_compiled.lua"
+EXCLUDES="README.md packer_compiled.lua tmux.conf vale.ini npmrc config/ruff config/wezterm"
 SYMLINK_DIRS="config/nvim"
