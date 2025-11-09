@@ -46,5 +46,6 @@ opt.swapfile = false -- Disable swapfiles
 vim.filetype.add({
   extension = {
     ["http"] = "http",
+    ["mdx"] = "mdx",
   },
 })
