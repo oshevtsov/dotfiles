@@ -21,7 +21,7 @@
   "local-highlight.nvim": { "branch": "master", "commit": "272f36f412c0a82c785c01256abf4eda4c1cb11d" },
   "lsp_signature.nvim": { "branch": "master", "commit": "1e56259e00c70959a1b3fba908b8583722fb96bf" },
   "lualine.nvim": { "branch": "master", "commit": "3946f0122255bc377d14a59b27b609fb3ab25768" },
-  "mason-lspconfig.nvim": { "branch": "main", "commit": "d7b5feb6e769e995f7fcf44d92f49f811c51d10c" },
+  "mason-lspconfig.nvim": { "branch": "main", "commit": "d6274160025ceac91ee46db7db664d5c699a214d" },
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "517ef5994ef9d6b738322664d5fdd948f0fdeb46" },
   "mason.nvim": { "branch": "main", "commit": "ad7146aa61dcaeb54fa900144d768f040090bff0" },
@@ -54,6 +54,6 @@
   "render-markdown.nvim": { "branch": "main", "commit": "6a744f0d14fd1d0fa8e3f446ac7825ec1e351d55" },
   "rustaceanvim": { "branch": "master", "commit": "88575b98bb9937fb9983ddec5e532b67e75ce677" },
   "smart-splits.nvim": { "branch": "master", "commit": "ebb1375cda434c7a075986e1724fa53d0c754e8f" },
-  "snacks.nvim": { "branch": "main", "commit": "64179b96f547bc10211de3360a1e17a237cdb434" },
+  "snacks.nvim": { "branch": "main", "commit": "8ca098ca360b45a361c475be6ea7dd81e438cc35" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" }
 }
