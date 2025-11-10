@@ -73,7 +73,12 @@ return {
     },
     rename = { enabled = true },
     terminal = { enabled = true },
-    zen = { enabled = true },
+    zen = {
+      enabled = true,
+      toggles = {
+        dim = false,
+      },
+    },
   },
   keys = {
     -- bufdelete
