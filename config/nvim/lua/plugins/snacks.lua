@@ -264,6 +264,20 @@ return {
       end,
       desc = "Workspace LSP symbols",
     },
+    -- terminal
+    {
+      "<M-a>",
+      function()
+        Snacks.terminal.toggle({ "amp", "--ide" }, {
+          win = {
+            position = "right",
+            height = 0,
+            width = 0.4,
+          },
+        })
+      end,
+      desc = "Toggle AMP CLI terminal (split right)",
+    },
     -- zen
     {
       "<leader>bz",
