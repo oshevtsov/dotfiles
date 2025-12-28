@@ -6,8 +6,12 @@ return {
       "folke/snacks.nvim", -- optional
     },
     config = function()
-      require("neogit").setup({})
+      local neogit = require("neogit")
+      neogit.setup({})
       vim.api.nvim_create_user_command("G", "Neogit", { desc = "Start Neogit" })
+      vim.keymap.set("n", "<leader>gg", function()
+        neogit.open({ kind = "split" })
+      end, { desc = "Open Neogit UI" })
     end,
   },
   {
