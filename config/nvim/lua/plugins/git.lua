@@ -59,9 +59,14 @@ return {
             local tabpage = diff_lifecycle.find_tabpage_by_buffer(curr_buf)
 
             if tabpage ~= nil then
-              local explorer = diff_lifecycle.get_explorer(tabpage)
-              local diff_explorer = require("vscode-diff.render.explorer")
-              diff_explorer.refresh(explorer)
+              local session = diff_lifecycle.get_session(tabpage)
+              if session ~= nil then
+                if session.mode == "explorer" then
+                  local diff_explorer = require("vscode-diff.render.explorer")
+                  local explorer = diff_lifecycle.get_explorer(tabpage)
+                  diff_explorer.refresh(explorer)
+                end
+              end
             end
           end
 
