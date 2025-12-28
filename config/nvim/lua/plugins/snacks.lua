@@ -251,7 +251,7 @@ return {
       desc = "Search in current buffer",
     },
     {
-      "<leader>bs",
+      "<leader>ss",
       function()
         Snacks.picker.lsp_symbols()
       end,

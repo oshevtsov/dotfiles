@@ -3,17 +3,24 @@ return {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
       "folke/snacks.nvim", -- optional
     },
     config = function()
       require("neogit").setup({})
       vim.api.nvim_create_user_command("G", "Neogit", { desc = "Start Neogit" })
-      vim.api.nvim_create_user_command("D", "DiffviewOpen", { desc = "Open DiffView Tab" })
     end,
   },
   {
     "lewis6991/gitsigns.nvim",
+    dependencies = {
+      {
+        "esmuellert/vscode-diff.nvim",
+        dependencies = {
+          "MunifTanjim/nui.nvim",
+        },
+        cmd = "CodeDiff",
+      },
+    },
     config = function()
       require("gitsigns").setup({
         on_attach = function(bufnr)
@@ -42,24 +49,59 @@ return {
             end
           end)
 
+          local refresh_diff_git_status = function()
+            local curr_buf = vim.api.nvim_get_current_buf()
+            local diff_lifecycle = require("vscode-diff.render.lifecycle")
+            local tabpage = diff_lifecycle.find_tabpage_by_buffer(curr_buf)
+
+            if tabpage ~= nil then
+              local explorer = diff_lifecycle.get_explorer(tabpage)
+              local diff_explorer = require("vscode-diff.render.explorer")
+              diff_explorer.refresh(explorer)
+            end
+          end
+
           -- Actions
-          map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Stage Git hunk" })
-          map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "Reset Git hunk" })
+          map("n", "<leader>bs", function()
+            gitsigns.stage_buffer(refresh_diff_git_status)
+          end, { desc = "Stage Git buffer" })
+
+          map("n", "<leader>bu", function()
+            gitsigns.reset_buffer_index(refresh_diff_git_status)
+          end, { desc = "Unstage Git buffer" })
+
+          map("n", "<leader>br", function()
+            gitsigns.reset_buffer()
+            refresh_diff_git_status()
+          end, { desc = "Reset Git buffer" })
+
+          map("n", "<leader>hs", function()
+            gitsigns.stage_hunk(nil, nil, refresh_diff_git_status)
+          end, { desc = "Stage/Unstage Git hunk" })
+
+          map("n", "<leader>hr", function()
+            gitsigns.reset_hunk(nil, nil, refresh_diff_git_status)
+          end, { desc = "Reset Git hunk" })
+
           map("v", "<leader>hs", function()
-            gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-          end, { desc = "Stage Git hunk (visual mode)" })
+            gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }, nil, refresh_diff_git_status)
+          end, { desc = "Stage/Unstage Git hunk (visual mode)" })
+
           map("v", "<leader>hr", function()
-            gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+            gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }, nil, refresh_diff_git_status)
           end, { desc = "Reset Git hunk (visual mode)" })
-          map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Reset Git buffer" })
+
           map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Preview Git hunk" })
-          map("n", "<leader>hb", function()
+          map("n", "<leader>hi", gitsigns.preview_hunk_inline, { desc = "Preview Git hunk inline" })
+
+          map("n", "<leader>lb", function()
             gitsigns.blame_line({ full = true })
           end, { desc = "Blame Git line" })
           map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle blame Git line" })
-          map("n", "<leader>td", gitsigns.preview_hunk_inline, { desc = "Toggle Git deleted" })
         end,
       })
+
+      vim.api.nvim_create_user_command("D", "CodeDiff", { desc = "Open CodeDiff Tab" })
     end,
   },
 }
