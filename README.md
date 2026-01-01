@@ -21,10 +21,12 @@ git clone https://github.com/oshevtsov/dotfiles.git ~/.dotfiles
 
 ```
 rcup rcrc
-rcup config/nvim
+rcup -v
 ```
 
-It is important to run `rcup rcrc` first since it sets up the configuration for the `rcm` tool itself.
+The last command will make sure all configs mentioned in the `rcrc` file are properly
+symlinked. It is important to run `rcup rcrc` first since it sets up the configuration
+for the `rcm` tool itself.
 
 5. Make sure that all the necessary programs required by the dotfiles are installed
 
@@ -32,3 +34,4 @@ It is important to run `rcup rcrc` first since it sets up the configuration for 
 - nodejs
 - ripgrep
 - fd-find
+- tmux
