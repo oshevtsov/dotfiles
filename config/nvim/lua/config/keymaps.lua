@@ -29,6 +29,21 @@ map("n", "<A-j>", "<C-W>-", { desc = "Decrease window height", silent = true })
 map("n", "<A-k>", "<C-W>+", { desc = "Increase window height", silent = true })
 map("n", "<A-l>", "<C-W>>", { desc = "Increase window width", silent = true })
 
+-- Swap buffers
+local buffer_swap = require("custom.buffer_swap").swap_curr_buf_with
+map("n", "<leader><leader>h", function()
+  buffer_swap("h")
+end, { desc = "Swap current buffer left", silent = true })
+map("n", "<leader><leader>j", function()
+  buffer_swap("j")
+end, { desc = "Swap current buffer below", silent = true })
+map("n", "<leader><leader>k", function()
+  buffer_swap("k")
+end, { desc = "Swap current buffer above", silent = true })
+map("n", "<leader><leader>l", function()
+  buffer_swap("l")
+end, { desc = "Swap current buffer right", silent = true })
+
 -- Improved terminal mappings
 map("t", "<C-h>", "<C-\\><C-n><C-W>h", { desc = "Terminal left window navigation", silent = true })
 map("t", "<C-j>", "<C-\\><C-n><C-W>j", { desc = "Terminal down window navigation", silent = true })
