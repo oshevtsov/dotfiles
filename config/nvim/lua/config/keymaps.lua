@@ -16,6 +16,19 @@ map("n", "<leader>fn", "<cmd>enew<CR>", { desc = "Create empty buffer", silent =
 map("v", "<", "<gv", { desc = "Unindent line", silent = true })
 map("v", ">", ">gv", { desc = "Indent line", silent = true })
 
+-- Move cursor between windows
+map("n", "<C-h>", "<C-W>h", { desc = "Move cursor to the window on the left", silent = true })
+map("n", "<C-j>", "<C-W>j", { desc = "Move cursor to the window below", silent = true })
+map("n", "<C-k>", "<C-W>k", { desc = "Move cursor to the window above", silent = true })
+map("n", "<C-l>", "<C-W>l", { desc = "Move cursor to the window on the right", silent = true })
+
+-- Resize windows
+-- simple mnemonics behind the keymaps: left or down means decrease, right or up mean increase
+map("n", "<A-h>", "<C-W><", { desc = "Decrease window width", silent = true })
+map("n", "<A-j>", "<C-W>-", { desc = "Decrease window height", silent = true })
+map("n", "<A-k>", "<C-W>+", { desc = "Increase window height", silent = true })
+map("n", "<A-l>", "<C-W>>", { desc = "Increase window width", silent = true })
+
 -- Improved terminal mappings
 map("t", "<C-h>", "<C-\\><C-n><C-W>h", { desc = "Terminal left window navigation", silent = true })
 map("t", "<C-j>", "<C-\\><C-n><C-W>j", { desc = "Terminal down window navigation", silent = true })
