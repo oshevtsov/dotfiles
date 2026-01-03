@@ -1,5 +1,21 @@
 local map = vim.keymap.set -- set new key mapping
 
+-- Set current search pattern
+map("n", "<A-s>", function()
+  vim.fn.setreg("/", vim.fn.expand("<cword>"))
+end, { desc = "Set word under cursor as current search pattern", silent = true })
+
+map("v", "<A-s>", function()
+  local start_pos = vim.fn.getpos("v")
+  local end_pos = vim.fn.getpos(".")
+  local region = vim.fn.getregion(start_pos, end_pos)
+  vim.fn.setreg("/", table.concat(region, "\n"))
+
+  -- go back to normal mode (simulate clicking Esc key)
+  local esc = vim.api.nvim_replace_termcodes("<esc>", true, false, true)
+  vim.api.nvim_feedkeys(esc, "n", false)
+end, { desc = "Set visual selection as current search pattern", silent = true })
+
 -- Allow to save files as sudo (even if Neovim started without sudo)
 map("c", "w!!", "w !sudo tee > /dev/null %", { desc = "Sudo write" })
 
