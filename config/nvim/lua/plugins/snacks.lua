@@ -344,6 +344,9 @@ return {
             position = "right",
             height = 0,
             width = 0.4,
+            wo = {
+              winbar = "Amp" .. " (" .. vim.v.count1 .. ")",
+            },
           },
         })
       end,
