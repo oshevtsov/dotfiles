@@ -241,7 +241,101 @@ return {
       end,
       desc = "Workspace LSP symbols",
     },
+    {
+      "<leader>ft",
+      function()
+        local terms = Snacks.terminal.list()
+
+        if #terms == 0 then
+          vim.notify("No open terminals", vim.log.levels.INFO)
+          return
+        end
+
+        Snacks.picker.select(terms, {
+          prompt = "Select terminal:",
+          format_item = function(item)
+            return string.format("%s", item.opts.title or item.opts.wo.winbar)
+          end,
+        }, function(_, item_idx)
+          for idx, item in ipairs(terms) do
+            if idx == item_idx then
+              item:show()
+            else
+              item:hide()
+            end
+          end
+        end)
+      end,
+      desc = "Find terminal",
+    },
     -- terminal
+    {
+      "<C-\\>",
+      function()
+        local curr_buf = vim.api.nvim_get_current_buf()
+        local terms = Snacks.terminal.list()
+
+        for _, term in ipairs(terms) do
+          if term.buf == curr_buf then
+            term:toggle()
+            break
+          end
+        end
+      end,
+      mode = { "t" },
+      desc = "Toggle current terminal off",
+    },
+    {
+      "<C-\\>",
+      function()
+        Snacks.terminal(nil, {
+          win = {
+            position = "bottom",
+            width = 0,
+            height = 0.2,
+            wo = {
+              winbar = vim.fn.fnamemodify(vim.o.shell, ":t") .. " (" .. vim.v.count1 .. ")",
+            },
+          },
+        })
+      end,
+      mode = { "n" },
+      desc = "Toggle terminal on (use count for opening multiple)",
+    },
+    {
+      "<leader>tn",
+      function()
+        local cmd = "node"
+        Snacks.terminal(cmd, {
+          win = {
+            position = "bottom",
+            width = 0,
+            height = 0.2,
+            wo = {
+              winbar = cmd .. " (" .. vim.v.count1 .. ")",
+            },
+          },
+        })
+      end,
+      desc = "Toggle node REPL on (use count for opening multiple)",
+    },
+    {
+      "<leader>tp",
+      function()
+        local cmd = "python"
+        Snacks.terminal(cmd, {
+          win = {
+            position = "bottom",
+            width = 0,
+            height = 0.2,
+            wo = {
+              winbar = cmd .. " (" .. vim.v.count1 .. ")",
+            },
+          },
+        })
+      end,
+      desc = "Toggle python REPL on (use count for opening multiple)",
+    },
     {
       "<M-a>",
       function()
