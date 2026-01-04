@@ -68,50 +68,6 @@ return {
     end,
   },
 
-  -- Bufferline
-  {
-    "akinsho/bufferline.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("bufferline").setup({
-        options = {
-          offsets = {
-            { filetype = "NvimTree", text = "File Explorer" },
-            { filetype = "neo-tree", text = "File Explorer" },
-          },
-          buffer_close_icon = "󰅖",
-          modified_icon = "",
-          close_icon = "",
-          show_close_icon = true,
-          left_trunc_marker = "",
-          right_trunc_marker = "",
-          max_name_length = 14,
-          max_prefix_length = 13,
-          tab_size = 20,
-          show_tab_indicators = true,
-          enforce_regular_tabs = false,
-          show_buffer_close_icons = true,
-          separator_style = "thin",
-          always_show_bufferline = false,
-          diagnostics = "nvim_lsp",
-          custom_filter = function(buf_number, buf_numbers)
-            if vim.bo[buf_number].filetype ~= "qf" then
-              return true
-            end
-            return false
-          end,
-        },
-      })
-
-      vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer tab" })
-      vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer tab" })
-      vim.keymap.set("n", ">b", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer tab right" })
-      vim.keymap.set("n", "<b", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer tab left" })
-    end,
-  },
-
   -- Terminal integration
   {
     "akinsho/toggleterm.nvim",

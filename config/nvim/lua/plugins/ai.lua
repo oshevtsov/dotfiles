@@ -29,7 +29,7 @@ return {
         require("opencode").prompt("@this")
       end, { desc = "Add to opencode" })
 
-      vim.keymap.set({ "n", "t" }, "<M-.>", function()
+      vim.keymap.set({ "n", "t" }, "<M-o>", function()
         require("opencode").toggle()
       end, { desc = "Toggle opencode" })
 
