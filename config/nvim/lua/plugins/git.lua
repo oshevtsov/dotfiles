@@ -53,51 +53,33 @@ return {
             end
           end)
 
-          local refresh_diff_git_status = function()
-            local curr_buf = vim.api.nvim_get_current_buf()
-            local diff_lifecycle = require("vscode-diff.render.lifecycle")
-            local tabpage = diff_lifecycle.find_tabpage_by_buffer(curr_buf)
-
-            if tabpage ~= nil then
-              local session = diff_lifecycle.get_session(tabpage)
-              if session ~= nil then
-                if session.mode == "explorer" then
-                  local diff_explorer = require("vscode-diff.render.explorer")
-                  local explorer = diff_lifecycle.get_explorer(tabpage)
-                  diff_explorer.refresh(explorer)
-                end
-              end
-            end
-          end
-
           -- Actions
-          map("n", "<leader>bs", function()
-            gitsigns.stage_buffer(refresh_diff_git_status)
+          map("n", "<leader>fs", function()
+            gitsigns.stage_buffer()
           end, { desc = "Stage Git buffer" })
 
-          map("n", "<leader>bu", function()
-            gitsigns.reset_buffer_index(refresh_diff_git_status)
+          map("n", "<leader>fu", function()
+            gitsigns.reset_buffer_index()
           end, { desc = "Unstage Git buffer" })
 
-          map("n", "<leader>br", function()
+          map("n", "<leader>fr", function()
             gitsigns.reset_buffer()
-            refresh_diff_git_status()
           end, { desc = "Reset Git buffer" })
 
           map("n", "<leader>hs", function()
-            gitsigns.stage_hunk(nil, nil, refresh_diff_git_status)
+            gitsigns.stage_hunk()
           end, { desc = "Stage/Unstage Git hunk" })
 
           map("n", "<leader>hr", function()
-            gitsigns.reset_hunk(nil, nil, refresh_diff_git_status)
+            gitsigns.reset_hunk()
           end, { desc = "Reset Git hunk" })
 
           map("v", "<leader>hs", function()
-            gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }, nil, refresh_diff_git_status)
+            gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
           end, { desc = "Stage/Unstage Git hunk (visual mode)" })
 
           map("v", "<leader>hr", function()
-            gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }, nil, refresh_diff_git_status)
+            gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
           end, { desc = "Reset Git hunk (visual mode)" })
 
           map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Preview Git hunk" })
