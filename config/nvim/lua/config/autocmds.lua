@@ -140,3 +140,30 @@ vim.api.nvim_create_autocmd("User", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = my_autocmds,
+  pattern = {
+    "astro",
+    "sh",
+    "css",
+    "go",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "lua",
+    "markdown",
+    "mdx",
+    "python",
+    "rust",
+    "yaml",
+    "help",
+  },
+  callback = function()
+    vim.treesitter.start()
+  end,
+  desc = "Enable treesitter highlighting",
+})
