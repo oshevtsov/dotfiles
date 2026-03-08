@@ -5,14 +5,14 @@ return {
       lua = { "stylua" },
       go = { "goimports" },
       rust = { "rustfmt" },
-      javascript = { "prettier" },
-      javascriptreact = { "prettier" },
-      typescript = { "prettier" },
-      typescriptreact = { "prettier" },
-      css = { "prettier" },
-      yaml = { "prettier" },
-      json = { "prettier" },
-      markdown = { "prettier" },
+      javascript = { "oxfmt" },
+      javascriptreact = { "oxfmt" },
+      typescript = { "oxfmt" },
+      typescriptreact = { "oxfmt" },
+      css = { "oxfmt" },
+      yaml = { "oxfmt" },
+      json = { "oxfmt" },
+      markdown = { "oxfmt" },
       python = function(bufnr)
         if require("conform").get_formatter_info("ruff_format", bufnr).available then
           return { "ruff_format" }
