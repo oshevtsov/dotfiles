@@ -86,7 +86,6 @@ return {
           "lua-language-server",
           "json-lsp",
           "pyright",
-          "ts_ls",
           "yaml-language-server",
           "gopls",
           "eslint-lsp",
