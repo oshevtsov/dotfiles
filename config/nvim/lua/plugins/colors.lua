@@ -5,8 +5,8 @@ return {
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function(plugin)
       -- load the colorscheme here
-      -- variants: catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-      vim.cmd([[colorscheme catppuccin]])
+      -- variants: catppuccin-nvim, catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+      vim.cmd([[colorscheme catppuccin-nvim]])
     end,
   },
   {
