@@ -222,4 +222,16 @@ return {
       require("lsp_signature").setup(opts)
     end,
   },
+  -- C# support
+  {
+    "GustavEikaas/easy-dotnet.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "folke/snacks.nvim" },
+    config = function()
+      require("easy-dotnet").setup({
+        managed_terminal = {
+          auto_hide = false,
+        },
+      })
+    end,
+  },
 }
